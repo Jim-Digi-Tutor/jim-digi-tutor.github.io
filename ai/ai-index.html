@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../global-assets/css/index-pages.css">
+    <link rel="stylesheet" type="text/css" href="../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Artificial Intelligence", subTitle: "Resources for Digital Learning" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../index.html", restartButton: false };
+      let footerConfig = { backButton: null, backText: null, nextButton: null, nextText: null };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-console">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-width-content-container">
+
+        <div class="topic-container">
+          <a class="topic-link" href="toi-starter/toi-starter-index.html">Types of Intelligence&nbsp;&nbsp;&nbsp;&#x2192;</a>
+          <p class="topic-description">
+            In this exercise you will learn about the different kinds of intelligence and the situations in which they are used. You'll learn that there is more than one kind of intelligence, and which switch between the different intelligences all the time.
+          </p>
+        </div>
+
+        <div class="topic-container">
+          <a class="topic-link" href="toi/toi-index.html">Computer Versus Human: Who Does Intelligence Better?&nbsp;&nbsp;&nbsp;&#x2192;</a>
+          <p class="topic-description">
+            Learn about, and practice, basic digital skills such as using a keyboard and mouse, and navigating files and folders. These basic skills will help you work more effectively with computers and provide a platform for further digital learning.
+          </p>
+        </div>              
+
+      </div>
+    
+      <footer id="footer">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+      
+    </div>
+
+  </body>
+
+</html>

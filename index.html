@@ -1,1 +1,94 @@
-Jim-Digi-Tutor.github.io
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="global-assets/css/index-pages.css">
+    <link rel="stylesheet" type="text/css" href="global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Welcome to Digi-Stuff", subTitle: "Resources for Digital Learning" };
+      let headerConfig = { changeScheme: true, homeButton: false, homeLink: null, restartButton: false };
+      let footerConfig = { backButton: null, backText: null, nextButton: null, nextText: null };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-console">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-width-content-container">
+
+        <div class="topic-container">
+          <a class="topic-link" href="downloads/downloads-index.html">Course Downloads&nbsp;&nbsp;&nbsp;&#x2192;</a>
+          <p class="topic-description">
+            Download learning resources for your course.
+          </p>
+        </div>
+
+        <div class="topic-container">
+          <a class="topic-link" href="ai/ai-index.html">Artificial Intelligence&nbsp;&nbsp;&nbsp;&#x2192;</a>
+          <p class="topic-description">
+            Learn about artificial intelligence; what it is, what it is used for, and where it is headed. These activities will help you get a broader understanding of how AI works, and how it impacts society.     
+          </p>
+        </div>
+
+        <div class="topic-container">
+          <a class="topic-link" href="basic-skills/basic-skills-index.html">Basic Digital Skills&nbsp;&nbsp;&nbsp;&#x2192;</a>
+          <p class="topic-description">
+            Learn about, and practice, basic digital skills such as using a keyboard and mouse, and navigating files and folders. These basic skills will help you work more effectively with computers and provide a platform for further digital learning.
+          </p>
+        </div>
+
+        <div class="topic-container">
+          <a class="topic-link" href="dfs/dfs-index.html">Digital Functional Skills&nbsp;&nbsp;&nbsp;&#x2192;</a>
+          <p class="topic-description">
+            Resources for those studying the Digital Functional Skills course. The resources include a practice exam.     
+          </p>
+        </div>
+
+      </div>
+  
+      <footer id="footer">
+        <div id="footer-0" class="footer-0">&nbsp;</div>
+        <div id="footer-1" class="footer-1">&nbsp;</div>
+        <div id="footer-2" class="footer-2">&nbsp;</div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>
