@@ -1,0 +1,32 @@
+/**
+  Styles for screens 320px or less in width
+  */ 
+@media screen and (max-width: 319.99px) {
+
+  .container-page {}
+  .full-size-content-container {}
+  footer {}
+}
+
+/**
+  Styles for screens 992px or more in width
+  */ 
+@media screen and (min-width: 992px) {
+
+  .container-console {
+
+    grid-template-rows: auto repeat(6, var(--row-height)) auto;  
+    overflow: hidden;
+  }
+
+  .full-size-content-container {
+
+    grid-row: 2 / 8;
+    overflow-y: auto;
+  }
+  
+  footer {
+
+    grid-row: 8 / 9;
+  }
+}

@@ -1,0 +1,532 @@
+@keyframes movement-frames {
+
+  0% {
+
+    left: 1vw;
+  }
+
+  50% {
+
+    left: calc(100% - 5vw);
+  }
+
+  100% {
+
+    left: 1vw;
+  }
+}
+
+.movement {
+
+  animation: movement-frames 10s linear infinite;
+}
+
+@keyframes colour-frames {
+
+  0% {
+
+    background-color: blue;
+  }
+
+  50% {
+
+    background-color: var(--nc-purple);
+  }
+
+  100% {
+
+    background-color: blue;
+  }
+}  
+
+.colour {
+
+  animation: colour-frames 10s linear infinite;
+} 
+
+@keyframes scale-frames {
+
+  0% {
+
+    transform: scale(1);
+  }
+
+  50% {
+
+    transform: scale(2);
+  }
+
+  100% {
+
+    transform: scale(1);
+  }
+}  
+
+.scale {
+
+  animation: scale-frames 10s linear infinite;
+} 
+
+@media screen and (max-width: 320.99px) {
+
+  .mouse {
+
+    width: 75%;
+    height: auto;
+  }
+
+  .ball {
+
+    width: 75%;
+    height: auto;
+  }
+
+  .hidden-frame {
+
+    display: none;
+  }
+
+  .anim-explained-container {
+
+    width: 90%;
+    text-align: center;
+    margin: calc(var(--vertical-margin) * 2) auto 0 auto;
+  }
+
+  .thumbnails {}
+
+  .anim {}
+
+  .anim img {
+
+    width: 80%; 
+    border: solid 2px var(--nc-purple);
+  }
+
+  .frame-thumbnail {
+
+    width: 20%;
+    height: auto;
+    border: solid 2px;
+    margin: 0 0 var(--vertical-margin) 0; 
+  }
+
+  .frame-active {
+
+    border-color: red;
+  }
+
+  .frame-inactive {
+
+    border-color: white;
+  } 
+  
+  .anim-container {
+
+    position: relative;
+    width: 75%;
+    height: 100px;
+    margin: calc(var(--vertical-margin) * 2) auto var(--vertical-margin) auto;
+    border: solid 2px var(--nc-purple);
+  }
+
+  .circle {
+
+    position: absolute;
+    left: 1vw;
+    top: calc(50px - 2vw);    
+    width: calc(4vw);
+    height: calc(4vw);
+    background-color: red;
+    border-radius: 50%;
+  }
+
+  .start-point {
+
+    left: 1vw;
+    top: calc(50px - 2vw);
+    background-color: blue;
+  }
+
+  .start-label {
+
+    position: absolute;
+    left: 6vw;
+    top: 50px;
+    translate: 0 -50%;
+    color: var(--nc-grey);
+    font-size: 0.70rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .end-point {
+
+    left: calc(100% - 5vw);
+    top: calc(50px - 2vw);
+    background-color: var(--nc-purple);
+  } 
+
+  .end-label {
+
+    position: absolute;
+    left: calc(100% - 26vw);
+    top: 50px;
+    width: 20vw;
+    translate: 0 -50%;
+    color: var(--nc-grey);
+    font-size: 0.70rem;
+    font-weight: bold;
+    text-align: right;
+    text-transform: uppercase;   
+  }
+
+  .colour-changer {
+
+    position: absolute;
+    left: calc(50% - 4vw);
+    top: calc(50px - 4vw);    
+    width: calc(8vw);
+    height: calc(8vw);
+    background-color: blue;
+    border-radius: 50%;
+  } 
+
+  .scale-changer {
+
+    position: absolute;
+    left: calc(50% - 2vw);
+    top: calc(50px - 2vw);    
+    width: calc(4vw);
+    height: calc(4vw);
+    background-color: blue;
+    border-radius: 50%;
+  } 
+
+  .end-scale {
+
+    left: calc(100% - 7vw);
+    transform: scale(2);
+  }
+
+  .end-scale-label {
+
+    left: calc(100% - 30vw);    
+  }  
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199.99px) {
+
+  .mouse {
+
+    width: 30%;
+    height: auto;
+  }
+
+  .ball {
+
+    width: 50%;
+    height: auto;
+  }
+
+  .hidden-frame {
+
+    display: none;
+  }
+
+  .anim-explained-container {
+
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: auto;
+
+    margin: calc(var(--vertical-margin) * 2) 0 0 0;
+  }
+
+  .thumbnails {
+
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .anim {
+
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+  .anim img {
+
+    width: 100%; 
+    border: solid 2px var(--nc-purple);
+  }
+
+  .frame-thumbnail {
+
+    width: 25%;
+    height: auto;
+    border: solid 2px;
+    margin: 0 5% 10px 0; 
+  }
+
+  .frame-active {
+
+    border-color: red;
+  }
+
+  .frame-inactive {
+
+    border-color: white;
+  }
+
+  .anim-container {
+
+    position: relative;
+    width: 75%;
+    height: 200px;
+    margin: calc(var(--vertical-margin) * 2) auto var(--vertical-margin) auto;
+    border: solid 2px var(--nc-purple);
+  }
+
+  .circle {
+
+    position: absolute;
+    left: 1vw;
+    top: calc(100px - 2vw);    
+    width: calc(4vw);
+    height: calc(4vw);
+    background-color: red;
+    border-radius: 50%;
+  }
+
+  .start-point {
+
+    left: 1vw;
+    top: calc(100px - 2vw);
+    background-color: blue;
+  }
+
+  .start-label {
+
+    position: absolute;
+    left: 6vw;
+    top: 100px;
+    translate: 0 -50%;
+    color: var(--nc-grey);
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .end-point {
+
+    left: calc(100% - 5vw);
+    top: calc(100px - 2vw);
+    background-color: var(--nc-purple);
+  } 
+
+  .end-label {
+
+    position: absolute;
+    left: calc(100% - 26vw);
+    top: 100px;
+    width: 20vw;
+    translate: 0 -50%;
+    color: var(--nc-grey);
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    text-transform: uppercase;   
+  }
+
+  .colour-changer {
+
+    position: absolute;
+    left: calc(50% - 4vw);
+    top: calc(100px - 4vw);    
+    width: calc(8vw);
+    height: calc(8vw);
+    background-color: blue;
+    border-radius: 50%;
+  } 
+
+  .scale-changer {
+
+    position: absolute;
+    left: calc(50% - 2vw);
+    top: calc(100px - 2vw);    
+    width: calc(4vw);
+    height: calc(4vw);
+    background-color: blue;
+    border-radius: 50%;
+  } 
+
+  .end-scale {
+
+    left: calc(100% - 7vw);
+    transform: scale(2);
+  }
+
+  .end-scale-label {
+
+    left: calc(100% - 30vw);    
+  }
+}
+
+@media screen and (min-width: 1200px) {
+
+  .mouse {
+
+    width: 30%;
+    height: auto;
+  }
+
+  .ball {
+
+    width: 50%;
+    height: auto;
+  }
+
+  .hidden-frame {
+
+    display: none;
+  }
+
+  .anim-explained-container {
+
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: auto;
+
+    margin: calc(var(--vertical-margin) * 2) 0 0 0;
+  }
+
+  .thumbnails {
+
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .anim {
+
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+  .anim img {
+
+    width: 100%; 
+    border: solid 2px var(--nc-purple);
+  }
+
+  .frame-thumbnail {
+
+    width: 25%;
+    height: auto;
+    border: solid 2px;
+    margin: 0 5% 10px 0; 
+  }
+
+  .frame-active {
+
+    border-color: red;
+  }
+
+  .frame-inactive {
+
+    border-color: white;
+  }
+
+  .anim-container {
+
+    position: relative;
+    width: 75%;
+    height: 200px;
+    margin: calc(var(--vertical-margin) * 2) auto var(--vertical-margin) auto;
+    border: solid 2px var(--nc-purple);
+  }
+
+  .circle {
+
+    position: absolute;
+    left: 1vw;
+    top: calc(100px - 2vw);    
+    width: calc(4vw);
+    height: calc(4vw);
+    background-color: red;
+    border-radius: 50%;
+  }
+
+  .start-point {
+
+    left: 1vw;
+    top: calc(100px - 2vw);
+    background-color: blue;
+  }
+
+  .start-label {
+
+    position: absolute;
+    left: 6vw;
+    top: 100px;
+    translate: 0 -50%;
+    color: var(--nc-grey);
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .end-point {
+
+    left: calc(100% - 5vw);
+    top: calc(100px - 2vw);
+    background-color: var(--nc-purple);
+  } 
+
+  .end-label {
+
+    position: absolute;
+    left: calc(100% - 26vw);
+    top: 100px;
+    width: 20vw;
+    translate: 0 -50%;
+    color: var(--nc-grey);
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    text-transform: uppercase;   
+  }
+
+  .colour-changer {
+
+    position: absolute;
+    left: calc(50% - 4vw);
+    top: calc(100px - 4vw);    
+    width: calc(8vw);
+    height: calc(8vw);
+    background-color: blue;
+    border-radius: 50%;
+  } 
+
+  .scale-changer {
+
+    position: absolute;
+    left: calc(50% - 2vw);
+    top: calc(100px - 2vw);    
+    width: calc(4vw);
+    height: calc(4vw);
+    background-color: blue;
+    border-radius: 50%;
+  } 
+
+  .end-scale {
+
+    left: calc(100% - 7vw);
+    transform: scale(2);
+  }
+
+  .end-scale-label {
+
+    left: calc(100% - 30vw);    
+  }
+}

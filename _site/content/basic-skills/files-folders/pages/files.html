@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Files</title>
+    
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/files-folders.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+    
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+      
+      let info = [
+        ["Word File", "A Word file contains text and sometimes images; a Word file is usually a written document, like a letter, a CV, or an application form. It is opened by the Microsoft Word app."],
+        ["JPEG File", "A JPEG file is an image file, the data it contains will make up a picture. JPEG files can be used in documents, on presentations, or in a webpage. Lots of apps open JPEG files; one of the more common apps in Microsoft Paint."],
+        ["MP4 File", "An MP4 file is a video file and it will contain a video clip; this could be a short advert, up to a full film or TV program. MP4 files can be opened by several apps, usually media playing apps."],
+        ["HTML File", "An HTML file contains the code for a webpage. When it is opened with a web-browser like Google Chrome, it will display a webpage."],
+        ["Excel File", "An Excel file is a spreadsheet, it contains mainly numbers which are displayed, and calculated, when opened using Microsoft Excel. Excel files are used for all kinds of things that involve lots of numbers, such as accounting and data analysis."],
+        ["Text File", "A text file (also known as a TXT file) contains only text, and this text is not formatted (no bold, underline, fancy fonts, or anything like that). Text files are opened by apps like Notepad, and are usually used for several different purposes."]        
+      ];
+
+      function init() {
+
+        setupColourSchemeSelect();
+      }
+
+      function iconInfo(display, index) {
+
+        let text = (display) ? info[index] : ["", ""];
+        displayInfo(text, document.getElementById("icon-info-panel"));
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Files & Folders</h3>
+      <h1 class="uppercase">what are files?</h1>
+
+      <a class="custom-button home-no-restart" href="../files-folders-index.html">Home</a>
+      <!--p class="custom-button restart-activity" onclick="restartPage();">Restart</p-->
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+      
+      <p class="content-text">When we save something onto a computer, we save it into a <span class="bold uppercase nc-purple">file</span>. A file is something that contains <span class="bold uppercase nc-purple">data</span>, and is opened with a <span class="bold uppercase nc-purple">computer program</span>, or <span class="bold uppercase nc-purple">app</span>, that shows us the contents of that file. There are different types of files such as images, documents, videos, and audio.</p>
+
+      <p class="content-text">Files usually have an <span class="bold uppercase nc-purple">icon</span> that makes them easy to recognise. Move your mouse over the icons below to find out more about them. When you're ready to move on, click <span class="bold uppercase nc-purple">next</span>.</p>
+
+      <div class="content-tabulator centre-tabulator w-100">
+      
+        <div class="tabulated-content w-30 v-align-top">
+          <img class="files-icon-image" src="../assets/images/word-icon.png" onmouseover="iconInfo(true, 0);" onmouseout="iconInfo(false, 0);">
+          <img class="files-icon-image" src="../assets/images/jpeg-icon.png" onmouseover="iconInfo(true, 1);" onmouseout="iconInfo(false, 1);">
+          <img class="files-icon-image" src="../assets/images/mp4-icon.png" onmouseover="iconInfo(true, 2);" onmouseout="iconInfo(false, 2);">
+        </div><!--
+
+        --><div class="tabulated-content w-30 v-align-top">
+          <img class="files-icon-image" src="../assets/images/chrome-icon.png" onmouseover="iconInfo(true, 3);" onmouseout="iconInfo(false, 3);">
+          <img class="files-icon-image" src="../assets/images/excel-icon.png" onmouseover="iconInfo(true, 4);" onmouseout="iconInfo(false, 4);">
+          <img class="files-icon-image" src="../assets/images/text-icon.webp" onmouseover="iconInfo(true, 5);" onmouseout="iconInfo(false, 5);">
+        </div><!--
+
+        --><div class="tabulated-content w-30 v-align-top">
+          <div id="icon-info-panel" class="info-panel"></div>
+        </div>
+
+      </div>
+
+      <a class="navlink previous" href="../files-folders-index.html">Previous</a>
+      <a class="navlink next" href="folders-1.html">Next</a>
+      
+    </div>
+
+  </body>
+
+</html>

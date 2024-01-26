@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>The Middle Button</title>
+    
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/mouse-practice.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+
+    <style type="text/css">
+
+      .nav-splitter {
+
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .navlink {
+
+        position: static;
+      }
+
+      .previous {
+
+        margin: 0 0 20px 30px;
+      }
+
+      .next {
+
+        margin: 0 30px 20px 0;
+      }
+
+    </style>
+
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+      
+      function init() {
+
+        setupColourSchemeSelect();
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Using a Mouse</h3>
+      <h1 class="uppercase">The Middle Button</h1>
+
+      <a class="custom-button home-no-restart" href="../mouse-practice-index.html">Home</a>
+      <!--p class="custom-button restart-activity" onclick="restartPage();">Restart</p-->
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+
+      <p class="content-text">The <span class="bold uppercase nc-purple">middle-button</span> is also known as the <span class="bold uppercase nc-purple">scroll-wheel</span> and is used for scrolling through documents and webpages. To scroll a page, you roll the middle-button away from you to go up, towards you to go down. Practice scrolling the content below until you find the <span class="bold uppercase nc-purple">previous</span> and <span class="bold uppercase nc-purple">next</span> buttons.</p>
+
+      <div class="scroller-div">
+        
+        <img class="down-arrow" src="../assets/images/down-arrow.png">
+        <img class="down-arrow" src="../assets/images/down-arrow.png">
+        <img class="down-arrow" src="../assets/images/down-arrow.png">
+        <img class="down-arrow" src="../assets/images/down-arrow.png">
+
+        <div class="nav-splitter">
+        
+          <a class="navlink previous" href="double-click-2.html">Previous</a>
+          <a class="navlink next" href="drag-and-drop.html">Next</a>
+        
+        </div>
+
+      </div>
+      
+    </div>
+
+  </body>
+
+</html>

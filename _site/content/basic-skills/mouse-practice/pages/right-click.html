@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/mouse-practice.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+    
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+
+      function init() {
+
+        setupColourSchemeSelect();
+      }
+
+      function openMenu(element, index) {
+
+        element.classList.add("icon-container-selected");
+        
+        let tickImage = document.getElementById("right-click-image-" + index);
+        tickImage.classList.remove("faded-out");
+        tickImage.classList.add("fade-in-class");
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Using a Mouse</h3>
+      <h1 class="uppercase">right-clicking</h1>
+
+      <a class="custom-button home" href="../mouse-practice-index.html">Home</a>
+      <p class="custom-button restart-activity" onclick="restartPage();">Restart</p>
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+      
+      <p class="content-text">When you press the right mouse button once, it is known as a right-click, or right-clicking. You might not use right-click very often but it's useful to know. Usually, when you right-click on something, it opens up a context menu. When you are done, click <span class="bold uppercase">next</span> to move on.</p>
+
+      <div class="content-tabulator">
+
+        <div class="tabulated-content">
+        
+          <div class="icon-container" oncontextmenu="javascript:openMenu(this, 0);return false;">
+            <img class="icon-image" src="../assets/images/chrome-icon.png">
+            <p class="icon-text">Google Chrome</p>
+          </div>
+        </div>
+
+        <div class="tabulated-content">
+
+            <img id="right-click-image-0" class="right-click-image faded-out" src="../assets/images/chrome-right-click.png">
+            
+        </div>
+
+        <div class="tabulated-content">
+        
+          <div class="icon-container" oncontextmenu="javascript:openMenu(this, 1);return false;">
+            <img class="icon-image" src="../assets/images/word-icon.png">
+            <p class="icon-text">Microsoft Word</p>
+          </div>
+        </div>
+
+        <div class="tabulated-content">
+
+            <img id="right-click-image-1" class="right-click-image faded-out" src="../assets/images/word-right-click.png">
+            
+        </div>
+
+        <div class="tabulated-content">
+        
+          <div class="icon-container" oncontextmenu="javascript:openMenu(this, 2);return false;">
+            <img class="icon-image" src="../assets/images/folder-icon.png">
+            <p class="icon-text">Microsoft Word</p>
+          </div>
+        </div>
+
+        <div class="tabulated-content">
+
+            <img id="right-click-image-2" class="right-click-image faded-out" src="../assets/images/folder-right-click.png">
+            
+        </div>
+
+      </div>
+
+      <a class="navlink previous" href="left-click-2.html">Previous</a>
+      <a class="navlink next" href="double-click-1.html">Next</a>
+      
+    </div>
+
+  </body>
+
+</html>

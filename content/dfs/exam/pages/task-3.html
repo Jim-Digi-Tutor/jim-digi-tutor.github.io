@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Task 3", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "task-2.html", backText: "Previous", nextButton: "task-4.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+
+        <p class="section-heading no-top-margin">Task 3 (9 Marks)</p>
+        <p class="section-emphasis">Suggested Time for Task 3: 20 minutes</p>
+
+        <p class="section-text">You need to make an invitation to send to the meeting guests.</p>
+        <p class="section-text">You have been given one file and one image to use.</p>
+        <p class="section-text">Click the button below to download the <span class="bold">Meeting</span> file and <span class="bold">Directions Image</span>.</p>
+        <p class="section-text">Save both files in your <span class="bold">Tasks</span> folder.</p>
+        <p class="section-text">Open the <span class="bold">Meeting</span> file.</p>
+
+        <p class="section-text"><span class="bold">a)</span> <span class="bold">Centre</span> the heading. (1 mark)</p>
+        <p class="section-text"><span class="bold">b)</span> Make the heading <span class="bold">bold</span>. (1 mark)</p>
+        <p class="section-text"><span class="bold">c)</span> Insert the <span class="bold">Directions Image</span>. (1 mark)</p>
+        <p class="section-text"><span class="bold">d)</span> Position the <span class="bold">Directions Image</span> under the sub-heading 'Directions'. (1 mark)</p>
+        <p class="section-text"><span class="bold">e)</span> Add bullets to each of the <span class="bold">Details</span> points. (1 mark)</p>
+        <p class="section-text"><span class="bold">f)</span> Add this text after the bullet points. (1 mark)</p>
+        <p class="section-text indent-1"><span class="bold">Cannot attend? Contact 0374 374 1090</span></p>
+        <p class="section-text"><span class="bold">g)</span> Change all text to <span class="bold">16 Point</span>. (1 mark)</p>
+        <p class="section-text"><span class="bold">h)</span> Change the sub-headings <span class="bold">Details</span> and <span class="bold">Directions</span> to <span class="bold">italics</span>. (1 mark)</p>
+
+        <p class="section-text">Save your finished file.</p>
+        <p class="section-text"><span class="bold">i)</span> Rename your file to <span class="bold">Invitation</span>. (1 mark)</p>
+        <p class="section-text">Upload your finished file by using the <span class="bold">Upload</span> button below.</p>
+
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Task 3</span> press <span class="bold italic">Next</span>.</p>
+
+        <div class="button-container">
+        
+          <a href="..\assets\files\82045634-T-3.docx" class="download-button" download>Meeting</a>
+          <a href="..\assets\files\92685643-Directions.png" class="download-button" download>Directions Image</a>
+
+          <label for="file-upload" class="custom-upload">
+            Upload
+            <input type="file" class="custom-upload" id="file-upload">
+          </label>
+
+        </div>
+
+      </div>
+      
+      <footer id="footer" class="footer-console">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

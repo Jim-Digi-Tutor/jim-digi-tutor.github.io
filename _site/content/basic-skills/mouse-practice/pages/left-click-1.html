@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Left Click</title>
+
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/mouse-practice.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+    
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+
+      function init() {
+
+        setupColourSchemeSelect();
+      }
+
+      function selectItem(element, index) {
+
+        element.classList.add("icon-container-selected");
+        
+        let tickImage = document.getElementById("tick-image-" + index);
+        tickImage.classList.remove("faded-out");
+        tickImage.classList.add("fade-in-class");  
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container"> 
+
+      <h3 class="dark-grey">Using a Mouse</h3>
+      <h1 class="uppercase">Left Click</h1>
+
+      <a class="custom-button home" href="../mouse-practice-index.html">Home</a>
+      <p class="custom-button restart-activity" onclick="restartPage();">Restart</p>
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+      
+      <p class="content-text">When you click your left mouse button once, it is known as a <span class="bold uppercase nc-purple">single left click</span>, or just a <span class="bold uppercase nc-purple">left-click</span>. Left-clicking does different things depending on what you are clicking on. For example, if you click a file, app, or folder, you will <span class="bold uppercase nc-purple">select</span> it. Try it below.
+
+      <div class="content-tabulator centre-tabulator w-90">
+
+        <div class="tabulated-content w-40">
+          
+          <p class="content-text">Once you have selected an item you can do other things with it, such as rename the item, copy it, or delete it.</p>
+          <p class="content-text">Use your mouse to select the items on the right. What happens to the item when it is selected?</p>
+
+        </div><!--
+
+        --><div class="tabulated-content w-10">&nbsp;</div><!--
+        
+        --><div class="tabulated-content w-25">
+
+          <div class="sub-content-tabulator">
+
+            <div class="tabulated-sub-content">
+              <div class="icon-container" onclick="selectItem(this, 0);">
+                <img class="icon-image" src="../assets/images/chrome-icon.png">
+                <p class="icon-text">Google Chrome</p>
+              </div>
+            </div>
+
+            <div class="tabulated-sub-content">
+
+              <img id="tick-image-0" class="tick-image faded-out" src="../assets/images/green-tick.png">
+
+            </div>
+            
+          </div>
+
+          <div class="sub-content-tabulator">
+            
+            <div class="tabulated-sub-content">
+              <div class="icon-container" onclick="selectItem(this, 1);">
+                <img class="icon-image" src="../assets/images/folder-icon.png">
+                <p class="icon-text">My Documents</p>
+              </div>
+            </div>
+
+            <div class="tabulated-sub-content">
+
+              <img id="tick-image-1" class="tick-image faded-out" src="../assets/images/green-tick.png">
+
+            </div>
+            
+          </div>
+
+          <div class="sub-content-tabulator">
+            
+            <div class="tabulated-sub-content">
+              <div class="icon-container" onclick="selectItem(this, 2);">
+                <img class="icon-image" src="../assets/images/word-icon.png">
+                <p class="icon-text">Microsoft Word</p>
+              </div>
+            </div>
+
+            <div class="tabulated-sub-content">
+
+              <img id="tick-image-2" class="tick-image faded-out" src="../assets/images/green-tick.png">
+
+            </div>
+            
+          </div>
+
+        </div>
+          
+      </div>
+      
+      <a class="navlink previous" href="moving-the-mouse.html">Previous</a>
+      <a class="navlink next" href="left-click-2.html">Next</a>
+      
+    </div>
+
+  </body>
+
+</html>

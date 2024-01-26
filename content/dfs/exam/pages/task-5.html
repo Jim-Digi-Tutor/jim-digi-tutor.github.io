@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Task 5", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "task-4.html", backText: "Previous", nextButton: "task-6.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+
+        <p class="section-heading no-top-margin">Task 5 (6 Marks)</p>
+        <p class="section-emphasis">Suggested Time for Task 5: 10 minutes</p>
+
+        <p class="section-text">You want to order lunch for the meeting.</p>
+        <p class="section-text">Read the text from your manager below.</p>
+
+        <img class="task-5-image" src="../assets/images/lunch-message.png">
+
+        <p class="section-text"><span class="bold">a)</span> Complete the online form.</p>
+
+        <table class="task-5-table">
+          
+          <tr>
+            <td class="header-row" colspan="2">Lunch Order Form</td>
+          </tr>
+
+          <tr>
+            <td class="header-row" colspan="2">Order Details</td>
+          </tr>
+
+          <tr>
+            <td class="content-row">Customer Name & Contact Number (1 mark)</td>
+            <td class="content-row"><input type="text"></td>
+          </tr>
+
+          <tr>
+            <td class="content-row">Date and Time for Collection (1 mark)</td>
+            <td class="content-row"><input type="text"></td>
+          </tr>
+
+          <tr>
+            <td class="content-row">Set Menu 1 <span class="bold uppercase">or</span> 2 (1 mark)</td>
+            <td class="content-row"><input type="text"></td>
+          </tr>
+
+          <tr>
+            <td class="content-row">Number of People (1 mark)</td>
+            <td class="content-row"><input type="text"></td>
+          </tr>  
+
+        </table>
+
+        <table class="task-5-table">
+
+          <tr>
+            <td class="disclaimer-text">
+              <p class="bold">Terms and Conditions</p>
+              <p>All orders must be paid for in full at the time of collection.</p>
+              <p class="no-bottom-margin">Put an X in the box to accept the terms and conditions. (1 mark)</p>
+            </td>
+            <td class="disclaimer-check"><input type="text"></td>
+          </tr>        
+
+        </table>
+
+        <p class="section-text"><span class="bold">b)</span> Please re-enter the Captcha code, exactly as shown, to submit the form. (1 mark)</p>
+
+        <table class="task-5-table">
+
+          <tr>
+            <td class="captcha-image">
+              <img src="../assets/images/captcha.png">
+            </td>
+            <td class="captcha-input"><input type="text"></td>
+          </tr>        
+
+        </table>
+
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Task 5</span> press <span class="bold italic">Next</span>.</p>
+      
+      </div>
+      
+      <footer id="footer" class="footer-console">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

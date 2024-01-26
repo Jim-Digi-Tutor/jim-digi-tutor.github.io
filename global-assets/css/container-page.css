@@ -1,0 +1,30 @@
+/**
+  Styles for screens 320px or less in width
+  */ 
+@media screen and (max-width: 319.99px) {
+
+  .container-page {}
+  .full-size-content-container {}
+  footer {}
+}
+
+/**
+  Styles for screens 992px or more in width
+  */ 
+@media screen and (min-width: 992px) {
+
+  .container-page {
+
+    grid-template-rows: auto auto auto;  
+  }
+
+  .full-size-content-container {
+
+    grid-row: 2 / 3;
+  }
+  
+  footer {
+
+    grid-row: 3 / 4;
+  }
+}

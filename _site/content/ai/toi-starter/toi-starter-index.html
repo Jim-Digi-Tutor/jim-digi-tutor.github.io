@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Types of Intelligence</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/common_.css">
+    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/supplementary_.css">
+    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/toi.css">
+
+    <script type="text/javascript" src="../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+
+      function initPage() {
+
+        setupColourSchemeSelect();
+
+        for(let a = 0; a < 7; a++) {
+
+          let intel = document.getElementById("intel-slot-" + a);
+          intel.draggable = true;
+          intel.ondragstart = dragStart;
+
+          let desc = document.getElementById("description-slot-" + a);
+          desc.ondragover = allowDrop;
+          desc.ondrop = dropItem;
+        }
+      }
+
+      function dragStart(event) {
+
+        event.dataTransfer.setData("text", event.target.id);       
+      }
+
+      let answers = [ false, false, false, false, false, false, false ];
+
+      let responses = [
+        { 
+          explanation: "<p class=\"cet\">Visual / Spatial intelligence is the ability to process and understand our physical surroundings. We use this intelligence when we drive a car so we can remain aware of traffic and pedestrians; we use it in team sports such as football when we look around for a teammate to pass to; and we use it when we are moving around a busy shop to avoid bumping into people and shelves.</p>"
+        },
+
+        { 
+          explanation: "<p class=\"cet\">Bodily / Kinesthetic intelligence is using body movements to achieve something. An artist uses kinesthetic intelligence to physically draw a picture or play a musical instrument; dancers use this intelligence to perform their dance routines; and a bricklayer uses this intelligence in the process of laying bricks.</p>"
+        },
+
+        { 
+          explanation: "<p class=\"cet\">Creative intelligence is used when thinking of new ideas, particularly artistic ones. A painter uses creative intelligence to think up new paintings, and a singer will use it to write new lyrics.</p>" 
+        },
+
+        { 
+          explanation: "<p class=\"cet\">We use interpersonal intelligence all of the time when we communicate with friends, family, and work colleagues. We use this intelligence to decide what words to use in a text message; whether to adopt a formal tone in an email; and to sometimes decide to neither text or email, but make a phonecall instead.</p>" 
+        },
+
+        { 
+          explanation: "<p class=\"cet\">Intrapersonal intelligence is the process of reflecting on things and thinking about our challenges and opportunities. Should I take that job? Could I have handled that situation better? Which course have I to choose for college? All of these are examples of where intrapersonal intelligence is used.</p>" 
+        },
+
+        { 
+          explanation: "<p class=\"cet\">Linguistic intelligence is used when listening to people speak, interpreting what they say, and coming up with a response. This kind of intelligence could be used for simply replyng to a server when they ask if you want milk in your coffee, to a lawyer quizzing the accused in court!</p>" 
+        },
+
+        { 
+          explanation: "<p class=\"cet\">Logical / Mathematical intelligence is used when we have to perform calculations, make comparisons, or identify patterns in data and information. People might use this intelligence to search for the best mortgage deal on the Internet; they might use it to calculate if there's space in their room for a particular sofa; or use it to learn how to use a new piece of software.</p>" 
+        }
+      ];
+
+      function dropItem(event) {
+
+        event.preventDefault();
+
+        let data = event.dataTransfer.getData("text");
+        let target = event.currentTarget;
+        let id = target.id;
+
+        let dragIndex = parseInt(data.split("-")[2]);
+        let dropIndex = parseInt(id.split("-")[2]);
+
+        if(!answers[dropIndex]) {
+
+          // Prepare the confirm screen
+          document.getElementById("confirm-prompt").innerHTML = "";
+          document.getElementById("confirm-explanation").innerHTML = "";
+
+          let prompt = "";
+          let explanation = "";
+          let src = null;
+
+          if(dragIndex === dropIndex) {
+
+            // Answer is correct
+            prompt = "That's correct, well done!";
+            explanation = responses[dragIndex].explanation;
+            src = document.getElementById("image-" + dragIndex).src;
+ 
+            document.getElementById("description-q-" + dragIndex).src = document.getElementById("image-tick").src;
+            let desc = document.getElementById("description-" + dragIndex);
+            let html = ("<span class=\"bold uppercase nc-purple\">" + document.getElementById(data).textContent.trim() + "</span>:");
+            desc.innerHTML = (html + " " + desc.innerHTML);
+            answers[dragIndex] = true;       
+
+            // Remove the type of intelligence from the panel
+            document.getElementById("intel-slot-" + dragIndex).remove();  
+
+          } else {
+
+            // Answer is incorrect
+            prompt = "Sorry, that's not correct";
+            explanation = "<p class=\"cet\">Take another look at the types of intelligences and their descriptions and give it another try.</p>";
+            src = document.getElementById("image-7").src;
+          }
+
+          // Prepare the confirm screen
+          document.getElementById("confirm-prompt").innerHTML = prompt;
+          document.getElementById("confirm-explanation").innerHTML = explanation;
+
+          // Assign the image source
+          document.getElementById("confirm-image").src = src;
+
+          let modal = document.getElementById("modal-screen");
+          modal.style.display = "block";
+          
+          let confirm = document.getElementById("confirm-panel");
+          confirm.style.display = "block";
+          confirm.classList.remove("faded-out");
+          confirm.classList.add("fade-in-class");
+        }
+      }
+
+      function allowDrop(event, index) {
+
+        event.preventDefault();
+      }      
+
+      function closeConfirm() {
+
+        let confirm = document.getElementById("confirm-panel");
+        confirm.classList.remove("fade-in-class");
+        confirm.classList.add("fade-out-class");
+
+        confirm.addEventListener("animationend", cleanUpConfirmClose);
+      }
+
+      function cleanUpConfirmClose() {
+
+        let confirm = document.getElementById("confirm-panel");
+        confirm.removeEventListener("animationend", cleanUpConfirmClose);
+        confirm.classList.remove("fade-out-class");
+        confirm.classList.add("faded-out");
+
+        confirm.style.display = "none";
+        document.getElementById("modal-screen").style.display = "none";
+      }  
+
+    </script>
+
+  </head>
+
+  <body onload="initPage();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Artificial Intelligence</h3>
+      <h1 class="uppercase">Types of Intelligence</h1>
+
+      <a class="custom-button home" href="../ai-index.html">Home</a>
+      <p class="custom-button restart-activity" onclick="restartPage();">Restart</p>
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+
+      <div id="types-panel" class="types-panel">
+
+        <p class="toi-instructions">
+          Drag each label below across to the description on the right that you think it matches best.
+        </p>
+
+        <div id="intel-slot-0" class="intel-slot">
+          <p class="intel-slot-header">Visual / Spatial</p>
+        </div>
+
+        <div id="intel-slot-1" class="intel-slot">
+          <p class="intel-slot-header">Bodily / Kinesthetic</p>
+        </div>
+
+        <div id="intel-slot-2" class="intel-slot">
+          <p class="intel-slot-header">Creative</p>          
+        </div>
+        
+        <div id="intel-slot-3" class="intel-slot">
+          <p class="intel-slot-header">Interpersonal</p>    
+        </div>
+        
+        <div id="intel-slot-4" class="intel-slot">
+          <p class="intel-slot-header">Intrapersonal</p>  
+        </div>
+        
+        <div id="intel-slot-5" class="intel-slot">
+          <p class="intel-slot-header">Linguistic</p>
+        </div>
+        
+        <div id="intel-slot-6" class="intel-slot">
+          <p class="intel-slot-header">Logical / Mathematical</p>
+        </div>
+              
+      </div>
+
+      <div id="prompt-panel" class="prompt-panel">
+        <p class="content-text no-margin">
+          There are lots of different types of intelligence, each very different to the other. Some are useful in some situations; others are useful in others. Look at the types of intelligence on the right, which description do you think they belong to? Drag them across to where they match best.
+        </p>
+      </div>
+
+      <p class="title-panel description">Descriptions</p>
+      <div id="description-panel" class="description-panel">
+        
+        <div id="description-slot-1" class="description-slot">
+          <img id="description-q-1" src="../assets/images/purple-q.png"><!--
+          --><p id="description-1">Body movements such as dancing and sport</p>
+        </div>
+
+        <div id="description-slot-5" class="description-slot">
+          <img id="description-q-5" src="../assets/images/purple-q.png"><!--
+          --><p id="description-5">Working with words; speaking to someone and hearing what they say; responding to a spoken question</p>
+        </div>
+
+        <div id="description-slot-4" class="description-slot">
+          <img id="description-q-4" src="../assets/images/purple-q.png"><!--
+          --><p id="description-4">Reflecting on your behaviours and opportunities; considering the pros and cons of something and how it affects you</p>
+        </div>
+
+        <div id="description-slot-0" class="description-slot">
+          <img id="description-q-0" src="../assets/images/purple-q.png"><!--
+          --><p id="description-0">Seeing and understanding your physical environment and the things around you</p>
+        </div>
+
+        <div id="description-slot-3" class="description-slot">
+          <img id="description-q-3" src="../assets/images/purple-q.png"><!--
+          --><p id="description-3">Interacting with others, sharing and obtaining information; using telephones and emails</p>
+        </div>
+
+        <div id="description-slot-6" class="description-slot">
+          <img id="description-q-6" src="../assets/images/purple-q.png"><!--
+          --><p id="description-6">Calculating a result or making comparisons between things; sifting through data</p>
+        </div>
+
+        <div id="description-slot-2" class="description-slot">
+          <img id="description-q-2" src="../assets/images/purple-q.png"><!--
+          --><p id="description-2">Creating art or music; creating unique patterns of thought that result in artistic output</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="modal-screen" class="modal-screen"></div>
+    <div id="confirm-panel" class="dialog-panel faded-out">
+
+      <p id="confirm-prompt" class="confirm-prompt">-</p>
+      <p id="confirm-explanation" class="confirm-explanation">-</p><!--
+      --><img id="confirm-image" class="confirm-image" src="#">
+
+      <a href="javascript:closeConfirm();" class="custom-button close-dialog">CLOSE</a>
+
+    </div>
+
+    <img id="image-tick" class="intel-image" src="../assets/images/green-tick.png">
+    <img id="image-0" class="intel-image" src="../assets/images/description-0.jpg">
+    <img id="image-1" class="intel-image" src="../assets/images/description-1.jpg">
+    <img id="image-2" class="intel-image" src="../assets/images/description-2.jpg">
+    <img id="image-3" class="intel-image" src="../assets/images/description-3.jpg">
+    <img id="image-4" class="intel-image" src="../assets/images/description-4.jpg">
+    <img id="image-5" class="intel-image" src="../assets/images/description-5.png">
+    <img id="image-6" class="intel-image" src="../assets/images/description-6.jpeg">
+    <img id="image-7" class="intel-image" src="../assets/images/incorrect.jpg">
+
+  </body>
+
+</html>
