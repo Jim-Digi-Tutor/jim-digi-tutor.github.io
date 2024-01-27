@@ -1,66 +1,21 @@
-<!DOCTYPE html>
-<html>
+---
+permalink: content/dfs/exam/pages/finish.html
 
-  <head>
+layout: index-page
 
-    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
-    
-    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
-    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/index-pages.css">
-    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+title: Digital Functional Skills
+subtitle: Practice Exam
+homelink: ../exam-index.html
 
-    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+nextlink: task-1.html
+nexttext: Start Again
+---
 
-    <script type="text/javascript">
+<div class="full-size-content-container"> 
+  
+  <p class="page-narrative">
+    <span class="bold uppercase nc-purple">Well Done!</span> You have completed the practice exam!
+    How do you feel about it? How confident would you be when taking the real thing?
+  </p>
 
-      let title = { title: "Practice Exam", subTitle: "Digital Functional Skills" };
-      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false }; 
-      let footerConfig = { backButton: null, backText: null, nextButton: "../exam-index.html", nextText: "Start Again" };
-      
-      function init() {
-
-        let footerContainers = [
-          document.getElementById("footer-0"),
-          document.getElementById("footer-1"),
-          document.getElementById("footer-2")
-        ];
-
-        buildHeaderTitle(title);
-        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
-        buildFooter(footerContainers, footerConfig);
-      }
-
-    </script>
-
-  </head>
-
-  <body onload="init();">
-
-    <div class="container container-console">
-
-      <header id="header">
-
-        <h3 id="sub-title" class="dark-grey"></h3>
-        <h1 id="title" class="uppercase"></h1>
-
-      </header>
-
-      <div id="header-options" class="header-options"></div>
-
-      <div class="full-size-content-container">
-      
-        blah blah blah
-        
-      </div>
-      
-      <footer id="footer">
-        <div id="footer-0" class="footer-0"></div>
-        <div id="footer-1" class="footer-1"></div>
-        <div id="footer-2" class="footer-2"></div>
-      </footer>
-
-    </div>
-
-  </body>
-
-</html>
+</div>

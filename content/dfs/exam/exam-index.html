@@ -1,66 +1,28 @@
-<!DOCTYPE html>
-<html>
+---
+permalink: content/dfs/exam/exam-index.html
 
-  <head>
+layout: index-page
 
-    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
-    
-    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/common.css">
-    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/index-pages.css">
-    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/supplementary.css">
+title: Digital Functional Skills
+subtitle: Practice Exam
+homelink: ../dfs-index.html
 
-    <script type="text/javascript" src="../../../global-assets/js/common.js"></script>
+nextlink: pages/task-1.html
+nexttext: Start
+---
 
-    <script type="text/javascript">
+<div class="full-size-content-container"> 
 
-      let title = { title: "Practice Exam", subTitle: "Digital Functional Skills" };
-      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../dfs-index.html", restartButton: false }; 
-      let footerConfig = { backButton: null, backText: null, nextButton: "pages/task-1.html", nextText: "Start" };
-      
-      function init() {
+  <p class="page-narrative">    
+    In the following section you will complete a realistic Digital Functional Skills exam. The exam is just for practice, there is no time limit, and you can ask your tutor for help if you are stuck.
+  </p>
 
-        let footerContainers = [
-          document.getElementById("footer-0"),
-          document.getElementById("footer-1"),
-          document.getElementById("footer-2")
-        ];
+  <p class="page-narrative">
+    These activities are completely separate to anything else on the computer, you cannot break anything, so don't worry if you make a mistake, there is no harm done if you do.
+  </p>
+  
+  <p class="page-narrative">
+    If you want to try a section again, you can use the <span class="bold uppercase nc-purple">next</span> and <span class="bold uppercase nc-purple">previous</span> buttons to go back or forward to it. You can try each section as many times as you like.
+  </p> 
 
-        buildHeaderTitle(title);
-        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
-        buildFooter(footerContainers, footerConfig);
-      }
-
-    </script>
-
-  </head>
-
-  <body onload="init();">
-
-    <div class="container container-console">
-
-      <header id="header">
-
-        <h3 id="sub-title" class="dark-grey"></h3>
-        <h1 id="title" class="uppercase"></h1>
-
-      </header>
-
-      <div id="header-options" class="header-options"></div>
-
-      <div class="full-size-content-container">
-      
-        blah blah blah
-        
-      </div>
-      
-      <footer id="footer">
-        <div id="footer-0" class="footer-0"></div>
-        <div id="footer-1" class="footer-1"></div>
-        <div id="footer-2" class="footer-2"></div>
-      </footer>
-
-    </div>
-
-  </body>
-
-</html>
+</div>

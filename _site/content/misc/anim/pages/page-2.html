@@ -41,7 +41,13 @@
         // Run any page-specific function
         
           animateExample();
-                
+            
+        
+        let mobileDisc = document.getElementById("mobile-disclaimer");
+        if(mobileDisc !== null) {
+
+          mobileDisc.innerHTML = ("<p>It appears that you are viewing this site on a mobile phone or tablet. Because of this, not every feature will work as intended, and some might not work at all. Feel free to browse, but it is recommended that you use a larger tablet, laptop, or desktop computer when using this site.</p>");
+        }
       }
 
     </script>

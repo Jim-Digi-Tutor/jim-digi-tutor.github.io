@@ -35,7 +35,13 @@
         setupColourSchemeSelect(colourSelect);
 
         // Run any page-specific function
-                
+            
+        
+        let mobileDisc = document.getElementById("mobile-disclaimer");
+        if(mobileDisc !== null) {
+
+          mobileDisc.innerHTML = ("<p>It appears that you are viewing this site on a mobile phone or tablet. Because of this, not every feature will work as intended, and some might not work at all. Feel free to browse, but it is recommended that you use a larger tablet, laptop, or desktop computer when using this site.</p>");
+        }
       }
 
     </script>
@@ -68,7 +74,7 @@
   <div class="topic-container">
     <p class="topic-no-link">Jim's Computer</p>
     <p class="topic-description">
-      You can downloads the <span class="nc-purple bold">Jim's Computer</span> .zip file by clicking <a href="files\jims-computer.zip" download>here</a>
+      You can download the <span class="nc-purple bold">Jim's Computer</span> .zip file by clicking <a href="files\jims-computer.zip" download>here</a>
     </p>
   </div>
         

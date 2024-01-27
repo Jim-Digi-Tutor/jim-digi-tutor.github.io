@@ -3,31 +3,45 @@
 
   <head>
 
-    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
-    
-    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
-    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/index-pages.css">
-    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+    <title>Digi-Stuff Resources (www.digi-stuff.co.uk)</title>
+
+    <link rel="stylesheet" type="text/css" href="/global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/global-assets/css/index-pages.css">
+    <link rel="stylesheet" type="text/css" href="/global-assets/css/supplementary.css">
+
+    <!-- Import any page-specific CSS -->
+    
+
+    
+      <link rel="stylesheet" type="text/css" href="/global-assets/css/container-page.css">
+    
+      
+    
+
+    <script type="text/javascript" src="/global-assets/js/common.js"></script>
+
+    <!-- Import any page-specific JavaScript -->
+    
 
     <script type="text/javascript">
-
-      let title = { title: "Practice Exam", subTitle: "Digital Functional Skills" };
-      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false }; 
-      let footerConfig = { backButton: null, backText: null, nextButton: "../exam-index.html", nextText: "Start Again" };
       
       function init() {
 
-        let footerContainers = [
-          document.getElementById("footer-0"),
-          document.getElementById("footer-1"),
-          document.getElementById("footer-2")
-        ];
+        let colourSelect = document.getElementById("colour-scheme-select");
+        colourSelect.onchange = changeColourScheme;
+        setupColourSchemeSelect(colourSelect);
 
-        buildHeaderTitle(title);
-        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
-        buildFooter(footerContainers, footerConfig);
+        // Run any page-specific function
+            
+        
+        let mobileDisc = document.getElementById("mobile-disclaimer");
+        if(mobileDisc !== null) {
+
+          mobileDisc.innerHTML = ("<p>It appears that you are viewing this site on a mobile phone or tablet. Because of this, not every feature will work as intended, and some might not work at all. Feel free to browse, but it is recommended that you use a larger tablet, laptop, or desktop computer when using this site.</p>");
+        }
       }
 
     </script>
@@ -35,31 +49,58 @@
   </head>
 
   <body onload="init();">
+    
+    <div class="container container-page">
 
-    <div class="container container-console">
+  <header id="header">
 
-      <header id="header">
+    <h3 id="sub-title" class="dark-grey">Digital Functional Skills</h3>
+    <h1 id="title" class="uppercase">Practice Exam</h1>
 
-        <h3 id="sub-title" class="dark-grey"></h3>
-        <h1 id="title" class="uppercase"></h1>
+  </header>
 
-      </header>
+  <div id="header-options" class="header-options">
 
-      <div id="header-options" class="header-options"></div>
+    <select id="colour-scheme-select"></select>
 
-      <div class="full-size-content-container">
+    
+      <a href="../exam-index.html">Home</a>
+    
+
+  </div>
+    
+  <div class="full-size-content-container"> 
+  
+  <p class="page-narrative">
+    <span class="bold uppercase nc-purple">Well Done!</span> You have completed the practice exam!
+    How do you feel about it? How confident would you be when taking the real thing?
+  </p>
+
+</div>
+
+  <footer id="footer"  class="footer-spacer">
+
+    <div id="footer-0" class="footer-0">
       
-        blah blah blah
-        
-      </div>
       
-      <footer id="footer">
-        <div id="footer-0" class="footer-0"></div>
-        <div id="footer-1" class="footer-1"></div>
-        <div id="footer-2" class="footer-2"></div>
-      </footer>
 
     </div>
+    
+    <div id="footer-1" class="footer-1">&nbsp;</div>
+    
+    <div id="footer-2" class="footer-2">
+
+      
+        
+        <a href="task-1.html" class="custom-button custom-button-next">Start Again</a>
+
+      
+
+    </div>
+
+  </footer>
+
+</div>
 
   </body>
 
