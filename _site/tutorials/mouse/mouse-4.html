@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Tutorial: Using a Mouse</title>
+
+    <link rel="stylesheet" href="/resources/css/common.css">
+    <link rel="stylesheet" media="screen and (max-width: 419.99px)" href="/resources/css/common-mobile.css">
+    <link rel="stylesheet" media="screen and (min-width: 420px) and (max-width: 767.99px)" href="/resources/css/common-tablet-small.css">
+    <link rel="stylesheet" media="screen and (min-width: 768px) and (max-width: 899.99px)" href="/resources/css/common-tablet-large.css">
+    <link rel="stylesheet" media="screen and (min-width: 900px) and (max-width: 1199.99px)" href="/resources/css/common-monitor-small.css">
+    <link rel="stylesheet" media="screen and (min-width: 1200px)" href="/resources/css/common-monitor-large.css">    
+
+    <!-- Build layout specific styles -->
+    
+    <link rel="stylesheet" href="/resources/css/article-grid.css">
+    
+
+    <!-- Load specific CSS, if required -->
+         
+    <link rel="stylesheet" href="/resources/css/basic-skills.css">
+    
+
+    <script type="text/javascript" src="/resources/js/common.js"></script>
+
+    <!-- Load specific JS, if required -->
+         
+    <script type="text/javascript" src="/resources/js/mouse.js"></script>
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+
+    <script type="text/javascript">
+
+      /* Delegate decision to default template as it can access page variables, JS files can't */
+      function tocRequired(hasAside) {
+
+        
+        buildContents(document.getElementById("article-body"), document.getElementById("toc"), true);
+        
+      }
+
+      /* Delegate decision to default template as it can access page variables, JS files can't */
+      function jsRequired() {
+
+        
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+  
+    <div id="modal" class="modal"></div>
+
+    <div class="container">
+
+      <nav>
+
+        <div class="site-title">
+          <h1>Digi-Stuff</h1>
+          <p>Educational resources for teaching and learning digital skills</p>
+        </div>
+        
+        <a href="#" onclick="toggleMenu();">
+          <img class="menu-button" src="/resources/media/images/interface/menu-button.png">
+        </a>
+        
+        <div id="menu-bar" class="menu-bar">
+          <a href="#" class="button">Home</a>
+          <a href="#" class="button">Courses</a>
+          <a href="#" class="button">Tutorials</a>
+          <a href="#" class="button">Blog</a>
+        </div>
+      
+      </nav>
+
+      <aside>
+  <div id="toc" class="toc">
+    <h1>Table of Contents</h1>
+  </div>
+</aside>
+
+<main>
+
+  <header>
+
+  <h4>Part 4</h4>  
+  <h1>Dragging &amp; Dropping</h1>
+          
+</header>
+
+<article id="article-body">
+          
+  <section>
+          
+    <h3>Section</h3>
+    <h1>What is Dragging &amp; Dropping?</h1>
+          
+    <h2>Graphical User Interfaces</h2>
+          
+    <p>
+      When home computers first became popular, they were operated mainly by keyboard commands. If you wanted to open an application or document, you would have to type in the text commands to do that. You had to remember a lot of commands, and this wasn't always ideal! 
+    </p>
+
+    <p>
+      Then along came the <span class="emphasise">graphical user interface</span>, or <span class="emphasise">GUI</span>, and this made using a computer so much easier. Instead of typing in a text command to open a document, you just pointed your mouse cursor at the file and clicked it.
+    </p>
+
+    <h2>Dragging &amp; Dropping</h2>
+
+    <p>
+      One thing that GUIs brought to the game was <span class="emphasise">dragging and dropping</span>, the process of using a mouse to move something in a computer from one place to another.
+    </p>    
+
+    <p>
+      You drag and drop by clicking on an object, holding down the mouse button, and moving the mouse. When you have moved the object to the right position, let go of the mouse button. You can try it below, move the icons from the left to the corresponding boxes on the right:
+    </p>
+
+    <figure>
+
+      <div>
+
+        <div class="icon-container">
+          <img id="draggable-0" draggable="true" ondragstart="dragStart(event, 0);" class="icon-image" src="./assets/images/chrome-icon.png" />
+        </div>
+
+        <div class="icon-container">
+          <div id="drop-target-0" class="drop-target" ondrop="dropItem(event, 0);" ondragover="allowDrop(event, 0);"></div>
+        </div>
+
+        <img id="tick-image-0" class="tick-image faded-out" src="./assets/images/green-tick.png" />
+
+      </div>
+
+      <div>
+
+        <div class="icon-container">
+          <img id="draggable-1" draggable="true" ondragstart="dragStart(event, 1);" class="icon-image" src="./assets/images/word-icon.png" />
+        </div>
+
+        <div class="icon-container">
+          <div id="drop-target-1" class="drop-target" ondrop="dropItem(event, 1);" ondragover="allowDrop(event, 1);"></div>
+        </div>
+
+        <img id="tick-image-1" class="tick-image faded-out" src="./assets/images/green-tick.png" />
+
+      </div>
+
+      <div>
+
+        <div class="icon-container">
+          <img id="draggable-2" draggable="true" ondragstart="dragStart(event, 2);" class="icon-image" src="./assets/images/folder-icon.png" />
+        </div>
+
+        <div class="icon-container">
+          <div id="drop-target-2" class="drop-target" ondrop="dropItem(event, 2);" ondragover="allowDrop(event, 2);"></div>
+        </div>
+
+        <img id="tick-image-2" class="tick-image faded-out" src="./assets/images/green-tick.png" />
+
+      </div>
+
+      <p>Dragging &amp; Dropping</p>
+
+    </figure>
+
+    <p>
+      Dragging and dropping takes a bit of practice, if you are not comfortable with it, tap the <span class="emphasise">F5</span> key to refresh this page and try again. When you are ready, you can use the links below to move on.
+    </p>
+
+    <div class="link-row">
+      <div><a href="./mouse-3.html">&#8592;&nbsp;Previous Section</a></div>
+      <div><a href="./mouse-5.html">Next Section&nbsp;&#8594;</a></div>
+    </div>
+  
+  </section>
+
+</article>
+
+  
+</main>
+
+      <footer>&copy;&nbsp;Digi-Stuff</footer>
+
+    </div>
+
+  </body>
+
+</html>

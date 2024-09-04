@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Tutorial: Intro to Files & Folders</title>
+
+    <link rel="stylesheet" href="/resources/css/common.css">
+    <link rel="stylesheet" media="screen and (max-width: 419.99px)" href="/resources/css/common-mobile.css">
+    <link rel="stylesheet" media="screen and (min-width: 420px) and (max-width: 767.99px)" href="/resources/css/common-tablet-small.css">
+    <link rel="stylesheet" media="screen and (min-width: 768px) and (max-width: 899.99px)" href="/resources/css/common-tablet-large.css">
+    <link rel="stylesheet" media="screen and (min-width: 900px) and (max-width: 1199.99px)" href="/resources/css/common-monitor-small.css">
+    <link rel="stylesheet" media="screen and (min-width: 1200px)" href="/resources/css/common-monitor-large.css">    
+
+    <!-- Build layout specific styles -->
+    
+    <link rel="stylesheet" href="/resources/css/standard-grid.css">
+    
+
+    <!-- Load specific CSS, if required -->
+         
+    <link rel="stylesheet" href="/resources/css/basic-skills.css">
+    
+
+    <script type="text/javascript" src="/resources/js/common.js"></script>
+
+    <!-- Load specific JS, if required -->
+         
+    <script type="text/javascript" src="/resources/js/files-and-folders.js"></script>
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+
+    <script type="text/javascript">
+
+      /* Delegate decision to default template as it can access page variables, JS files can't */
+      function tocRequired(hasAside) {
+
+        
+        buildContents(document.getElementById("article-body"), document.getElementById("toc"), false);
+        
+      }
+
+      /* Delegate decision to default template as it can access page variables, JS files can't */
+      function jsRequired() {
+
+        
+        pageSpecificInit();
+        
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+  
+    <div id="modal" class="modal"></div>
+
+    <div class="container">
+
+      <nav>
+
+        <div class="site-title">
+          <h1>Digi-Stuff</h1>
+          <p>Educational resources for teaching and learning digital skills</p>
+        </div>
+        
+        <a href="#" onclick="toggleMenu();">
+          <img class="menu-button" src="/resources/media/images/interface/menu-button.png">
+        </a>
+        
+        <div id="menu-bar" class="menu-bar">
+          <a href="#" class="button">Home</a>
+          <a href="#" class="button">Courses</a>
+          <a href="#" class="button">Tutorials</a>
+          <a href="#" class="button">Blog</a>
+        </div>
+      
+      </nav>
+
+      <main>
+
+  <script type="text/javascript">
+
+  let targetFolder = 5;
+  let targetFile = -1;
+  let current = 0;
+
+  function pageSpecificInit() {
+
+    setup();
+    // Separate these to allow additions to basic folder structure
+    buildExplorerView();
+  }
+
+</script>
+
+<header>
+
+  <h4>Part 5</h4>  
+  <h1>Finding Folders 4</h1>
+          
+</header>
+
+<article id="article-body">
+          
+  <section>
+          
+    <div class="console">
+
+      <div class="console-section">   
+      
+        <p>
+          You now need to find and open the <span class="emphasise">Photos</span> folder. To move on, click <span class="emphasise">Next Section</span> to move on.
+        </p>
+
+      </div>
+
+      <div class="console-section">
+
+          <div class="explorer-mock-up">
+            
+            <div class="explorer-up-button" onclick="goUp();">&#8593;</div>
+          
+            <div id="bread-crumbs" class="explorer-bread-crumbs"></div>
+
+            <div id="explorer-content" class="explorer-content"></div>
+
+            <img id="big-tick" class="big-tick-image faded-out" src="./assets/images/green-tick.png" /> 
+
+          </div>  
+
+      </div>
+
+      <div class="console-section">
+        <div id="explorer-position" class="explorer-position"></div>
+        <img class="explorer-map-image" src="./assets/images/folder-structure.png" />
+      </div>
+                
+    </div>
+
+    <!-- Pre-load the icon image -->    
+    <img id="icon-0" style="display: none;" src="./assets/images/folder-icon-explorer.png" /> 
+    
+    <div class="link-row">
+      <div><a href="./files-and-folders-7.html">&#8592;&nbsp;Previous Section</a></div>
+      <div><a href="./files-and-folders-9.html">Next Section&nbsp;&#8594;</a></div>
+    </div>
+
+  </section> 
+
+</article>
+
+  
+</main>
+
+      <footer>&copy;&nbsp;Digi-Stuff</footer>
+
+    </div>
+
+  </body>
+
+</html>

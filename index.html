@@ -1,0 +1,115 @@
+---
+permalink: index.html
+layout: default
+type: home-page
+--- 
+<main>
+
+  <header>
+    
+    <h1>Welcome to How To Tech</h1>
+          
+    <summary>
+      Not Found
+    </summary>
+
+  </header>
+
+  <!--
+  <div class="category-list">
+
+    <h1>Latest courses</h1>
+  
+    {% assign count = 0 %}
+    {% assign courses = site.courses | sort: "date" | reverse %}
+    {% for course in courses %}
+      
+      #Filter any posts that are not published or flagged as latest
+      {% if course.published == true and course.latest == true %}
+
+        <div class="category c{{ count }}">
+          <a href="{{ site.baseurl }}{{ course.url }}" style="background-image: url({{ course.baseurl }}/resources/media/images/covers-course/{{ course.cover }})">
+            <p>{{ course.title }}</p>
+          </a>
+        </div>
+
+        {% assign count = count | plus:1 %}
+
+      {% endif %}
+
+      #Manually manage the count as Jekyll looks in sub-folders
+      {% if count > 3 %}
+        {% break %}
+      {% endif %}      
+  
+    {% endfor %}
+
+    <div class="show-all"><a href="{{ site.baseurl }}content/courses/all.html">View all courses&nbsp;&#8594;</a></div>
+
+  </div>
+
+  <div class="category-list middle-list">
+
+    <h1>Latest tutorials</h1>
+  
+    {% assign count = 0 %}
+    {% assign tutorials = site.tutorials | sort: "date" | reverse %}
+    {% for tutorial in tutorials %}
+      
+      #Filter any posts that are not published or flagged as latest
+      {% if tutorial.published == true and tutorial.latest == true %}
+
+        <div class="category c{{ count }}">
+          <a href="{{ site.baseurl }}{{ tutorial.url }}" style="background-image: url({{ site.baseurl }}/resources/media/images/covers-tutorial/{{ tutorial.cover }})">
+            <p>{{ tutorial.title }}</p>
+          </a>
+        </div>
+
+        {% assign count = count | plus:1 %}
+
+      {% endif %}
+
+      #Manually manage the count as Jekyll looks in sub-folders
+      {% if count > 3 %}
+        {% break %}
+      {% endif %}      
+  
+    {% endfor %}
+
+    <div class="show-all"><a href="{{ site.baseurl }}content/tutorials/all.html">View all tutorials&nbsp;&#8594;</a></div>
+
+  </div>
+
+  <div class="category-list">
+
+    <h1>Latest blogs</h1>
+  
+    {% assign count = 0 %}
+    {% assign blogs = site.blogs | sort: "date" | reverse %}
+    {% for blog in blogs %}
+      
+      #Filter any posts that are not published or flagged as latest
+      {% if blog.published == true and blog.latest == true %}
+
+        <div class="category c{{ count }}">
+          <a href="{{ site.baseurl }}{{ blog.url }}" style="background-image: url({{ site.baseurl }}/resources/media/images/covers-blog/{{ blog.cover }})">
+            <p>{{ blog.title }}</p>
+          </a>
+        </div>
+
+        {% assign count = count | plus:1 %}
+
+      {% endif %}
+
+      #Manually manage the count as Jekyll looks in sub-folders
+      {% if count > 3 %}
+        {% break %}
+      {% endif %}
+
+    {% endfor %}
+
+    <div class="show-all"><a href="{{ site.baseurl }}content/blogs/all.html">View all blogs&nbsp;&#8594;</a></div>
+
+  </div-->
+
+</main>
