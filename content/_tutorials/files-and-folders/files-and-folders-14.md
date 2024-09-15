@@ -50,7 +50,7 @@ jsInit: true
       <div class="console-section">   
       
         <p>
-          Find the <span class="emphasise">text</span> file <span class="emphasise">Error Log</span>. It is in the <span class="emphasise">The Root</span> of the folder structure. Select the file (click on it once), you will see a tick if you have got it right.
+          Find the <span class="emphasise">MP4</span> file <span class="emphasise">Creating Apps</span>. It is a video tutorial, a resource for a planned course. Where might it be stored?
         </p>
 
       </div>
