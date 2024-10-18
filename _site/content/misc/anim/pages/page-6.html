@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Digi-Stuff Resources (www.digi-stuff.co.uk)</title>
+
+    <link rel="stylesheet" type="text/css" href="/global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/global-assets/css/index-pages.css">
+    <link rel="stylesheet" type="text/css" href="/global-assets/css/supplementary.css">
+
+    <!-- Import any page-specific CSS -->
+    
+      <link rel="stylesheet" type="text/css" href="/global-assets/css/misc-animation.css">
+    
+
+    
+      <link rel="stylesheet" type="text/css" href="/global-assets/css/container-page.css">
+    
+      
+    
+
+    <script type="text/javascript" src="/global-assets/js/common.js"></script>
+
+    <!-- Import any page-specific JavaScript -->
+    
+
+    <script type="text/javascript">
+      
+      function init() {
+
+        let colourSelect = document.getElementById("colour-scheme-select");
+        colourSelect.onchange = changeColourScheme;
+        setupColourSchemeSelect(colourSelect);
+
+        // Run any page-specific function
+            
+        
+        let mobileDisc = document.getElementById("mobile-disclaimer");
+        if(mobileDisc !== null) {
+
+          mobileDisc.innerHTML = ("<p>It appears that you are viewing this site on a mobile phone or tablet. Because of this, not every feature will work as intended, and some might not work at all. Feel free to browse, but it is recommended that you use a larger tablet, laptop, or desktop computer when using this site.</p>");
+        }
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+    
+    
+  <div class="container container-page">
+
+
+
+
+  <header id="header">
+
+    <h3 id="sub-title" class="dark-grey">Animation</h3>
+    <h1 id="title" class="uppercase">Keyframes in Action</h1>
+
+  </header>
+
+  <div id="header-options" class="header-options">
+
+    <select id="colour-scheme-select"></select>
+    <a href="../anim-index.html">Home</a>
+    
+  </div>
+    
+  <div class="full-size-content-container"> 
+
+  <p class="page-narrative-header first-content">
+    Animation Between Keyframes
+  </p>
+
+  <div class="anim-container">
+    <div class="circle start-point"></div>
+    <div class="start-label">Start Keyframe</div>
+    <div class="circle end-point"></div>
+    <div class="end-label">End Keyframe</div>
+    <div class="circle movement"></div>
+  </div>
+
+  <p class="narrative-image-label">An example of animation where the keyframes are points of movement</p>
+
+  <div class="anim-container">
+    <div class="circle start-point"></div>
+    <div class="start-label">Start Colour</div>
+    <div class="circle end-point"></div>
+    <div class="end-label">End Colour</div>
+    <div class="colour-changer colour"></div>
+  </div>
+
+  <p class="narrative-image-label">An example of animation where the keyframes are colours</p>
+
+  <div class="anim-container">
+    <div class="circle start-point"></div>
+    <div class="start-label">Start Scale</div>
+    <div class="circle end-point end-scale"></div>
+    <div class="end-label end-scale-label">End Scale</div>
+    <div class="scale-changer scale"></div>    
+  </div>
+
+  <p class="narrative-image-label">An example of animation where the keyframes define different sizes</p>
+
+</div>
+
+
+  <footer id="footer"  class="footer-spacer">
+
+    <div id="footer-0" class="footer-0">
+      
+      
+        <a href="page-5.html" class="custom-button custom-button-back">Previous</a>
+      
+
+    </div>
+    
+    <div id="footer-1" class="footer-1"></div>
+    
+    <div id="footer-2" class="footer-2">
+
+      
+        
+        <a href="finish.html" class="custom-button custom-button-next">Finish</a>
+
+      
+
+    </div>
+
+  </footer>
+
+</div>
+
+  </body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Double Click</title>
+
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/mouse-practice.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+    
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+
+      function init() {
+
+        setupColourSchemeSelect();
+      }
+
+      function dblClickItem(element, index) {
+        
+        let clickImage = document.getElementById("dblclick-image-" + index);
+        clickImage.classList.remove("faded-out");
+        clickImage.classList.add("fade-in-class");
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Using a Mouse</h3>
+      <h1 class="uppercase">Double Click</h1>
+
+      <a class="custom-button home" href="../mouse-practice-index.html">Home</a>
+      <p class="custom-button restart-activity" onclick="restartPage();">Restart</p>
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+      
+      <p class="content-text">To <span class="bold uppercase nc-purple">double-click</span> means to <span class="bold uppercase nc-purple">left</span> click twice on an item quickly. Double-clicking can be tricky when you're not used to it. It is mainly used to open files, folders, and applications.
+
+      <div class="content-tabulator centre-tabulator w-90">
+
+        <div class="tabulated-content w-40">
+
+          <p class="content-text">Try double-clicking on the items to right. You'll know when you have done it correctly as the item will be ticked. Double-clicking takes a bit of practice, so don't worry if you don't get it first time!</p>
+
+        </div><!--
+
+        --><div class="tabulated-content w-10">&nbsp;</div><!--
+        
+        --><div class="tabulated-content w-25">
+
+          <div class="sub-content-tabulator">
+
+            <div class="tabulated-sub-content">
+              <div class="icon-container" ondblclick="dblClickItem(this, 0);">
+                <img class="icon-image" src="../assets/images/chrome-icon.png">
+                <p class="icon-text">Google Chrome</p>
+              </div>
+            </div>
+
+            <div class="tabulated-sub-content">
+
+              <img id="dblclick-image-0" class="tick-image faded-out" src="../assets/images/green-tick.png">
+
+            </div>
+            
+          </div>
+
+          <div class="sub-content-tabulator">
+            
+            <div class="tabulated-sub-content">
+              <div class="icon-container" ondblclick="dblClickItem(this, 1);">
+                <img class="icon-image" src="../assets/images/folder-icon.png">
+                <p class="icon-text">My Documents</p>
+              </div>
+            </div>
+
+            <div class="tabulated-sub-content">
+
+              <img id="dblclick-image-1" class="tick-image faded-out" src="../assets/images/green-tick.png">
+
+            </div>
+            
+          </div>
+
+          <div class="sub-content-tabulator">
+            
+            <div class="tabulated-sub-content">
+              <div class="icon-container" ondblclick="dblClickItem(this, 2);">
+                <img class="icon-image" src="../assets/images/word-icon.png">
+                <p class="icon-text">Microsoft Word</p>
+              </div>
+            </div>
+
+            <div class="tabulated-sub-content">
+
+              <img id="dblclick-image-2" class="tick-image faded-out" src="../assets/images/green-tick.png">
+
+            </div>
+            
+          </div>
+
+        </div>
+    
+      </div>
+
+      <a class="navlink previous" href="right-click.html">Previous</a>
+      <a class="navlink next" href="double-click-2.html">Next</a>
+      
+    </div>
+
+  </body>
+
+</html>

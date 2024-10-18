@@ -1,115 +1,49 @@
 ---
 permalink: index.html
-layout: default
-type: home-page
---- 
-<main>
 
-  <header>
-    
-    <h1>Welcome to How To Tech</h1>
-          
-    <summary>
-      Not Found
-    </summary>
+layout: index-page
 
-  </header>
+title: Welcome to Digi-Stuff
+subtitle: Resources for Digital Learning
+---
 
-  <!--
-  <div class="category-list">
+<div class="full-size-content-container">
 
-    <h1>Latest courses</h1>
+  <div id="mobile-disclaimer" class="mobile-disclaimer"></div>
   
-    {% assign count = 0 %}
-    {% assign courses = site.courses | sort: "date" | reverse %}
-    {% for course in courses %}
-      
-      #Filter any posts that are not published or flagged as latest
-      {% if course.published == true and course.latest == true %}
-
-        <div class="category c{{ count }}">
-          <a href="{{ site.baseurl }}{{ course.url }}" style="background-image: url({{ course.baseurl }}/resources/media/images/covers-course/{{ course.cover }})">
-            <p>{{ course.title }}</p>
-          </a>
-        </div>
-
-        {% assign count = count | plus:1 %}
-
-      {% endif %}
-
-      #Manually manage the count as Jekyll looks in sub-folders
-      {% if count > 3 %}
-        {% break %}
-      {% endif %}      
-  
-    {% endfor %}
-
-    <div class="show-all"><a href="{{ site.baseurl }}content/courses/all.html">View all courses&nbsp;&#8594;</a></div>
-
+  <div class="topic-container">
+    <a class="topic-link" href="content/downloads/downloads-index.html">Course Downloads&nbsp;&nbsp;&nbsp;&#x2192;</a>
+    <p class="topic-description">
+      Download learning resources for your course.
+    </p>
   </div>
 
-  <div class="category-list middle-list">
-
-    <h1>Latest tutorials</h1>
-  
-    {% assign count = 0 %}
-    {% assign tutorials = site.tutorials | sort: "date" | reverse %}
-    {% for tutorial in tutorials %}
-      
-      #Filter any posts that are not published or flagged as latest
-      {% if tutorial.published == true and tutorial.latest == true %}
-
-        <div class="category c{{ count }}">
-          <a href="{{ site.baseurl }}{{ tutorial.url }}" style="background-image: url({{ site.baseurl }}/resources/media/images/covers-tutorial/{{ tutorial.cover }})">
-            <p>{{ tutorial.title }}</p>
-          </a>
-        </div>
-
-        {% assign count = count | plus:1 %}
-
-      {% endif %}
-
-      #Manually manage the count as Jekyll looks in sub-folders
-      {% if count > 3 %}
-        {% break %}
-      {% endif %}      
-  
-    {% endfor %}
-
-    <div class="show-all"><a href="{{ site.baseurl }}content/tutorials/all.html">View all tutorials&nbsp;&#8594;</a></div>
-
+  <div class="topic-container">
+    <a class="topic-link" href="content/ai/ai-index.html">Artificial Intelligence&nbsp;&nbsp;&nbsp;&#x2192;</a>
+    <p class="topic-description">
+      Learn about artificial intelligence; what it is, what it is used for, and where it is headed. These activities will help you get a broader understanding of how AI works, and how it impacts society.     
+    </p>
   </div>
 
-  <div class="category-list">
+  <div class="topic-container">
+    <a class="topic-link" href="content/basic-skills/basic-skills-index.html">Basic Digital Skills&nbsp;&nbsp;&nbsp;&#x2192;</a>
+    <p class="topic-description">
+      Learn about, and practice, basic digital skills such as using a keyboard and mouse, and navigating files and folders. These basic skills will help you work more effectively with computers and provide a platform for further digital learning.
+    </p>
+  </div>
 
-    <h1>Latest blogs</h1>
-  
-    {% assign count = 0 %}
-    {% assign blogs = site.blogs | sort: "date" | reverse %}
-    {% for blog in blogs %}
-      
-      #Filter any posts that are not published or flagged as latest
-      {% if blog.published == true and blog.latest == true %}
+  <div class="topic-container">
+    <a class="topic-link" href="content/dfs/dfs-index.html">Digital Functional Skills&nbsp;&nbsp;&nbsp;&#x2192;</a>
+    <p class="topic-description">
+      Resources for those studying the Digital Functional Skills course. The resources include a practice exam.     
+    </p>
+  </div>
 
-        <div class="category c{{ count }}">
-          <a href="{{ site.baseurl }}{{ blog.url }}" style="background-image: url({{ site.baseurl }}/resources/media/images/covers-blog/{{ blog.cover }})">
-            <p>{{ blog.title }}</p>
-          </a>
-        </div>
+  <div class="topic-container">
+    <a class="topic-link" href="content/misc/misc-index.html">Miscellaneous&nbsp;&nbsp;&nbsp;&#x2192;</a>
+    <p class="topic-description">
+      Miscellaneous resources for different courses.   
+    </p>
+  </div>
 
-        {% assign count = count | plus:1 %}
-
-      {% endif %}
-
-      #Manually manage the count as Jekyll looks in sub-folders
-      {% if count > 3 %}
-        {% break %}
-      {% endif %}
-
-    {% endfor %}
-
-    <div class="show-all"><a href="{{ site.baseurl }}content/blogs/all.html">View all blogs&nbsp;&#8594;</a></div>
-
-  </div-->
-
-</main>
+</div>

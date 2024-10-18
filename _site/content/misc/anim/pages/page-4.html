@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Digi-Stuff Resources (www.digi-stuff.co.uk)</title>
+
+    <link rel="stylesheet" type="text/css" href="/global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/global-assets/css/index-pages.css">
+    <link rel="stylesheet" type="text/css" href="/global-assets/css/supplementary.css">
+
+    <!-- Import any page-specific CSS -->
+    
+      <link rel="stylesheet" type="text/css" href="/global-assets/css/misc-animation.css">
+    
+
+    
+      <link rel="stylesheet" type="text/css" href="/global-assets/css/container-page.css">
+    
+      
+    
+
+    <script type="text/javascript" src="/global-assets/js/common.js"></script>
+
+    <!-- Import any page-specific JavaScript -->
+    
+
+    <script type="text/javascript">
+      
+      function init() {
+
+        let colourSelect = document.getElementById("colour-scheme-select");
+        colourSelect.onchange = changeColourScheme;
+        setupColourSchemeSelect(colourSelect);
+
+        // Run any page-specific function
+            
+        
+        let mobileDisc = document.getElementById("mobile-disclaimer");
+        if(mobileDisc !== null) {
+
+          mobileDisc.innerHTML = ("<p>It appears that you are viewing this site on a mobile phone or tablet. Because of this, not every feature will work as intended, and some might not work at all. Feel free to browse, but it is recommended that you use a larger tablet, laptop, or desktop computer when using this site.</p>");
+        }
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+    
+    
+  <div class="container container-page">
+
+
+
+
+  <header id="header">
+
+    <h3 id="sub-title" class="dark-grey">Animation</h3>
+    <h1 id="title" class="uppercase">Why Does it Work?</h1>
+
+  </header>
+
+  <div id="header-options" class="header-options">
+
+    <select id="colour-scheme-select"></select>
+    <a href="../anim-index.html">Home</a>
+    
+  </div>
+    
+  <div class="full-size-content-container"> 
+
+  <p class="page-narrative first-content">
+    The human eye can only retain images for roughly one-tenth of a second.
+    Because of this, when we see images played quickly, one after the other, our brains blend them into a single moving image.
+    In other words, an animation!
+  </p>
+
+  <p class="page-narrative">
+    However, there are some factors, such as Frame Rates, that make animation more believable.
+  </p>
+
+  <p class="page-narrative-header">
+    Frame Rate
+  </p>
+
+  <p class="page-narrative after-header">  
+    Each image displayed is known as a <span class="bold">Frame</span>, and the number of images shown every second is known as the <span class="bold">Frame Rate</span>. A low frame rate (for example, 12 per second) might make an animation look choppy and unrealistic. Higher frame rates make animation look smoother, to the point where you might actually believe that the pictures are real.  
+  </p>
+
+  <p class="page-narrative">  
+    To give you an idea of how much work is involved in commercial animation, Disney's classic animated films run at a frame rate of 24. That means that there are 24 images (frames) shown every second. The original Jungle Book is about 80 minutes long, meaning there were around 115,000 images created for that film!
+  </p>
+
+</div>
+
+
+  <footer id="footer"  class="footer-spacer">
+
+    <div id="footer-0" class="footer-0">
+      
+      
+        <a href="page-3.html" class="custom-button custom-button-back">Previous</a>
+      
+
+    </div>
+    
+    <div id="footer-1" class="footer-1"></div>
+    
+    <div id="footer-2" class="footer-2">
+
+      
+        
+        <a href="page-5.html" class="custom-button custom-button-next">Next</a>
+
+      
+
+    </div>
+
+  </footer>
+
+</div>
+
+  </body>
+
+</html>

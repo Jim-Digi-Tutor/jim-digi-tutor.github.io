@@ -1,0 +1,53 @@
+---
+layout: default
+---
+
+{% if page.layouttype == nil or page.layouttype == "page" %}
+  <div class="container container-page">
+{% endif %}
+
+{% if page.layouttype != nil and page.layouttype == "console" %}
+  <div class="container container-console">
+{% endif %}
+
+  <header id="header">
+
+    <h3 id="sub-title" class="dark-grey">{{ page.title }}</h3>
+    <h1 id="title" class="uppercase">{{ page.subtitle }}</h1>
+
+  </header>
+
+  <div id="header-options" class="header-options">
+
+    <select id="colour-scheme-select"></select>
+    <a href="{{ page.homelink }}">Home</a>
+    
+  </div>
+    
+  {{ content }}
+
+  <footer id="footer" {% if page.prevlink != nil or page.nextlink != nil %} class="footer-spacer"{% endif %}>
+
+    <div id="footer-0" class="footer-0">
+      
+      {% if page.prevlink != nil %}
+        <a href="{{ page.prevlink }}" class="custom-button custom-button-back">{{ page.prevtext }}</a>
+      {% endif %}
+
+    </div>
+    
+    <div id="footer-1" class="footer-1"></div>
+    
+    <div id="footer-2" class="footer-2">
+
+      {% if page.nextlink != nil %}
+        
+        <a href="{{ page.nextlink }}" class="custom-button custom-button-next">{{ page.nexttext }}</a>
+
+      {% endif %}
+
+    </div>
+
+  </footer>
+
+</div>

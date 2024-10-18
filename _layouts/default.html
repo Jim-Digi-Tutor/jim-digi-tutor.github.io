@@ -1,61 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
   <head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>{{ page.pageTitle }}</title>
 
-    <link rel="stylesheet" href="{{ site.baseurl }}/resources/css/common.css">
-    <link rel="stylesheet" media="screen and (max-width: 419.99px)" href="{{ site.baseurl }}/resources/css/common-mobile.css">
-    <link rel="stylesheet" media="screen and (min-width: 420px) and (max-width: 767.99px)" href="{{ site.baseurl }}/resources/css/common-tablet-small.css">
-    <link rel="stylesheet" media="screen and (min-width: 768px) and (max-width: 899.99px)" href="{{ site.baseurl }}/resources/css/common-tablet-large.css">
-    <link rel="stylesheet" media="screen and (min-width: 900px) and (max-width: 1199.99px)" href="{{ site.baseurl }}/resources/css/common-monitor-small.css">
-    <link rel="stylesheet" media="screen and (min-width: 1200px)" href="{{ site.baseurl }}/resources/css/common-monitor-large.css">    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Build layout specific styles -->
-    {% if page.type == "article" %}
-    <link rel="stylesheet" href="{{ site.baseurl }}/resources/css/article-grid.css">
-    {% else %}
-    <link rel="stylesheet" href="{{ site.baseurl }}/resources/css/standard-grid.css">
+    <title>{{ site.name }}</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/index-pages.css">
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/supplementary.css">
+
+    <!-- Import any page-specific CSS -->
+    {% if page.css != nil %}
+      <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/{{ page.css }}">
     {% endif %}
 
-    <!-- Load specific CSS, if required -->
-    {% if page.css != nil %}     
-    <link rel="stylesheet" href="{{ site.baseurl }}/resources/css/{{ page.css }}.css">
+    {% if page.layouttype == nil or page.layouttype == "page" %}
+      <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/container-page.css">
+    {% endif %}
+      
+    {% if page.layouttype != nil and page.layouttype == "console" %}
+      <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/container-console.css">
     {% endif %}
 
-    <script type="text/javascript" src="{{ site.baseurl }}/resources/js/common.js"></script>
+    <script type="text/javascript" src="{{ site.baseurl }}/global-assets/js/common.js"></script>
 
-    <!-- Load specific JS, if required -->
-    {% if page.js != nil %}     
-    <script type="text/javascript" src="{{ site.baseurl }}/resources/js/{{ page.js }}.js"></script>
-    {% endif %}    
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+    <!-- Import any page-specific JavaScript -->
+    {% if page.js != nil %}
+      <script type="text/javascript" src="{{ site.baseurl }}/global-assets/js/{{ page.js }}"></script>
+    {% endif %}
 
     <script type="text/javascript">
+      
+      function init() {
 
-      /* Delegate decision to default template as it can access page variables, JS files can't */
-      function tocRequired(hasAside) {
+        let colourSelect = document.getElementById("colour-scheme-select");
+        colourSelect.onchange = changeColourScheme;
+        setupColourSchemeSelect(colourSelect);
 
-        {% if page.type == "article" %}
-        buildContents(document.getElementById("article-body"), document.getElementById("toc"), true);
-        {% elsif page.type == "article-no-aside" %}
-        buildContents(document.getElementById("article-body"), document.getElementById("toc"), false);
-        {% endif %}
-      }
+        // Run any page-specific function
+        {% if page.init != nil %}
+          {{ page.init }}();
+        {% endif %}    
+        
+        let mobileDisc = document.getElementById("mobile-disclaimer");
+        if(mobileDisc !== null) {
 
-      /* Delegate decision to default template as it can access page variables, JS files can't */
-      function jsRequired() {
-
-        {% if page.jsInit != nil and page.jsInit == true %}
-        pageSpecificInit();
-        {% endif %}
+          mobileDisc.innerHTML = ("<p>It appears that you are viewing this site on a mobile phone or tablet. Because of this, not every feature will work as intended, and some might not work at all. Feel free to browse, but it is recommended that you use a larger tablet, laptop, or desktop computer when using this site.</p>");
+        }
       }
 
     </script>
@@ -63,36 +57,8 @@
   </head>
 
   <body onload="init();">
-  
-    <div id="modal" class="modal"></div>
-
-    <div class="container">
-
-      <nav>
-
-        <div class="site-title">
-          <h1>Digi-Stuff</h1>
-          <p>Educational resources for teaching and learning digital skills</p>
-        </div>
-        
-        <a href="#" onclick="toggleMenu();">
-          <img class="menu-button" src="{{ site.baseurl }}/resources/media/images/interface/menu-button.png">
-        </a>
-        
-        <div id="menu-bar" class="menu-bar">
-          <a href="#" class="button">Home</a>
-          <a href="#" class="button">Courses</a>
-          <a href="#" class="button">Tutorials</a>
-          <a href="#" class="button">Blog</a>
-        </div>
-      
-      </nav>
-
-      {{ content }}
-
-      <footer>&copy;&nbsp;Digi-Stuff</footer>
-
-    </div>
+    
+    {{ content }}
 
   </body>
 

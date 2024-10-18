@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Task 6", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "task-5.html", backText: "Previous", nextButton: "question-1.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+      function manageImageClick(index) {
+
+        //console.log(event.target.naturalWidth);
+        //console.log(event.target.clientWidth);
+
+        let marker = null;
+        if(!document.getElementById("marker-" + index))  
+          marker = createElement("div", ("marker-" + index), "task-6-marker", null, null, event.target.parentNode);
+        else
+          marker = document.getElementById("marker-" + index);
+
+        let markerWidth = removePx(getCssVariable("--t-6-marker-width"));
+        let markerHeight = removePx(getCssVariable("--t-6-marker-height"));
+        let normalX = (event.pageX - Math.floor(markerWidth / 2));
+        let normalY = (event.pageY - Math.floor(markerHeight / 2));
+        let x = (normalX - event.target.parentNode.offsetLeft);
+        let y = (normalY - event.target.parentNode.offsetTop);
+        marker.style.left = (((x / event.target.clientWidth) * 100).toFixed(1) + "%");
+        marker.style.top = (((y / event.target.clientHeight) * 100).toFixed(1) + "%");
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+
+        <p class="section-heading no-top-margin">Task 6 (5 Marks)</p>
+        <p class="section-emphasis">Suggested Time for Task 6: 10 minutes</p>
+
+        <p class="section-text">Your manager wants to talk to you about the meeting.</p>
+        <p class="section-text">She sends you an invite for a video call.</p>
+        <p class="section-text"><span class="bold">a)</span> Show where you would click to <span class="bold">Start the Call</span>.</p>
+        <p class="section-text">Click in the correct place on the image below. (1 mark)</p>
+
+        <div class="task-6-image-container">
+          <img class="task-6-image" onclick="manageImageClick(0);" src="../assets/images/teams-start.png">
+        </div>
+
+        <p class="section-text"><span class="bold">b)</span> Your manager asks you a question.</p>
+        <p class="section-text">Show where you would click to <span class="bold">Take Yourself Off Mute</span> so that you can answer him.</p>
+        <p class="section-text">Click in the correct place on the image below. (1 mark)</p>
+
+        <div class="task-6-image-container">
+          <img class="task-6-image" onclick="manageImageClick(1);" src="../assets/images/teams-mute.png">
+        </div>
+
+        <p class="section-text"><span class="bold">c)</span> Your manager wants you to send him the address of the meeting venue.</p>
+        <p class="section-text">Show where you would click to <span class="bold">Send Him a Message</span> during the call.</p>
+        <p class="section-text">Click in the correct place on the image below. (1 mark)</p>
+
+        <div class="task-6-image-container">
+          <img class="task-6-image" onclick="manageImageClick(2);" src="../assets/images/teams-message.png">
+        </div>
+
+        <p class="section-text">You need to change some of your settings on your mobile device.</p>
+        <p class="section-text"><span class="bold">d)</span> Click on the image below to show where you would press to <span class="bold">Increase the Volume</span>. (1 mark)</p>
+
+        <div class="task-6-image-container-phone">
+          <img class="task-6-image" onclick="manageImageClick(3);" src="../assets/images/phone-volume.png">
+        </div>
+
+        <p class="section-text"><span class="bold">d)</span> Click on the image below to show where you would press to <span class="bold">Switch on the Wi-Fi</span>. (1 mark)</p>
+
+        <div class="task-6-image-container-phone">
+          <img class="task-6-image" onclick="manageImageClick(4);" src="../assets/images/phone-wifi.png">
+        </div>
+
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Task 6</span> press <span class="bold italic">Next</span>.</p>
+
+      </div>
+      
+      <footer id="footer" class="footer-console">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

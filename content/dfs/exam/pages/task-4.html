@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Task 4", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "task-3.html", backText: "Previous", nextButton: "task-5.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+
+        <p class="section-heading no-top-margin">Task 4 (7 Marks)</p>
+        <p class="section-emphasis">Suggested Time for Task 4: 20 minutes</p>
+
+        <p class="section-text">Download the <span class="bold">Lunch Menu</span> and the <span class="bold">Task 4 File</span>.</p>
+        <p class="section-text">Save both files in your <span class="bold">Tasks</span> folder.</p>
+
+        <p class="section-text"><span class="bold">a)</span> Open your email software and prepare a new email. (1 mark)</p>
+        <p class="section-text"><span class="bold">b)</span> Address the email to your manager at <span class="bold">jsmith@digi-stuff.co.uk</span>. (1 mark)</p>
+        <p class="section-text"><span class="bold">c)</span> CC to <span class="bold">fbloggs@digi-stuff.co.uk</span>. (1 mark)</p>
+        <p class="section-text"><span class="bold">d)</span> Add the subject heading <span class="bold">Lunch Menu</span>. (1 mark)</p>
+        <p class="section-text"><span class="bold">e)</span> Attach the <span class="bold">Lunch Menu</span> file. (1 mark)</p>
+        <p class="section-text"><span class="bold">f)</span> Inform your manager that you have found a venue. Ask them to select which lunch menu option they would prefer you to order from the list attached. (1 mark)</p>
+        <p class="section-text">(You <span class="bold uppercase">do not</span> need to send the email).</p>
+
+        <p class="section-text">Take a screenshot of the finished email. Paste this into your <span class="bold">Task 4 File</span>.</p>
+        <p class="section-text"><span class="bold">g)</span> Add your manager's name (John Smith) and email address (jsmith@digi-stuff.co.uk) as a new contact in your address book. (1 mark)</p>
+        <p class="section-text">Take a screenshot of the updated address book. Paste this into your <span class="bold">Task 4 File</span>.</p>
+        <p class="section-text">Save your <span class="bold">Task 4 File</span>.</p>
+        <p class="section-text">Upload your finished file by using the <span class="bold">Upload</span> button below.</p>
+
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Task 4</span> press <span class="bold italic">Next</span>.</p>
+
+        <div class="button-container">
+        
+          <a href="..\assets\files\52562634-Lunch.docx" class="download-button" download>Lunch Menu</a>
+          <a href="..\assets\files\32567982-T-4.docx" class="download-button" download>Task 4 File</a>
+
+          <label for="file-upload" class="custom-upload">
+            Upload
+            <input type="file" class="custom-upload" id="file-upload">
+          </label>
+
+        </div>
+
+      </div>
+      
+      <footer id="footer" class="footer-console">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

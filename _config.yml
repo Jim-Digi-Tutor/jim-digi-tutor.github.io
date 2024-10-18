@@ -3,7 +3,7 @@
 #
 
 # Name of your site (displayed in the header)
-name: The Wentworth Castle Trust
+name: Digi-Stuff Resources (www.digi-stuff.co.uk)
 
 # Short bio or description (displayed in the header)
 description:
@@ -84,38 +84,3 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
-
-collections_dir: content
-collections:
-  courses:
-    output: true
-  tutorials:
-    output: true
-  blogs:
-    output: true
-
-#article_tags:
-#  - history:
-#    tag_id: "history"
-#    tag_name: "History"
-#    class_name: "cat-1"
-#    image_file: "parchment.jpg"
-#    description: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa #quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-#  - buildings:
-#    tag_id: "building" 
-#    tag_name: "The Building"
-#    class_name: "cat-2"
-#    image_file: "room.jpg"
-#    description: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa #quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-#  - grounds:
-#    tag_id: "grounds"
-#    tag_name: "The Grounds"
-##    class_name: "cat-3"
-#    image_file: "sc-cat.jpg"
-#    description: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa #quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-#  - people:
- #   tag_id: "people"
- #   tag_name: "People"
-#    class_name: "cat-4"
-#    image_file: "tw.jpg"
-#    description: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa #quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
