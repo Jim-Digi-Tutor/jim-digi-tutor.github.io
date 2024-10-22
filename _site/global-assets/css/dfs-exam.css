@@ -43,6 +43,19 @@
 	margin: 0 0 1rem 0;
 }
 
+.full-size-content-container ol, .full-size-content-container ul {
+
+	margin: 0 0 1rem 3rem;
+}
+
+.full-size-content-container ol li, .full-size-content-container ul li {
+
+	font-size: 1.2rem;
+	line-height: 1.5;
+	margin: 0 0 1rem 3rem;
+
+}
+
 .section-emphasis {
 
 	font-size: 1.2rem;
@@ -101,6 +114,30 @@
 	border: solid 2px var(--emphasis-text-colour);
 	margin: 2rem 0 2rem 0;
 	display: block;
+}
+
+.cc-table {
+
+	width: 65%;
+	border: solid 1px black;
+	margin: 2rem 0 2rem 0;
+}
+
+.cc-table .header-row {
+
+	font-size: 1.2rem;
+	font-weight: bold;
+	text-align: center;
+	border: solid 1px black;
+	padding: 0.5rem;
+}
+
+.cc-table .content-row {
+
+	font-size: 1rem;
+	text-align: center;
+	border: solid 1px black;
+	padding: 0.5rem;
 }
 
 .task-5-table {
