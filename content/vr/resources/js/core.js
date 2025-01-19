@@ -2,6 +2,8 @@
 // We can use them in our code
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { MTLLoader } from "three/addons/loaders/MTLLoader.js";
 
 // Imports the code from the loop.js and setup.js JavaScript files
 // When we need to use the code, we can now use the references LOOP and SETUP
@@ -59,7 +61,9 @@ export class Engine {
   player;     // Visual representation of the player's "footprint" for determining collisions
   playerBox;  // Data representation of the player's "footprint" for determining collisions
   
-  loader;     // The GLTF loader used to load the 3D models
+  gltfLoader;     // The GLTF loader used to load the 3D models
+  objLoader;
+  mtlLoader;
 
           
   movementSpeed = 0.025;  // The speed the player moves at
@@ -144,55 +148,9 @@ export class Engine {
 
     // Place the dolly at the start tile for the player
     this.placeObjectAtTile(this.dolly, this.playerStart, null);
-    
-    // The player object is a visible mesh that follows the position of the player
-    // It is a represenation of the space the player takes up in the environment (their footprint)
-    // It isn't essential, but it helps us visualise where the player is when checking for collisions
-    // The playerBox is essential, you won't see it, but it is used to calculate collisions
-    // It follows the player, if the playerBox bumps into something, the player has also bumped into it
-    //let p = Setup.buildPlayer();
-    //this.player = p[0];
-    //this.playerBox = p[1];
-    //this.scene.add(this.player);
 
     this.interactionManager = new InteractionManager(this, Settings.INTERACTION_MODE_GAZE);
     this.movementManager = new MovementManager(this, Settings.MOVEMENT_MODE_CUSTOM_TELEPORT);    
-
-    // Position the player at the start tile
-    //this.placeObjectAtTile(this.player, this.playerStart, null);
-
-    // Build the controllers using the buildController function in SETUP
-    // Create and add the controllers; add event listeners
-    //this.controller0 = null;
-    //this.controller0 = SETUP.buildController(0, this.renderer, this.scene, this.pickDistance);
-    //this.controller1 = null;
-    //this.controller1 = SETUP.buildController(1, this.renderer, this.scene, this.pickDistance);
-
-    // The code below adds event listeners to our controllers
-    // We only add them to the right-hand controller, but you could add them to the left-hand controller
-    // selectstart and selectend run when the controller finger-trigger is first pressed, then released
-    // When the trigger is pressed, the selectStartController1 in LOOP is called
-    // When the trigger is released, the selectEndController1 in LOOP is called
-    //this.controller1.controller.addEventListener("selectstart", LOOP.selectStartController1.bind(this, this));
-    //this.controller1.controller.addEventListener("selectend", LOOP.selectEndController1.bind(this, this)); 
-
-    // Configure the raycaster for the left-hand controller (zero)
-    this.raycaster0 = new THREE.Raycaster();
-    this.raycaster0.near = 0;
-    this.raycaster0.far = this.pickDistance;
-    this.tempMatrix0 = new THREE.Matrix4();
-    this.picked0 = { obj: null, dist: 999 };
-    this.selected0 = { obj: null, dist: 999 };
-
-
-    let lineMat = new THREE.LineBasicMaterial({ color: 0x00ff00 }); // Green line
-    let lineGeo = new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(0, 0, 0), // Start point (origin)
-      new THREE.Vector3(0, 0, -1) // End point (1 unit forward)
-    ]);
-    
-    this.gazeLine = new THREE.Line(lineGeo, lineMat);
-    this.scene.add(this.gazeLine);
 
     // Add a grid-helper at the floor level
     const gridHelper = new THREE.GridHelper(40, 20, 0xff0000, 0x004400);
@@ -219,10 +177,12 @@ export class Engine {
     this.scene.add(this.finishLight);
 
     // Initialise the GLTF loader that loads the 3D models
-    this.loader = new GLTFLoader();
+    this.gltfLoader = new GLTFLoader();
+    this.objLoader = new OBJLoader();
+    this.mtlLoader = new MTLLoader();
 
     // Call the SETUP function that loads all of the models and places them in the environment
-    SETUP.loadModels(this);
+    //SETUP.loadModels(this);
 
     let texLoader = new THREE.TextureLoader();
     let texture = texLoader.load("./textures/test-texture.png");
@@ -230,35 +190,119 @@ export class Engine {
     let geometry = new THREE.BoxGeometry(2, 2, 2); 
     let cube = new THREE.Mesh(geometry, material);
     cube.material.side = THREE.DoubleSide;
+
+    //static MODEL_TYPE_3D_BUILDER_OBJ = 0;
+    //static MODEL_TYPE_THREE_MESH = 1;
+    //static MODEL_TYPE_TINKERCAD_GLB = 2;
     
+    let prop1 = { DestroyOnSelect: true };
+    let int1 = new Interactable(this.interactionManager, 101, Settings.INTERACTABLE_TYPE_STANDARD, cube, Settings.MODEL_TYPE_THREE_MESH, prop1);
+    cube.userData.id = 101;
+    cube.userData.type = Settings.MODEL_TYPE_THREE_MESH;
+    this.interactionManager.interactableData.push(int1);
+    this.interactionManager.interactableModels.push(cube);
     this.placeObjectAtTile(cube, 371, [ 0, 0.5, 0 ]);
     this.scene.add(cube);
-    this.interactionManager.addInteractable(99, Settings.INTERACTABLE_TYPE_STANDARD, cube, Settings.MODEL_TYPE_THREE_MESH);
+  
     
-    let texture2 = texLoader.load("./textures/test-texture.png");
-    let material2 = new THREE.MeshLambertMaterial( { map: texture2 } );
-    let geometry2 = new THREE.BoxGeometry(2, 2, 2); 
-    let cube2 = new THREE.Mesh(geometry2, material2);
-    cube2.material.side = THREE.DoubleSide;
     
-    this.placeObjectAtTile(cube2, 351, [ 0, 0.5, 0 ]);
-    this.scene.add(cube2);    
-    this.interactionManager.addInteractable(101, Settings.INTERACTABLE_TYPE_STANDARD, cube2, Settings.MODEL_TYPE_THREE_MESH);
+    
+    this.load3dBuilderObj("./models/test-obj/test-obj", 99, Settings.INTERACTABLE_TYPE_STANDARD, 288, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: true });
+    this.loadTinkercadGlb("./models/silver-key.glb", 25, Settings.INTERACTABLE_TYPE_STANDARD, 344, [0, 1, 0], [0, 0, 0], [1.5, 1.5, 1.5], true, { DestroyOnSelect: true });
+    this.loadTinkercadGlb("./models/test.glb", 51, Settings.INTERACTABLE_TYPE_STANDARD, 304, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: true });
 
-    
-
-    // Add a basic object to the scene (e.g., a cube)
-    //const geometry1 = new THREE.SphereGeometry(0.01);
-    //const material1 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    //this.tempBox = new THREE.Mesh(geometry1, material1);
-    //this.scene.add(this.tempBox);
-
-    
-    
 
     // Ask the renderer to start the animation loop by calling the animate function
     this.renderer.setAnimationLoop(this.animate.bind(this));  
 
+  }
+
+  load3dBuilderObj(filename, id, type, tile, offset, rotate, scale, addToScene, properties) {
+    
+    this.mtlLoader.load(
+      (filename + ".mtl"), // Path to your .mtl file
+      function(materials) {
+          materials.preload(); // Preload the materials
+          this.objLoader.setMaterials(materials); // Apply materials to OBJLoader
+          
+          this.objLoader.load((filename + ".obj"),
+          
+            function(model) {
+            
+              model.userData.id = id;
+              model.userData.type = Settings.MODEL_TYPE_3D_BUILDER_OBJ;
+              
+              this.interactionManager.interactableData.push(
+                new Interactable(this.interactionManager, id, type, model, Settings.MODEL_TYPE_3D_BUILDER_OBJ, properties)
+              );
+
+              this.interactionManager.interactableModels.push(model);
+
+              if(addToScene)
+                this.scene.add(model);
+                        
+              this.placeObjectAtTile(model, tile, offset);
+              model.rotation.x = THREE.MathUtils.degToRad(rotate[0]);
+              model.rotation.y = THREE.MathUtils.degToRad(rotate[1]);
+              model.rotation.z = THREE.MathUtils.degToRad(rotate[2]);              
+              model.scale.set( scale[0], scale[1], scale[2] ); 
+              
+            }.bind(this),
+
+              (xhr) => {
+                  console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+              },
+              (error) => {
+                  console.error('An error occurred:', error);
+              }
+          );
+      }.bind(this),
+      (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + '% loaded (materials)');
+      },
+      (error) => {
+          console.error('An error occurred while loading materials:', error);
+      }
+    );
+  }
+
+  loadTinkercadGlb(filename, id, type, tile, offset, rotate, scale, addToScene, properties) {
+
+    this.gltfLoader.load(filename,
+               
+      function(gltf) {
+            
+        let model = gltf.scene;
+
+        model.userData.id = id;
+        model.userData.type = Settings.MODEL_TYPE_TINKERCAD_GLB;
+        
+        this.interactionManager.interactableData.push(
+          new Interactable(this.interactionManager, id, type, model, Settings.MODEL_TYPE_TINKERCAD_GLB, properties)
+        );
+
+        this.interactionManager.interactableModels.push(model);
+
+        if(addToScene)
+          this.scene.add(model);
+                  
+        this.placeObjectAtTile(model, tile, offset);
+        model.rotation.x = THREE.MathUtils.degToRad(rotate[0]);
+        model.rotation.y = THREE.MathUtils.degToRad(rotate[1]);
+        model.rotation.z = THREE.MathUtils.degToRad(rotate[2]);              
+        model.scale.set( scale[0], scale[1], scale[2] ); 
+        
+      }.bind(this),
+               
+      undefined,
+               
+      function(error) {
+      
+        console.error("An error occurred loading the GLTF model: ", error);
+      }   
+    );
+
+    return null;
   }
 
   sessionEnded() {
@@ -280,12 +324,7 @@ export class Engine {
     });
   }
 
-  /**
-   * This function loads a GLTF model, such as one exported from Tinkercad
-   * As parameters, it takes a filename, it’s position in the scene (pos), a rotation (rot), and scale
-   * It also takes details of the array it is to be added (addTo) and any properties it should have
-   */
-  loadModel(filename, pos, rot, scale, addTo, properties) {
+  /*loadModel(filename, pos, rot, scale, addTo, properties) {
 
     this.loader.load(filename,
                
@@ -343,7 +382,7 @@ export class Engine {
     );
 
     return null;
-  }
+  }*/
 
   /**
    * This function places an object on a given tile (specified by the tile parameter)

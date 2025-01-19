@@ -30,6 +30,8 @@ export class InteractionManager {
 
   constructor(eng, mode) {
 
+    console.error("Alert... Alert... Alert...");
+
     this.engine = eng; 
     this.mode = mode;
     this.interactableData = [];
@@ -54,12 +56,13 @@ export class InteractionManager {
     }
   }
 
-  addInteractable(id, type, model, modelType) {
+  addInteractable(id, type, model, modelType, attributes) {
 
     model.userData.id = id;
-    let interactable = new Interactable(this, id, type, model, modelType);
+    console.log(model)
+    let interactable = new Interactable(this, id, type, model.scene, modelType, attributes);
     this.interactableData.push(interactable);
-    this.interactableModels.push(model);
+    this.interactableModels.push(model.scene);
   }
 
   buildController(index, renderer, scene, pickDistance) {
@@ -108,12 +111,15 @@ export class InteractionManager {
 
   castGaze() {
 
+    let scene = this.engine.scene;
     let cam = this.engine.camera;
     let scale = this.engine.scale;
     let renderer = this.engine.renderer;
     let tempMatrix = this.gazeMatrix;
     let raycaster = this.gazecaster;
     let interactables = this.interactableModels;
+    
+    scene.updateMatrixWorld();
     
     // Calculate the position of the gazePointer
     let dir = new THREE.Vector3();
@@ -137,14 +143,31 @@ export class InteractionManager {
     raycaster.ray.origin.setFromMatrixPosition(xrCam.matrixWorld);
     raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
     
+    //console.log("START RAY")
+    
     // Perform raycasting to check intersections with objects in the scene
     let intersects = raycaster.intersectObjects(interactables);
     if(intersects.length > 0) {
-    
+      
+      
       let object = intersects[0].object;
       let distance = intersects[0].distance;
-      let data = this.getInteractableData(object.userData.id); 
-      let checkDistance = Settings.pickDistance * this.engine.scale;
+
+            ///**********
+      // Tinkercad GLB: parent.parent.userData
+      // Three Mesh: userData 
+      // 3D Builder OBJ : parent.userData;
+      let id = -1;
+      if(object.userData.hasOwnProperty("id"))  // Three.JS Mesh
+        id = object.userData.id;
+      else if(object.parent.userData.hasOwnProperty("id"))  // 3DBuilder OBJ
+        id = object.parent.userData.id;
+      else if(object.parent.parent.userData.hasOwnProperty("id")) // Tinkercad GLB
+        id = object.parent.parent.userData.id;
+      
+      let data = this.getInteractableData(id); 
+      let checkDistance = (Settings.pickDistance * scale);
+      
       if(data !== null && distance <= checkDistance) {
         
         this.managePick(data);
@@ -159,7 +182,7 @@ export class InteractionManager {
       }
     }
 
-    console.log("GAZE: " + this.gazePicked);
+    //console.log("Current Gaze Target: ", this.gazePicked);
   }
 
   managePick(data) {
@@ -176,6 +199,14 @@ export class InteractionManager {
         this.gazePicked.onUnPicked();
         this.gazePicked = data;
         this.gazePicked.onPicked();
+      
+      } else if(this.gazePicked.id === data.id) {
+
+        if(this.gazePicked.tick()) {
+
+          this.gazePicked.onSelected();
+          this.gazePicked = null;
+        }
       }
     }
   }
@@ -200,6 +231,101 @@ export class InteractionManager {
 
     return null;
   }
+
+  destroyInteractable(id) {
+
+    this.removeModel(id);
+    this.removeData(id);
+  }
+
+  removeModel(id) {
+
+    let models = this.interactableModels;
+    for(let a = 0; a < models.length; a++) {
+
+      let data = null;
+      if(models[a].userData.hasOwnProperty("id")) {
+
+        data = models[a].userData;
+
+      } else if(models[a].userData.parent.hasOwnProperty("id")) {
+        
+        data = models[a].parent.userData;
+
+      } else if(models[a].userData.parent.parent.hasOwnProperty("id")) {
+
+        data = models[a].parent.parent.userData;
+      }
+      
+      if(data.id === id) {
+
+        let obj = models[a];
+
+        if(data.type === Settings.MODEL_TYPE_3D_BUILDER_OBJ) {
+
+          for(let a = 0; a < obj.children[0].material[0]; a++) {
+
+            obj.children[0].material[a].dispose();
+            obj.children[0].material[a] = null;
+          } 
+
+          for(let a = 0; a < obj.children[0].geometry[0]; a++) {
+
+            obj.children[0].geometry[a].dispose();
+            obj.children[0].geometry[a] = null;
+          } 
+
+          obj.children[0].removeFromParent();
+          obj.children[0] = null;          
+          obj.removeFromParent();
+          obj = null;          
+
+        } else if(data.type === Settings.MODEL_TYPE_THREE_MESH) {
+
+          obj.geometry.dispose();
+          obj.geometry = null;
+          obj.material.dispose();
+          obj.material = null;
+          obj.removeFromParent();
+          obj = null;
+        
+        } else if(data.type === Settings.MODEL_TYPE_TINKERCAD_GLB) {
+
+          obj.children[0].children[0].geometry.dispose();
+          obj.children[0].children[0].geometry = null;
+          obj.children[0].children[0].material.dispose();
+          obj.children[0].children[0].material = null;
+          obj.children[0].children[0].removeFromParent();
+          obj.children[0].children[0] = null;
+          obj.children[0].removeFromParent();
+          obj.children[0] = null;          
+          obj.removeFromParent();
+          obj = null;
+        }
+
+        models.splice(a, 1);
+        return true;
+      }
+    }   
+    
+    return false;
+  }
+
+  removeData(id) {
+
+    let data = this.interactableData;
+    for(let a = 0; a < data.length; a++) {
+
+      if(data[a].id === id) {
+
+        data[a] = null;
+        data.splice(a, 1);
+        return true;
+      }
+    }   
+    
+    return false;
+  }
 }
 
 export class Interactable {
@@ -209,29 +335,75 @@ export class Interactable {
   type;
   model;
   modelType;
+  attributes;
 
-  constructor(manager, id, type, model, modelType) {
+  pickedAt;
+
+  constructor(manager, id, type, model, modelType, attributes) {
 
     this.manager = manager;
     this.id = id;
     this.type = type;
     this.model = model;
     this.modelType = modelType;
+    this.attributes = attributes;
+
+    this.pickedAt = -1;
+  }
+
+  tick() {
+
+    let now = Date.now();
+    let duration = (now - this.pickedAt);
+    let percent = (100 - Math.round((duration / Settings.pickTimer) * 100));
+    let rgb = ("rgb(" + percent + "%, 100%, " + percent + "%)");
+    
+    if(this.modelType === Settings.MODEL_TYPE_3D_BUILDER_OBJ)
+      this.model.children[0].material[0].emissive = new THREE.Color(rgb);
+    else if(this.modelType === Settings.MODEL_TYPE_THREE_MESH)
+      this.model.material.emissive = new THREE.Color(rgb);
+    else if(this.modelType === Settings.MODEL_TYPE_TINKERCAD_GLB)
+      this.model.children[0].children[0].material.emissive = new THREE.Color(rgb);
+
+    return (duration > Settings.pickTimer);
   }
 
   onPicked() {
 
-    this.model.material.emissive = new THREE.Color(0xffffff);
-    this.model.material.emissiveIntensity = 0.2;
-    console.log(this.id);
+    this.pickedAt = Date.now();
+    if(this.modelType === Settings.MODEL_TYPE_3D_BUILDER_OBJ) {
+
+      this.model.children[0].material[0].emissive = new THREE.Color("rgb(100%, 100%, 100%)");
+      this.model.children[0].material[0].emissiveIntensity = 0.2;
+
+    } else if(this.modelType === Settings.MODEL_TYPE_THREE_MESH) {
+
+      this.model.material.emissive = new THREE.Color("rgb(100%, 100%, 100%)");
+      this.model.material.emissiveIntensity = 0.2;
+
+    } else if(this.modelType === Settings.MODEL_TYPE_TINKERCAD_GLB) {
+
+      this.model.children[0].children[0].material.emissive = new THREE.Color("rgb(100%, 100%, 100%)");
+      this.model.children[0].children[0].material.emissiveIntensity = 0.2;
+    }
   }
 
   onUnPicked() {
 
-    this.model.material.emissive = new THREE.Color(0x000000);
+    this.pickedAt = -1;
+
+    if(this.modelType === Settings.MODEL_TYPE_3D_BUILDER_OBJ)
+      this.model.children[0].material[0].emissive = new THREE.Color("rgb(0%, 0%, 0%)");
+    else if(this.modelType === Settings.MODEL_TYPE_THREE_MESH)
+      this.model.material.emissive = new THREE.Color("rgb(0%, 0%, 0%)");
+    else if(this.modelType === Settings.MODEL_TYPE_TINKERCAD_GLB)
+      this.model.children[0].children[0].material.emissive = new THREE.Color("rgb(0%, 0%, 0%)");
   }
 
   onSelected() {
 
+    let att = this.attributes;
+    if(att.hasOwnProperty("DestroyOnSelect") && att.DestroyOnSelect)
+      this.manager.destroyInteractable(this.id);
   }
 }

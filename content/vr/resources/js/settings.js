@@ -8,6 +8,8 @@ export class Settings {
   static baseScale = 1;
 
   static pickDistance = 10;
+  static pickTimer = 2000;
+  static pickIncrements = 10;
   
   static INTERACTION_MODE_CONTROLLER_DUAL = 0;
   static INTERACTION_MODE_CONTROLLER_SINGLE = 1;
@@ -17,8 +19,9 @@ export class Settings {
 
   static INTERACTABLE_TYPE_STANDARD = 0;
   
-  static MODEL_TYPE_THREE_MESH = 0;
-  static MODEL_TYPE_TINKERCAD_GLB = 1;
+  static MODEL_TYPE_3D_BUILDER_OBJ = 0;
+  static MODEL_TYPE_THREE_MESH = 1;
+  static MODEL_TYPE_TINKERCAD_GLB = 2;
 
   constructor() {}
 
