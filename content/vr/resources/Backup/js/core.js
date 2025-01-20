@@ -7,9 +7,8 @@ import { MTLLoader } from "three/addons/loaders/MTLLoader.js";
 
 // Imports the code from the loop.js and setup.js JavaScript files
 // When we need to use the code, we can now use the references LOOP and SETUP
-import { Avatar } from "./avatar.js";
 import { InteractionManager, Interactable } from "./interaction.js";
-import { CustomTeleportMovementManager } from "./movement.js";
+import { MovementManager, Collidable } from "./movement.js";
 import { Settings } from "./settings.js";
 import { Setup } from "./setup.js";
 
@@ -42,7 +41,6 @@ export class Engine {
   scale;
 
   // Declare the various manager objects
-  avatar;
   interactionManager;
   movementManager;
 
@@ -56,7 +54,8 @@ export class Engine {
   // However, it is used in the calculations for player movement, so it is important
   cameraVector;
   
-
+  // The dungeon tile on which the player begins
+  playerStart = 348;  
 
   dolly;      // A "virtual carriage" used to move the camera and controllers within the game
   player;     // Visual representation of the player's "footprint" for determining collisions
@@ -140,11 +139,7 @@ export class Engine {
     this.setupWebGLLayer().then(() => { this.renderer.xr.setSession(this.vrSession); });    
 
     this.scale = 2; //Setup.calculateScale(this.renderer, this.camera);
-
-    this.avatar = new Avatar();
-    this.interactionManager = new InteractionManager(this, Settings.INTERACTION_MODE_GAZE);
-    this.movementManager = new CustomTeleportMovementManager(this, Settings.MOVEMENT_MODE_CUSTOM_TELEPORT);    
-
+    
     // The dolly is a "virtual carriage" that stores the camera and controllers within the envionment
     // Basically, it allows us to move the camera and controllers in one go, rather than individually
     this.cameraVector = new THREE.Vector3();
@@ -152,7 +147,10 @@ export class Engine {
     this.scene.add(this.dolly);
 
     // Place the dolly at the start tile for the player
-    this.placeObjectAtTile(this.dolly, this.avatar.position, null);
+    this.placeObjectAtTile(this.dolly, this.playerStart, null);
+
+    this.interactionManager = new InteractionManager(this, Settings.INTERACTION_MODE_GAZE);
+    this.movementManager = new MovementManager(this, Settings.MOVEMENT_MODE_CUSTOM_TELEPORT);    
 
     // Add a grid-helper at the floor level
     const gridHelper = new THREE.GridHelper(40, 20, 0xff0000, 0x004400);
@@ -197,8 +195,6 @@ export class Engine {
     //static MODEL_TYPE_THREE_MESH = 1;
     //static MODEL_TYPE_TINKERCAD_GLB = 2;
     
-    
-
     let prop1 = { DestroyOnSelect: true };
     let int1 = new Interactable(this.interactionManager, 101, Settings.INTERACTABLE_TYPE_STANDARD, cube, Settings.MODEL_TYPE_THREE_MESH, prop1);
     cube.userData.id = 101;
@@ -211,29 +207,13 @@ export class Engine {
     
     
     
-    //this.load3dBuilderObj("./models/test-obj/test-obj", 99, Settings.INTERACTABLE_TYPE_STANDARD, 288, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: true });
-    //this.loadTinkercadGlb("./models/silver-key.glb", 25, Settings.INTERACTABLE_TYPE_STANDARD, 344, [0, 1, 0], [0, 0, 0], [1.5, 1.5, 1.5], true, { DestroyOnSelect: true });
-    //this.loadTinkercadGlb("./models/test.glb", 51, Settings.INTERACTABLE_TYPE_STANDARD, 304, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: true });
+    this.load3dBuilderObj("./models/test-obj/test-obj", 99, Settings.INTERACTABLE_TYPE_STANDARD, 288, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: true });
+    this.loadTinkercadGlb("./models/silver-key.glb", 25, Settings.INTERACTABLE_TYPE_STANDARD, 344, [0, 1, 0], [0, 0, 0], [1.5, 1.5, 1.5], true, { DestroyOnSelect: true });
+    this.loadTinkercadGlb("./models/test.glb", 51, Settings.INTERACTABLE_TYPE_STANDARD, 304, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: true });
 
-    
-    this.loadTinkercadGlb("./models/rotate-left-trigger.glb", 1, Settings.INTERACTABLE_TYPE_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.03, 0.03, 0.03], true, { DestroyOnSelect: false, RotateLeftOnSelect: true, RotateRightOnSelect: false } );
-    this.loadTinkercadGlb("./models/rotate-right-trigger.glb", 2, Settings.INTERACTABLE_TYPE_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.03, 0.03, 0.03], true, { DestroyOnSelect: false, RotateLeftOnSelect: false, RotateRightOnSelect: true } );
 
-    //let rightTrigger = this.interactionManager.getInteractableData(1).model;
-    // Calculate the position to the right of the camera
-    //const rightVector = new THREE.Vector3(1, 0, 0); // Unit vector pointing right in camera space
-    //rightVector.applyQuaternion(this.camera.quaternion); // Rotate to match the camera's orientation
-    //rightVector.multiplyScalar(1); // Adjust the distance to the right of the camera
-
-    // Set the model's position
-    //rightTrigger.position.copy(camera.position).add(rightVector);
-
-    this.loadTinkercadGlb("./models/teleport-trigger.glb", 3, Settings.INTERACTABLE_TYPE_TELEPORT_TRIGGER, 328, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: false, TargetTile: 328 } );
-    
     // Ask the renderer to start the animation loop by calling the animate function
-    setTimeout(
-      function() { this.renderer.setAnimationLoop(this.animate.bind(this)) }.bind(this), 1000
-    );
+    this.renderer.setAnimationLoop(this.animate.bind(this));  
 
   }
 
@@ -482,12 +462,6 @@ export class Engine {
 
     if(this.firstPass) {
 
-
-      let leftTrigger = this.interactionManager.getInteractableData(1).model;
-      let rightTrigger = this.interactionManager.getInteractableData(2).model;
-      this.movementManager.setRotateTriggers(leftTrigger, rightTrigger);
-      this.movementManager.positionRotateTriggers(this.dolly);
-    
       this.firstPass = false;
     }
 

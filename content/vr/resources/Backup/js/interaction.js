@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { Settings } from "./settings.js";
-import { Utility } from "./utility.js";
 
 export class InteractionManager {
 
@@ -111,7 +110,7 @@ export class InteractionManager {
   }
 
   castGaze() {
-    
+
     let scene = this.engine.scene;
     let cam = this.engine.camera;
     let scale = this.engine.scale;
@@ -119,7 +118,7 @@ export class InteractionManager {
     let tempMatrix = this.gazeMatrix;
     let raycaster = this.gazecaster;
     let interactables = this.interactableModels;
-
+    
     scene.updateMatrixWorld();
     
     // Calculate the position of the gazePointer
@@ -224,7 +223,7 @@ export class InteractionManager {
   getInteractableData(id) {
 
     for(let a = 0; a < this.interactableData.length; a++) {
-      
+
       let data = this.interactableData[a]; 
       if(id === data.id)
         return data;
@@ -404,20 +403,7 @@ export class Interactable {
   onSelected() {
 
     let att = this.attributes;
-
-    if(Utility.getProperty(att, "RotateLeftOnSelect")) {
-
-      this.manager.engine.movementManager.rotate(Settings.MOVEMENT_ROTATE_LEFT);
-    }
-
-    if(Utility.getProperty(att, "RotateRightOnSelect")) {
-
-      this.manager.engine.movementManager.rotate(Settings.MOVEMENT_ROTATE_RIGHT);
-    }
-
-    if(Utility.getProperty(att, "DestroyOnSelect"))
+    if(att.hasOwnProperty("DestroyOnSelect") && att.DestroyOnSelect)
       this.manager.destroyInteractable(this.id);
-    else
-      this.onUnPicked();
   }
 }
