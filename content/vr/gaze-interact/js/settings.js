@@ -11,6 +11,8 @@ export class Settings {
   static pickTimer = 2000;
   static pickIncrements = 10;
   
+  static teleportTimer = 500;
+
   static INTERACTION_MODE_CONTROLLER_DUAL = 0;
   static INTERACTION_MODE_CONTROLLER_SINGLE = 1;
   static INTERACTION_MODE_GAZE = 2;
@@ -20,9 +22,12 @@ export class Settings {
   static MOVEMENT_ROTATE_LEFT = 0;
   static MOVEMENT_ROTATE_RIGHT = 1;
 
-  static INTERACTABLE_TYPE_STANDARD = 0;
-  static INTERACTABLE_TYPE_MOVEMENT_TRIGGER = 1;
-  static INTERACTABLE_TYPE_TELEPORT_TRIGGER = 2;
+  // In-game model types
+  static SCENERY_MODEL = 0;
+  static INTERACTABLE_MODEL_STANDARD = 1;
+  static INTERACTABLE_MODEL_MOVEMENT_TRIGGER = 2;
+  static INTERACTABLE_MODEL_TELEPORT_TRIGGER = 3;
+  static INTERACTABLE_MODEL_CLIMB_TRIGGER = 4;
   
   static MODEL_TYPE_3D_BUILDER_OBJ = 0;
   static MODEL_TYPE_THREE_MESH = 1;

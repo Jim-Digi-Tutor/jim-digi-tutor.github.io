@@ -11,6 +11,7 @@ import { Avatar } from "./avatar.js";
 import { InteractionManager, Interactable } from "./interaction.js";
 import { CustomTeleportMovementManager } from "./movement.js";
 import { Settings } from "./settings.js";
+import { Utility } from "./utility.js";
 import { Setup } from "./setup.js";
 
 import * as LOOP from "./loop.js";
@@ -150,9 +151,10 @@ export class Engine {
     this.cameraVector = new THREE.Vector3();
     this.dolly = Setup.buildDolly(this.camera);     
     this.scene.add(this.dolly);
-
+    
     // Place the dolly at the start tile for the player
     this.placeObjectAtTile(this.dolly, this.avatar.position, null);
+    
 
     // Add a grid-helper at the floor level
     const gridHelper = new THREE.GridHelper(40, 20, 0xff0000, 0x004400);
@@ -178,6 +180,12 @@ export class Engine {
     this.finishLight.position.set(10, 0.5, 9);
     this.scene.add(this.finishLight);
 
+    //const light = new THREE.PointLight( 0xfffff, 10000, 1000 );
+    //light.position.set( 20, 10, 20 );
+    //this.scene.add( light );
+    const hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1 ); 
+    this.scene.add(hemiLight);
+
     // Initialise the GLTF loader that loads the 3D models
     this.gltfLoader = new GLTFLoader();
     this.objLoader = new OBJLoader();
@@ -200,7 +208,7 @@ export class Engine {
     
 
     let prop1 = { DestroyOnSelect: true };
-    let int1 = new Interactable(this.interactionManager, 101, Settings.INTERACTABLE_TYPE_STANDARD, cube, Settings.MODEL_TYPE_THREE_MESH, prop1);
+    let int1 = new Interactable(this.interactionManager, 101, Settings.INTERACTABLE_MODEL_STANDARD, cube, Settings.MODEL_TYPE_THREE_MESH, prop1);
     cube.userData.id = 101;
     cube.userData.type = Settings.MODEL_TYPE_THREE_MESH;
     this.interactionManager.interactableData.push(int1);
@@ -209,15 +217,17 @@ export class Engine {
     this.scene.add(cube);
   
     
-    
+    this.loadTinkercadGlb("./models/graveyard.glb", 999, Settings.SCENERY_MODEL, [ 20, 0, 20 ], [0, 0, 0], [0, 0, 0], [0.2, 0.2, 0.2], true, {} );    
     
     //this.load3dBuilderObj("./models/test-obj/test-obj", 99, Settings.INTERACTABLE_TYPE_STANDARD, 288, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: true });
     //this.loadTinkercadGlb("./models/silver-key.glb", 25, Settings.INTERACTABLE_TYPE_STANDARD, 344, [0, 1, 0], [0, 0, 0], [1.5, 1.5, 1.5], true, { DestroyOnSelect: true });
     //this.loadTinkercadGlb("./models/test.glb", 51, Settings.INTERACTABLE_TYPE_STANDARD, 304, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: true });
 
-    
-    this.loadTinkercadGlb("./models/rotate-left-trigger.glb", 1, Settings.INTERACTABLE_TYPE_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.03, 0.03, 0.03], true, { DestroyOnSelect: false, RotateLeftOnSelect: true, RotateRightOnSelect: false } );
-    this.loadTinkercadGlb("./models/rotate-right-trigger.glb", 2, Settings.INTERACTABLE_TYPE_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.03, 0.03, 0.03], true, { DestroyOnSelect: false, RotateLeftOnSelect: false, RotateRightOnSelect: true } );
+
+    this.loadTinkercadGlb("./models/climb-trigger.glb", 4, Settings.INTERACTABLE_MODEL_CLIMB_TRIGGER, 270, [0.5, 1, 0.25], [45, 90, 0], [0.3, 0.3, 0.3], true, { DestroyOnSelect: false, ClimbTargets: [ [ 250, 1 ], [ 328, 0 ] ], AccessFrom: [ 250, 328 ] } );
+
+    this.loadTinkercadGlb("./models/rotate-left-trigger.glb", 1, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, { DestroyOnSelect: false, RotateLeftOnSelect: true, RotateRightOnSelect: false } );
+    this.loadTinkercadGlb("./models/rotate-right-trigger.glb", 2, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, { DestroyOnSelect: false, RotateLeftOnSelect: false, RotateRightOnSelect: true } );
 
     //let rightTrigger = this.interactionManager.getInteractableData(1).model;
     // Calculate the position to the right of the camera
@@ -228,7 +238,8 @@ export class Engine {
     // Set the model's position
     //rightTrigger.position.copy(camera.position).add(rightVector);
 
-    this.loadTinkercadGlb("./models/teleport-trigger.glb", 3, Settings.INTERACTABLE_TYPE_TELEPORT_TRIGGER, 328, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: false, TargetTile: 328 } );
+    this.loadTinkercadGlb("./models/teleport-trigger.glb", 3, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 328, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: false, TeleportTarget: [ 328, 0 ], AccessFrom: [ 348 ] } );
+    
     
     // Ask the renderer to start the animation loop by calling the animate function
     setTimeout(
@@ -256,16 +267,21 @@ export class Engine {
                 new Interactable(this.interactionManager, id, type, model, Settings.MODEL_TYPE_3D_BUILDER_OBJ, properties)
               );
 
-              this.interactionManager.interactableModels.push(model);
+              if(Utility.isModelInteractable(type))
+                this.interactionManager.interactableModels.push(model);
 
               if(addToScene)
                 this.scene.add(model);
-                        
-              this.placeObjectAtTile(model, tile, offset);
+                      
+
+
+                this.placeObjectAtTile(model, tile, offset);
+
               model.rotation.x = THREE.MathUtils.degToRad(rotate[0]);
               model.rotation.y = THREE.MathUtils.degToRad(rotate[1]);
               model.rotation.z = THREE.MathUtils.degToRad(rotate[2]);              
               model.scale.set( scale[0], scale[1], scale[2] ); 
+              
               
             }.bind(this),
 
@@ -286,7 +302,7 @@ export class Engine {
     );
   }
 
-  loadTinkercadGlb(filename, id, type, tile, offset, rotate, scale, addToScene, properties) {
+  loadTinkercadGlb(filename, id, type, position, offset, rotate, scale, addToScene, properties) {
 
     this.gltfLoader.load(filename,
                
@@ -300,13 +316,21 @@ export class Engine {
         this.interactionManager.interactableData.push(
           new Interactable(this.interactionManager, id, type, model, Settings.MODEL_TYPE_TINKERCAD_GLB, properties)
         );
-
-        this.interactionManager.interactableModels.push(model);
+        
+        if(Utility.isModelInteractable(type))
+          this.interactionManager.interactableModels.push(model);
 
         if(addToScene)
           this.scene.add(model);
                   
-        this.placeObjectAtTile(model, tile, offset);
+        if(Array.isArray(position)) {
+
+          model.position.set(position[0], position[1], position[2]);
+
+        } else {
+
+          this.placeObjectAtTile(model, position, offset);
+        }
         model.rotation.x = THREE.MathUtils.degToRad(rotate[0]);
         model.rotation.y = THREE.MathUtils.degToRad(rotate[1]);
         model.rotation.z = THREE.MathUtils.degToRad(rotate[2]);              
@@ -487,7 +511,7 @@ export class Engine {
       let rightTrigger = this.interactionManager.getInteractableData(2).model;
       this.movementManager.setRotateTriggers(leftTrigger, rightTrigger);
       this.movementManager.positionRotateTriggers(this.dolly);
-    
+      this.movementManager.buildTeleportFader();
       this.firstPass = false;
     }
 

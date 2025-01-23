@@ -112,78 +112,85 @@ export class InteractionManager {
 
   castGaze() {
     
-    let scene = this.engine.scene;
-    let cam = this.engine.camera;
-    let scale = this.engine.scale;
-    let renderer = this.engine.renderer;
-    let tempMatrix = this.gazeMatrix;
-    let raycaster = this.gazecaster;
-    let interactables = this.interactableModels;
+    if(!this.engine.movementManager.teleporting) {
 
-    scene.updateMatrixWorld();
-    
-    // Calculate the position of the gazePointer
-    let dir = new THREE.Vector3();
-    cam.getWorldDirection(dir);
-    dir.multiplyScalar(1);
-    let point = new THREE.Vector3();
-    cam.getWorldPosition(point);
-    point.add(dir);
-    this.gazePointer.position.copy(point);
-    
-    // Prepare to cast the ray to determine interaction
-    let session = renderer.xr.getSession();
-    if(!session)
-      return;
-    
-    // Get the XR camera (headset position and orientation)
-    let xrCam = renderer.xr.getCamera();
-    
-    // Set the raycaster's origin and direction based on the headset's position and orientation
-    tempMatrix.identity().extractRotation(xrCam.matrixWorld);
-    raycaster.ray.origin.setFromMatrixPosition(xrCam.matrixWorld);
-    raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
-    
-    //console.log("START RAY")
-    
-    // Perform raycasting to check intersections with objects in the scene
-    let intersects = raycaster.intersectObjects(interactables);
-    if(intersects.length > 0) {
-      
-      
-      let object = intersects[0].object;
-      let distance = intersects[0].distance;
+      let scene = this.engine.scene;
+      let cam = this.engine.camera;
+      let scale = this.engine.scale;
+      let renderer = this.engine.renderer;
+      let tempMatrix = this.gazeMatrix;
+      let raycaster = this.gazecaster;
+      let interactables = this.interactableModels;
 
-            ///**********
-      // Tinkercad GLB: parent.parent.userData
-      // Three Mesh: userData 
-      // 3D Builder OBJ : parent.userData;
-      let id = -1;
-      if(object.userData.hasOwnProperty("id"))  // Three.JS Mesh
-        id = object.userData.id;
-      else if(object.parent.userData.hasOwnProperty("id"))  // 3DBuilder OBJ
-        id = object.parent.userData.id;
-      else if(object.parent.parent.userData.hasOwnProperty("id")) // Tinkercad GLB
-        id = object.parent.parent.userData.id;
+      scene.updateMatrixWorld();
       
-      let data = this.getInteractableData(id); 
-      let checkDistance = (Settings.pickDistance * scale);
+      // Calculate the position of the gazePointer
+      let dir = new THREE.Vector3();
+      cam.getWorldDirection(dir);
+      dir.multiplyScalar(1);
+      let point = new THREE.Vector3();
+      cam.getWorldPosition(point);
+      point.add(dir);
+      this.gazePointer.position.copy(point);
       
-      if(data !== null && distance <= checkDistance) {
+      // Prepare to cast the ray to determine interaction
+      let session = renderer.xr.getSession();
+      if(!session)
+        return;
+      
+      // Get the XR camera (headset position and orientation)
+      let xrCam = renderer.xr.getCamera();
+      
+      // Set the raycaster's origin and direction based on the headset's position and orientation
+      tempMatrix.identity().extractRotation(xrCam.matrixWorld);
+      raycaster.ray.origin.setFromMatrixPosition(xrCam.matrixWorld);
+      raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
+      
+      //console.log("START RAY")
+      
+      // Perform raycasting to check intersections with objects in the scene
+      let intersects = raycaster.intersectObjects(interactables);
+      if(intersects.length > 0) {
         
-        this.managePick(data);
-      } 
+        
+        let object = intersects[0].object;
+        let distance = intersects[0].distance;
 
+              ///**********
+        // Tinkercad GLB: parent.parent.userData
+        // Three Mesh: userData 
+        // 3D Builder OBJ : parent.userData;
+        let id = -1;
+        if(object.userData.hasOwnProperty("id"))  // Three.JS Mesh
+          id = object.userData.id;
+        else if(object.parent.userData.hasOwnProperty("id"))  // 3DBuilder OBJ
+          id = object.parent.userData.id;
+        else if(object.parent.parent.userData.hasOwnProperty("id")) // Tinkercad GLB
+          id = object.parent.parent.userData.id;
+        
+        let data = this.getInteractableData(id); 
+        let checkDistance = (Settings.pickDistance * scale);
+        
+        if(data !== null && distance <= checkDistance) {
+          
+          this.managePick(data);
+        } 
+
+      } else {
+
+        if(this.mode === Settings.INTERACTION_MODE_GAZE) {
+
+          if(this.gazePicked !== null)
+            this.nullifyPick();
+        }
+      }
+
+      //console.log("Current Gaze Target: ", this.gazePicked);
+    
     } else {
 
-      if(this.mode === Settings.INTERACTION_MODE_GAZE) {
-
-        if(this.gazePicked !== null)
-          this.nullifyPick();
-      }
+      this.engine.movementManager.teleportTick();
     }
-
-    //console.log("Current Gaze Target: ", this.gazePicked);
   }
 
   managePick(data) {
@@ -404,6 +411,16 @@ export class Interactable {
   onSelected() {
 
     let att = this.attributes;
+
+    if(Utility.getProperty(att, "ClimbTargets")) {
+
+      this.manager.engine.movementManager.prepareClimb(att);
+    }
+
+    if(Utility.getProperty(att, "TeleportTarget")) {
+
+      this.manager.engine.movementManager.prepareTeleport(att);
+    }
 
     if(Utility.getProperty(att, "RotateLeftOnSelect")) {
 

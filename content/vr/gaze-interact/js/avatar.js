@@ -6,7 +6,7 @@ export class Avatar {
 
   constructor() {
 
-    this.position = 348;
+    this.position = 328;
     this.elevation = 0;
     this.facing = 0;
   }
