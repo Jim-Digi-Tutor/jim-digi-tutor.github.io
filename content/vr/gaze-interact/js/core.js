@@ -2,8 +2,6 @@
 // We can use them in our code
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { MTLLoader } from "three/addons/loaders/MTLLoader.js";
-import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 
 // Imports the code from the loop.js and setup.js JavaScript files
 // When we need to use the code, we can now use the references LOOP and SETUP
@@ -171,21 +169,24 @@ export class Engine {
     // Initialise the GLTF loader that loads the 3D models
     this.gltfLoader = new GLTFLoader();
 
-
-
-        //this.loadTinkercadGlb("./models/climb-trigger.glb", 4, Settings.INTERACTABLE_MODEL_CLIMB_TRIGGER, 170, [0.5, 1, 0], [45, 90, 0], [0.3, 0.3, 0.3], true, true, { DestroyOnSelect: false, ClimbTargets: [ [ 170, 1 ], [ 328, 0 ] ], AccessFrom: [ 250, 328 ] } );
-
-    //this.loadTinkercadGlb("./models/rotate-left-trigger.glb", 1, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, true, { DestroyOnSelect: false, RotateLeftOnSelect: true, RotateRightOnSelect: false } );
-    //this.loadTinkercadGlb("./models/rotate-right-trigger.glb", 2, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, true, { DestroyOnSelect: false, RotateLeftOnSelect: false, RotateRightOnSelect: true } );
+    // Set the re-scale array for Tinkercad GUI models
+    let guiScale = [ (0.01 * this.scale), (0.01 * this.scale), (0.01 * this.scale) ];
+    this.loadTinkercadGlb("./models/rotate-left-trigger.glb", 0, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], guiScale, true, true, { DestroyOnSelect: false, RotateLeftOnSelect: true, RotateRightOnSelect: false }, false);
+    this.loadTinkercadGlb("./models/rotate-right-trigger.glb", 1, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], guiScale, true, true, { DestroyOnSelect: false, RotateLeftOnSelect: false, RotateRightOnSelect: true }, false);
 
     // Set the re-scale array for Tinkercad models
     let glbPos = [ (this.scale * (l.width / 2)), 0, (this.scale * (l.depth / 2)) ]
     let glbScale = [ (0.1 * this.scale), (0.1 * this.scale), (0.1 * this.scale) ];
 
-    this.loadTinkercadGlb("./models/teleport-trigger.glb", 3, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 112, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 112, 0 ], AccessFrom: [ 48, 174, 168 ] } );
-    this.loadTinkercadGlb("./models/teleport-trigger.glb", 4, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 48, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 48, 0 ], AccessFrom: [ 112 ] } );
-    this.loadTinkercadGlb("./models/teleport-trigger.glb", 5, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 174, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 174, 0 ], AccessFrom: [ 112 ] } );
-    this.loadTinkercadGlb("./models/teleport-trigger.glb", 6, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 168, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 168, 0 ], AccessFrom: [ 112 ] } );
+
+
+    this.loadTinkercadGlb("./models/teleport-trigger.glb", 3, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 112, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 112, 0 ], AccessFrom: [ 48, 174, 168 ] }, false);
+    this.loadTinkercadGlb("./models/teleport-trigger.glb", 4, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 48, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 48, 0 ], AccessFrom: [ 112 ] }, false);
+    this.loadTinkercadGlb("./models/teleport-trigger.glb", 5, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 174, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 174, 0 ], AccessFrom: [ 112 ] }, false);
+    this.loadTinkercadGlb("./models/teleport-trigger.glb", 6, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 168, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 168, 0 ], AccessFrom: [ 112 ] }, false);
+
+
+        //this.loadTinkercadGlb("./models/climb-trigger.glb", 4, Settings.INTERACTABLE_MODEL_CLIMB_TRIGGER, 170, [0.5, 1, 0], [45, 90, 0], [0.3, 0.3, 0.3], true, true, { DestroyOnSelect: false, ClimbTargets: [ [ 170, 1 ], [ 328, 0 ] ], AccessFrom: [ 250, 328 ] } );
 
     this.loadTinkercadGlb("./models/interaction-room.glb", 101, Settings.SCENERY_MODEL, glbPos, [0, 0, 0], [0, 0, 0], glbScale, true, true, {}, false);
  
@@ -395,10 +396,10 @@ export class Engine {
 
     if(this.firstPass) {
 
-      //let leftTrigger = this.interactionManager.getInteractableData(1).model;
-      //let rightTrigger = this.interactionManager.getInteractableData(2).model;
-      //this.movementManager.setRotateTriggers(leftTrigger, rightTrigger);
-      //this.movementManager.positionRotateTriggers(this.dolly);
+      let leftTrigger = this.interactionManager.getInteractableData(0).model;
+      let rightTrigger = this.interactionManager.getInteractableData(1).model;
+      this.movementManager.setRotateTriggers(leftTrigger, rightTrigger);
+      this.movementManager.positionRotateTriggers(this.dolly, this.scale);
       this.movementManager.buildTeleportFader();
       this.firstPass = false;
     }

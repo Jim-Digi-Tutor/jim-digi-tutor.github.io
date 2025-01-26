@@ -27,10 +27,11 @@ export class CustomTeleportMovementManager {
   setRotateTriggers(left, right) {
 
     this.leftRotateTrigger = left;
-    //this.leftRotateTrigger.rotation.x = THREE.MathUtils.degToRad(45);
-
+    this.leftRotateTrigger.children[0].children[0].material.transparent = true;
+    this.leftRotateTrigger.children[0].children[0].material.opacity = 0.80;
     this.rightRotateTrigger = right;
-    //this.rightRotateTrigger.rotation.x = THREE.MathUtils.degToRad(45);
+    this.rightRotateTrigger.children[0].children[0].material.transparent = true;
+    this.rightRotateTrigger.children[0].children[0].material.opacity = 0.80;
   }
 
   buildTeleportFader() {
@@ -45,48 +46,46 @@ export class CustomTeleportMovementManager {
     this.engine.scene.add(this.fader);
   }
 
-  positionRotateTriggers(dolly) {
-/*
-    let leftVec = new THREE.Vector3(-0.20, 1.6, -0.3);
+  positionRotateTriggers(dolly, scale) {
+    
+    let leftVec = new THREE.Vector3(-(0.1 * scale), (1.6 * scale), -(0.15 * scale));
     leftVec.applyQuaternion(dolly.quaternion);
     leftVec.multiplyScalar(1);  
     this.leftRotateTrigger.position.copy(dolly.position).add(leftVec);
 
-    let rightVec = new THREE.Vector3(0.20, 1.6, -0.3);
+    let rightVec = new THREE.Vector3((0.1 * scale), (1.6 * scale), -(0.15 * scale));
     rightVec.applyQuaternion(dolly.quaternion);
     rightVec.multiplyScalar(1);  
     this.rightRotateTrigger.position.copy(dolly.position).add(rightVec); 
     
-    if(this.engine.avatar.facing === 0) {
+    if(this.engine.playerFacing === 0) {
 
       this.leftRotateTrigger.rotation.x = THREE.MathUtils.degToRad(90);
       this.leftRotateTrigger.rotation.z = THREE.MathUtils.degToRad(-45);
       this.rightRotateTrigger.rotation.x = THREE.MathUtils.degToRad(90);
       this.rightRotateTrigger.rotation.z = THREE.MathUtils.degToRad(45);
     
-    } else if(this.engine.avatar.facing === 1) {
+    } else if(this.engine.playerFacing === 1) {
 
       this.leftRotateTrigger.rotation.x = THREE.MathUtils.degToRad(90);
       this.leftRotateTrigger.rotation.z = THREE.MathUtils.degToRad(-135);
       this.rightRotateTrigger.rotation.x = THREE.MathUtils.degToRad(90);
       this.rightRotateTrigger.rotation.z = THREE.MathUtils.degToRad(-45);
     
-    } else if(this.engine.avatar.facing === 2) {
+    } else if(this.engine.playerFacing === 2) {
 
       this.leftRotateTrigger.rotation.x = THREE.MathUtils.degToRad(90);
       this.leftRotateTrigger.rotation.z = THREE.MathUtils.degToRad(135);
       this.rightRotateTrigger.rotation.x = THREE.MathUtils.degToRad(90);
       this.rightRotateTrigger.rotation.z = THREE.MathUtils.degToRad(-135);
     
-    } else if(this.engine.avatar.facing === 3) {
+    } else if(this.engine.playerFacing === 3) {
 
       this.leftRotateTrigger.rotation.x = THREE.MathUtils.degToRad(90);
       this.leftRotateTrigger.rotation.z = THREE.MathUtils.degToRad(45);
       this.rightRotateTrigger.rotation.x = THREE.MathUtils.degToRad(90);
       this.rightRotateTrigger.rotation.z = THREE.MathUtils.degToRad(-225);
-    
     } 
-*/
   }
 
   prepareTeleport(attributes) {
@@ -155,7 +154,7 @@ export class CustomTeleportMovementManager {
           this.engine.playerPosition = target[0];
           this.engine.placeObjectAtTile(this.engine.dolly, target[0], [ 0, target[1], 0] );
           this.engine.placeObjectAtTile(this.fader, target[0], [ 0, target[1], 0] );
-          this.positionRotateTriggers(this.engine.dolly);
+          this.positionRotateTriggers(this.engine.dolly, this.engine.scale);
         }
 
         let opacity = (1 - ((elapsedPercent - 0.5) / 0.5));
@@ -166,16 +165,14 @@ export class CustomTeleportMovementManager {
 
   rotate(direction) {
 
-    let facing = this.engine.avatar.facing;
+    let facing = this.engine.playerFacing;
     if(direction === Settings.MOVEMENT_ROTATE_LEFT)
       facing = (facing === 3) ? 0 : (facing + 1);
     else if(direction === Settings.MOVEMENT_ROTATE_RIGHT)
       facing = (facing === 0) ? 3 : (facing - 1);
 
     this.engine.dolly.rotation.y = THREE.MathUtils.degToRad(facing * 90);
-    this.engine.avatar.facing = facing;
-    this.positionRotateTriggers(this.engine.dolly);
-
-    console.log(this.engine.avatar.facing);
+    this.engine.playerFacing = facing;
+    this.positionRotateTriggers(this.engine.dolly, this.engine.scale);
   }
 }
