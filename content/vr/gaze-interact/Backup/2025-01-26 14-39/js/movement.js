@@ -41,12 +41,12 @@ export class CustomTeleportMovementManager {
     this.fader.material.side = THREE.DoubleSide;
     this.fader.material.transparent = true;
     this.fader.material.opacity = 0.0;
-    this.engine.placeObjectAtTile(this.fader, this.engine.playerPosition, [ 0, 0, 0 ] );
+    this.engine.placeObjectAtTile(this.fader, this.engine.avatar.position, [ 0, 0, 0 ] );
     this.engine.scene.add(this.fader);
   }
 
   positionRotateTriggers(dolly) {
-/*
+
     let leftVec = new THREE.Vector3(-0.20, 1.6, -0.3);
     leftVec.applyQuaternion(dolly.quaternion);
     leftVec.multiplyScalar(1);  
@@ -86,7 +86,7 @@ export class CustomTeleportMovementManager {
       this.rightRotateTrigger.rotation.z = THREE.MathUtils.degToRad(-225);
     
     } 
-*/
+
   }
 
   prepareTeleport(attributes) {
@@ -95,7 +95,7 @@ export class CustomTeleportMovementManager {
     let access = Utility.getProperty(attributes, "AccessFrom");
     
     // Only teleport if this teleport is reachable
-    if(this.playerPosition !== target[0] && this.teleportIsAccessible(this.engine.playerPosition, access)) {
+    if(this.engine.avatar.position !== target[0] && this.teleportIsAccessible(this.engine.avatar.position, access)) {
 
       this.teleporting = true;
       this.teleportAt = Date.now();
@@ -149,10 +149,10 @@ export class CustomTeleportMovementManager {
 
       } else {
 
-        if(this.engine.playerPosition !== target[0]) {
+        if(this.engine.avatar.position !== target[0]) {
 
           this.fader.material.opacity = 1;
-          this.engine.playerPosition = target[0];
+          this.engine.avatar.position = target[0];
           this.engine.placeObjectAtTile(this.engine.dolly, target[0], [ 0, target[1], 0] );
           this.engine.placeObjectAtTile(this.fader, target[0], [ 0, target[1], 0] );
           this.positionRotateTriggers(this.engine.dolly);

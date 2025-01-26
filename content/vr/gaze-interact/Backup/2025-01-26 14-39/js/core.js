@@ -50,7 +50,7 @@ export class Engine {
   firstPass = true; // Whether this is the first pass of the iteration loop
  
   // Set the player's starting position, elevation, and facing
-  playerPosition = 112;
+  playerPosition = 354;
   playerFacing = 0;
   
   dolly;        // A "virtual carriage" used to move the camera and controllers within the game
@@ -147,8 +147,8 @@ export class Engine {
     this.movementManager = new CustomTeleportMovementManager(this, Settings.MOVEMENT_MODE_CUSTOM_TELEPORT);    
     
     // Add a grid-helper at the floor level
-    const gridHelper = new THREE.GridHelper((this.scale * l.width), l.width, 0xff0000, 0x004400);
-    gridHelper.position.set((this.scale * (l.width / 2)), 0, (this.scale * (l.depth / 2)));
+    const gridHelper = new THREE.GridHelper((this.scale * 20), 20, 0xff0000, 0x004400);
+    gridHelper.position.set((this.scale * 10), 0, (this.scale * 10));
     this.scene.add(gridHelper);
 
     // The dolly is a "virtual carriage" that stores the camera and controllers within the envionment
@@ -164,31 +164,18 @@ export class Engine {
     this.ambientLight = new THREE.AmbientLight(0x505050, 0.5);
     this.scene.add(this.ambientLight);
     this.mainLight = new THREE.PointLight( 0x555555, (1000 * this.scale), (250 * this.scale), 2);
-    this.mainLight.position.set((l.width / 2), 10, (l.depth / 2));
+    this.mainLight.position.set(20, 10, 30);
     this.mainLight.castShadow = true;    
     this.scene.add(this.mainLight);
 
     // Initialise the GLTF loader that loads the 3D models
     this.gltfLoader = new GLTFLoader();
 
-
-
-        //this.loadTinkercadGlb("./models/climb-trigger.glb", 4, Settings.INTERACTABLE_MODEL_CLIMB_TRIGGER, 170, [0.5, 1, 0], [45, 90, 0], [0.3, 0.3, 0.3], true, true, { DestroyOnSelect: false, ClimbTargets: [ [ 170, 1 ], [ 328, 0 ] ], AccessFrom: [ 250, 328 ] } );
-
-    //this.loadTinkercadGlb("./models/rotate-left-trigger.glb", 1, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, true, { DestroyOnSelect: false, RotateLeftOnSelect: true, RotateRightOnSelect: false } );
-    //this.loadTinkercadGlb("./models/rotate-right-trigger.glb", 2, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, true, { DestroyOnSelect: false, RotateLeftOnSelect: false, RotateRightOnSelect: true } );
-
     // Set the re-scale array for Tinkercad models
-    let glbPos = [ (this.scale * (l.width / 2)), 0, (this.scale * (l.depth / 2)) ]
     let glbScale = [ (0.1 * this.scale), (0.1 * this.scale), (0.1 * this.scale) ];
 
-    this.loadTinkercadGlb("./models/teleport-trigger.glb", 3, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 112, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 112, 0 ], AccessFrom: [ 48, 174, 168 ] } );
-    this.loadTinkercadGlb("./models/teleport-trigger.glb", 4, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 48, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 48, 0 ], AccessFrom: [ 112 ] } );
-    this.loadTinkercadGlb("./models/teleport-trigger.glb", 5, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 174, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 174, 0 ], AccessFrom: [ 112 ] } );
-    this.loadTinkercadGlb("./models/teleport-trigger.glb", 6, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 168, [0, 0, 0], [0, 0, 0], glbScale, true, false, { DestroyOnSelect: false, TeleportTarget: [ 168, 0 ], AccessFrom: [ 112 ] } );
-
-    this.loadTinkercadGlb("./models/interaction-room.glb", 101, Settings.SCENERY_MODEL, glbPos, [0, 0, 0], [0, 0, 0], glbScale, true, true, {}, false);
- 
+    this.loadTinkercadGlb("./models/interaction-room.glb", 4, Settings.SCENERY_MODEL, [ (this.scale * 10), 0, (this.scale * 10) ], [0, 0, 0], [0, 0, 0], glbScale, true, true, {}, false);
+   
     let lightSwitchFunction = function(interactable) {
 
       if(this.mainLight.intensity === 0) {
@@ -208,7 +195,7 @@ export class Engine {
       type: Settings.INTERACTABLE_MODEL_STANDARD, DestroyOnSelect: false, onSelect: lightSwitchFunction
     };
 
-    this.loadTinkercadGlb("./models/light-switch.glb", 102, Settings.INTERACTABLE_MODEL_STANDARD, glbPos, [0, 0, 0], [0, 0, 0], glbScale, true, true, lightSwitchProperties, false);
+    this.loadTinkercadGlb("./models/light-switch.glb", 4, Settings.INTERACTABLE_MODEL_STANDARD, [ (this.scale * 10), 0, (this.scale * 10) ], [0, 0, 0], [0, 0, 0], glbScale, true, true, lightSwitchProperties, false);
 
     let recordFunction = function(interactable) {
 
@@ -235,8 +222,14 @@ export class Engine {
       type: Settings.INTERACTABLE_MODEL_STANDARD, DestroyOnSelect: false, onSelect: recordFunction, onPassiveTick: recordTickFunction
     };
 
-    this.loadTinkercadGlb("./models/vinyl-record.glb", 103, Settings.INTERACTABLE_MODEL_STANDARD, 176, [0, 1.25, 0], [0, 0, 0], glbScale, true, true, recordProperties, false);    
+    this.loadTinkercadGlb("./models/vinyl-record.glb", 5, Settings.INTERACTABLE_MODEL_STANDARD, 336, [0, 1.25, 0], [0, 0, 0], glbScale, true, true, recordProperties, false);    
+    //this.loadTinkercadGlb("./models/climb-trigger.glb", 4, Settings.INTERACTABLE_MODEL_CLIMB_TRIGGER, 170, [0.5, 1, 0], [45, 90, 0], [0.3, 0.3, 0.3], true, true, { DestroyOnSelect: false, ClimbTargets: [ [ 170, 1 ], [ 328, 0 ] ], AccessFrom: [ 250, 328 ] } );
 
+    //this.loadTinkercadGlb("./models/rotate-left-trigger.glb", 1, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, true, { DestroyOnSelect: false, RotateLeftOnSelect: true, RotateRightOnSelect: false } );
+    //this.loadTinkercadGlb("./models/rotate-right-trigger.glb", 2, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, true, { DestroyOnSelect: false, RotateLeftOnSelect: false, RotateRightOnSelect: true } );
+
+  
+    //this.loadTinkercadGlb("./models/teleport-trigger.glb", 3, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 328, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, false, { DestroyOnSelect: false, TeleportTarget: [ 328, 0 ], AccessFrom: [ 348 ] } );
     
     
     // Ask the renderer to start the animation loop by calling the animate function
@@ -335,8 +328,8 @@ export class Engine {
 
       // Calculate the x-position and z-position of the specified tile by calculating its column and row
       // The calculation of the x-position / column uses Modulo division to find the remainder
-      let x = (((tile % this.lvl.width) * this.scale) + (this.scale / 2));
-      let z = ((Math.floor(tile / this.lvl.width) * this.scale) + (this.scale / 2));
+      let x = (((tile % 20) * this.scale) + (this.scale / 2));
+      let z = ((Math.floor(tile / 20) * this.scale) + (this.scale / 2));
 
       // Calculate any offsets from the given array (which could be null, if not required)
       let offsetX = (offset !== null) ? (offset[0] * this.scale) : 0;
@@ -399,7 +392,7 @@ export class Engine {
       //let rightTrigger = this.interactionManager.getInteractableData(2).model;
       //this.movementManager.setRotateTriggers(leftTrigger, rightTrigger);
       //this.movementManager.positionRotateTriggers(this.dolly);
-      this.movementManager.buildTeleportFader();
+      //this.movementManager.buildTeleportFader();
       this.firstPass = false;
     }
 
