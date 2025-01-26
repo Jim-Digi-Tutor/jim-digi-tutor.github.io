@@ -30,7 +30,7 @@ export class Setup {
       //return settings.baseScale - 0.999;
       */
 
-    return 1;
+    return 0.75;
   }
 
   static buildDolly(camera) {
