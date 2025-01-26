@@ -2,20 +2,16 @@
 // We can use them in our code
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 import { MTLLoader } from "three/addons/loaders/MTLLoader.js";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 
 // Imports the code from the loop.js and setup.js JavaScript files
 // When we need to use the code, we can now use the references LOOP and SETUP
-import { Avatar } from "./avatar.js";
 import { InteractionManager, Interactable } from "./interaction.js";
 import { CustomTeleportMovementManager } from "./movement.js";
 import { Settings } from "./settings.js";
 import { Utility } from "./utility.js";
 import { Setup } from "./setup.js";
-
-import * as LOOP from "./loop.js";
-import * as SETUP from "./setup_.js";
 
 let engine; // The engine object that will control the VR environment
 export { engine };
@@ -40,50 +36,35 @@ export class Engine {
   vrSession;    // A VR session, while it is active, the browser will display the page content in VR mode
   glContext; 
 
-  scale;
+  scale;        // Scale of the models
 
   // Declare the various manager objects
-  avatar;
   interactionManager;
   movementManager;
 
+  audioListener;// 
+  music;
+  audioLoader;
 
-  firstPass = true;
-  refSpace;
+  firstPass = true; // Whether this is the first pass of the iteration loop
  
-
-  // cameraVector is a Vector object representing the direction of the camera
-  // It isn't necessary to fully understand what it is at this point
-  // However, it is used in the calculations for player movement, so it is important
-  cameraVector;
+  // Set the player's starting position, elevation, and facing
+  playerPosition = 354;
+  playerFacing = 0;
   
-
-
-  dolly;      // A "virtual carriage" used to move the camera and controllers within the game
-  player;     // Visual representation of the player's "footprint" for determining collisions
-  playerBox;  // Data representation of the player's "footprint" for determining collisions
+  dolly;        // A "virtual carriage" used to move the camera and controllers within the game
+  player;       // Visual representation of the player's "footprint" for determining collisions
+  playerBox;    // Data representation of the player's "footprint" for determining collisions
   
-  gltfLoader;     // The GLTF loader used to load the 3D models
+  gltfLoader;
   objLoader;
   mtlLoader;
 
-          
-  movementSpeed = 0.025;  // The speed the player moves at
-  rotationSpeed = 0.5;    // The speed the player rotates (turns) at
-  pickDistance = 10;      // The length of the raycasters, how far they stretch
+  levelData;    // The level data for the game
 
   // Declare the lights that will illuminate the scene
-  ambientLight;     // General level of light, illuminates everything
-  silverKeyLight;   // Sits in the same place as the Silver Key, making it stand out
-  goldKeyLight;     // Sits in the same place as the Gold Key, making it stand out
-  finishLight;      // Sits in the same place as the Victory Text, making it stand out
-  
-  // Declare the variables to manage the puzzles / traps
-  hasSilverKey = false;
-  hasGoldKey = false
-  portcullisDown = false;
-
-  tempBox;
+  ambientLight;
+  mainLight;
 
   constructor() {}
 
@@ -99,7 +80,26 @@ export class Engine {
         
     // Creates and positions the camera, the player's view of the environment
     this.camera = new THREE.PerspectiveCamera(Settings.fov, window.innerWidth / window.innerHeight, Settings.near, Settings.far);
-    
+
+    // create an AudioListener and add it to the camera
+    this.audioListener = new THREE.AudioListener();
+    this.camera.add(this.audioListener);
+
+    // create a global audio source
+    this.music = new THREE.Audio(this.audioListener);
+
+    // load a sound and set it as the Audio object's buffer
+    this.audioLoader = new THREE.AudioLoader();
+    this.audioLoader.load("./audio/nocturne-01.ogg", function(buffer) {
+      
+      this.music.setBuffer(buffer);
+      this.music.setLoop(true);
+      this.music.setVolume(0.5);
+      this.music.play();
+      this.music.pause();
+
+    }.bind(this));
+
     // Create and configure the renderer
     this.renderer = Setup.setupRenderer();
 
@@ -140,11 +140,14 @@ export class Engine {
   
     this.setupWebGLLayer().then(() => { this.renderer.xr.setSession(this.vrSession); });    
 
-    this.scale = 2; //Setup.calculateScale(this.renderer, this.camera);
-
-    this.avatar = new Avatar();
+    this.scale = Setup.calculateScale(this.renderer, this.camera);
     this.interactionManager = new InteractionManager(this, Settings.INTERACTION_MODE_GAZE);
     this.movementManager = new CustomTeleportMovementManager(this, Settings.MOVEMENT_MODE_CUSTOM_TELEPORT);    
+    
+    // Add a grid-helper at the floor level
+    const gridHelper = new THREE.GridHelper((this.scale * 20), 20, 0xff0000, 0x004400);
+    gridHelper.position.set((this.scale * 10), 0, (this.scale * 10));
+    this.scene.add(gridHelper);
 
     // The dolly is a "virtual carriage" that stores the camera and controllers within the envionment
     // Basically, it allows us to move the camera and controllers in one go, rather than individually
@@ -153,92 +156,78 @@ export class Engine {
     this.scene.add(this.dolly);
     
     // Place the dolly at the start tile for the player
-    this.placeObjectAtTile(this.dolly, this.avatar.position, null);
-    
-
-    // Add a grid-helper at the floor level
-    const gridHelper = new THREE.GridHelper(40, 20, 0xff0000, 0x004400);
-    gridHelper.position.set(20, 0, 20);
-    this.scene.add(gridHelper);
-
-    // Add the Axes Helper
-    let axesHelper = new THREE.AxesHelper(20);
-    axesHelper.position.set(0, 0, 0);
-    this.scene.add(axesHelper);      
+    this.placeObjectAtTile(this.dolly, this.playerPosition, null);
 
     // Initialise the lights in the scene
-    this.ambientLight = new THREE.AmbientLight( 0x505050, 2 );
+    this.ambientLight = new THREE.AmbientLight(0x505050, 0.5);
     this.scene.add(this.ambientLight);
-
-    this.silverKeyLight = new THREE.PointLight( 0xbb9977, 2, 20, 2);
-    this.scene.add(this.silverKeyLight);
-
-    this.goldKeyLight = new THREE.PointLight( 0xbb9977, 2, 20, 2);
-    this.scene.add(this.goldKeyLight);
-
-    this.finishLight = new THREE.PointLight( 0xbb9977, 2, 20, 3);
-    this.finishLight.position.set(10, 0.5, 9);
-    this.scene.add(this.finishLight);
-
-    //const light = new THREE.PointLight( 0xfffff, 10000, 1000 );
-    //light.position.set( 20, 10, 20 );
-    //this.scene.add( light );
-    const hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1 ); 
-    this.scene.add(hemiLight);
+    this.mainLight = new THREE.PointLight( 0x555555, (1000 * this.scale), (250 * this.scale), 2);
+    this.mainLight.position.set(20, 10, 30);
+    this.mainLight.castShadow = true;    
+    this.scene.add(this.mainLight);
 
     // Initialise the GLTF loader that loads the 3D models
     this.gltfLoader = new GLTFLoader();
-    this.objLoader = new OBJLoader();
-    this.mtlLoader = new MTLLoader();
 
-    // Call the SETUP function that loads all of the models and places them in the environment
-    //SETUP.loadModels(this);
+    // Set the re-scale array for Tinkercad models
+    let glbScale = [ (0.1 * this.scale), (0.1 * this.scale), (0.1 * this.scale) ];
 
-    let texLoader = new THREE.TextureLoader();
-    let texture = texLoader.load("./textures/test-texture.png");
-    let material = new THREE.MeshLambertMaterial( { map: texture } );
-    let geometry = new THREE.BoxGeometry(2, 2, 2); 
-    let cube = new THREE.Mesh(geometry, material);
-    cube.material.side = THREE.DoubleSide;
+    this.loadTinkercadGlb("./models/interaction-room.glb", 4, Settings.SCENERY_MODEL, [ (this.scale * 10), 0, (this.scale * 10) ], [0, 0, 0], [0, 0, 0], glbScale, true, true, {}, false);
+   
+    let lightSwitchFunction = function(interactable) {
 
-    //static MODEL_TYPE_3D_BUILDER_OBJ = 0;
-    //static MODEL_TYPE_THREE_MESH = 1;
-    //static MODEL_TYPE_TINKERCAD_GLB = 2;
-    
-    
+      if(this.mainLight.intensity === 0) {
 
-    let prop1 = { DestroyOnSelect: true };
-    let int1 = new Interactable(this.interactionManager, 101, Settings.INTERACTABLE_MODEL_STANDARD, cube, Settings.MODEL_TYPE_THREE_MESH, prop1);
-    cube.userData.id = 101;
-    cube.userData.type = Settings.MODEL_TYPE_THREE_MESH;
-    this.interactionManager.interactableData.push(int1);
-    this.interactionManager.interactableModels.push(cube);
-    this.placeObjectAtTile(cube, 371, [ 0, 0.5, 0 ]);
-    this.scene.add(cube);
+        this.mainLight.intensity = (1000 * this.scale);
+        this.mainLight.distance = (250 * this.scale);
+
+      } else {
+
+        this.mainLight.intensity = 0;
+        this.mainLight.distance = 0;        
+      }
+
+    }.bind(this);
+
+    let lightSwitchProperties = {
+      type: Settings.INTERACTABLE_MODEL_STANDARD, DestroyOnSelect: false, onSelect: lightSwitchFunction
+    };
+
+    this.loadTinkercadGlb("./models/light-switch.glb", 4, Settings.INTERACTABLE_MODEL_STANDARD, [ (this.scale * 10), 0, (this.scale * 10) ], [0, 0, 0], [0, 0, 0], glbScale, true, true, lightSwitchProperties, false);
+
+    let recordFunction = function(interactable) {
+
+      if(interactable.active) {
+
+        interactable.active = false;
+        this.music.pause();
+
+      } else {
+
+        interactable.active = true;
+        this.music.play();
+      }
+
+    }.bind(this);
+
+    let recordTickFunction = function(interactable) {
+
+      interactable.model.rotation.y += THREE.MathUtils.degToRad(1);
+
+    }.bind(this);
+
+    let recordProperties = {
+      type: Settings.INTERACTABLE_MODEL_STANDARD, DestroyOnSelect: false, onSelect: recordFunction, onPassiveTick: recordTickFunction
+    };
+
+    this.loadTinkercadGlb("./models/vinyl-record.glb", 5, Settings.INTERACTABLE_MODEL_STANDARD, 336, [0, 1.25, 0], [0, 0, 0], glbScale, true, true, recordProperties, false);    
+    //this.loadTinkercadGlb("./models/climb-trigger.glb", 4, Settings.INTERACTABLE_MODEL_CLIMB_TRIGGER, 170, [0.5, 1, 0], [45, 90, 0], [0.3, 0.3, 0.3], true, true, { DestroyOnSelect: false, ClimbTargets: [ [ 170, 1 ], [ 328, 0 ] ], AccessFrom: [ 250, 328 ] } );
+
+    //this.loadTinkercadGlb("./models/rotate-left-trigger.glb", 1, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, true, { DestroyOnSelect: false, RotateLeftOnSelect: true, RotateRightOnSelect: false } );
+    //this.loadTinkercadGlb("./models/rotate-right-trigger.glb", 2, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, true, { DestroyOnSelect: false, RotateLeftOnSelect: false, RotateRightOnSelect: true } );
+
   
-    
-    this.loadTinkercadGlb("./models/graveyard.glb", 999, Settings.SCENERY_MODEL, [ 20, 0, 20 ], [0, 0, 0], [0, 0, 0], [0.2, 0.2, 0.2], true, {} );    
-    
-    //this.load3dBuilderObj("./models/test-obj/test-obj", 99, Settings.INTERACTABLE_TYPE_STANDARD, 288, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: true });
-    //this.loadTinkercadGlb("./models/silver-key.glb", 25, Settings.INTERACTABLE_TYPE_STANDARD, 344, [0, 1, 0], [0, 0, 0], [1.5, 1.5, 1.5], true, { DestroyOnSelect: true });
-    //this.loadTinkercadGlb("./models/test.glb", 51, Settings.INTERACTABLE_TYPE_STANDARD, 304, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: true });
-
-
-    this.loadTinkercadGlb("./models/climb-trigger.glb", 4, Settings.INTERACTABLE_MODEL_CLIMB_TRIGGER, 270, [0.5, 1, 0.25], [45, 90, 0], [0.3, 0.3, 0.3], true, { DestroyOnSelect: false, ClimbTargets: [ [ 250, 1 ], [ 328, 0 ] ], AccessFrom: [ 250, 328 ] } );
-
-    this.loadTinkercadGlb("./models/rotate-left-trigger.glb", 1, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, { DestroyOnSelect: false, RotateLeftOnSelect: true, RotateRightOnSelect: false } );
-    this.loadTinkercadGlb("./models/rotate-right-trigger.glb", 2, Settings.INTERACTABLE_MODEL_MOVEMENT_TRIGGER, 308, [0, 0, 0], [0, 0, 0], [0.02, 0.02, 0.02], true, { DestroyOnSelect: false, RotateLeftOnSelect: false, RotateRightOnSelect: true } );
-
-    //let rightTrigger = this.interactionManager.getInteractableData(1).model;
-    // Calculate the position to the right of the camera
-    //const rightVector = new THREE.Vector3(1, 0, 0); // Unit vector pointing right in camera space
-    //rightVector.applyQuaternion(this.camera.quaternion); // Rotate to match the camera's orientation
-    //rightVector.multiplyScalar(1); // Adjust the distance to the right of the camera
-
-    // Set the model's position
-    //rightTrigger.position.copy(camera.position).add(rightVector);
-
-    this.loadTinkercadGlb("./models/teleport-trigger.glb", 3, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 328, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, { DestroyOnSelect: false, TeleportTarget: [ 328, 0 ], AccessFrom: [ 348 ] } );
+    //this.loadTinkercadGlb("./models/teleport-trigger.glb", 3, Settings.INTERACTABLE_MODEL_TELEPORT_TRIGGER, 328, [0, 0, 0], [0, 0, 0], [0.1, 0.1, 0.1], true, false, { DestroyOnSelect: false, TeleportTarget: [ 328, 0 ], AccessFrom: [ 348 ] } );
     
     
     // Ask the renderer to start the animation loop by calling the animate function
@@ -248,103 +237,53 @@ export class Engine {
 
   }
 
-  load3dBuilderObj(filename, id, type, tile, offset, rotate, scale, addToScene, properties) {
-    
-    this.mtlLoader.load(
-      (filename + ".mtl"), // Path to your .mtl file
-      function(materials) {
-          materials.preload(); // Preload the materials
-          this.objLoader.setMaterials(materials); // Apply materials to OBJLoader
-          
-          this.objLoader.load((filename + ".obj"),
-          
-            function(model) {
+  loadTinkercadGlb(filename, id, type, position, offset, rotate, scale, addToScene, castShadow, properties, active) {
+
+    this.gltfLoader.load(filename, function(gltf) {
             
-              model.userData.id = id;
-              model.userData.type = Settings.MODEL_TYPE_3D_BUILDER_OBJ;
-              
-              this.interactionManager.interactableData.push(
-                new Interactable(this.interactionManager, id, type, model, Settings.MODEL_TYPE_3D_BUILDER_OBJ, properties)
-              );
-
-              if(Utility.isModelInteractable(type))
-                this.interactionManager.interactableModels.push(model);
-
-              if(addToScene)
-                this.scene.add(model);
-                      
-
-
-                this.placeObjectAtTile(model, tile, offset);
-
-              model.rotation.x = THREE.MathUtils.degToRad(rotate[0]);
-              model.rotation.y = THREE.MathUtils.degToRad(rotate[1]);
-              model.rotation.z = THREE.MathUtils.degToRad(rotate[2]);              
-              model.scale.set( scale[0], scale[1], scale[2] ); 
-              
-              
-            }.bind(this),
-
-              (xhr) => {
-                  console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
-              },
-              (error) => {
-                  console.error('An error occurred:', error);
-              }
-          );
-      }.bind(this),
-      (xhr) => {
-          console.log((xhr.loaded / xhr.total) * 100 + '% loaded (materials)');
-      },
-      (error) => {
-          console.error('An error occurred while loading materials:', error);
-      }
-    );
-  }
-
-  loadTinkercadGlb(filename, id, type, position, offset, rotate, scale, addToScene, properties) {
-
-    this.gltfLoader.load(filename,
-               
-      function(gltf) {
-            
-        let model = gltf.scene;
-
-        model.userData.id = id;
-        model.userData.type = Settings.MODEL_TYPE_TINKERCAD_GLB;
+      // Initialise the model with its ID and model-type
+      let model = gltf.scene;
+      model.userData.id = id;
+      model.userData.type = Settings.MODEL_TYPE_TINKERCAD_GLB;
         
+      // If the model is intended to be interactable, process it accordingly
+      if(Utility.isModelInteractable(type)) {
+      
         this.interactionManager.interactableData.push(
-          new Interactable(this.interactionManager, id, type, model, Settings.MODEL_TYPE_TINKERCAD_GLB, properties)
+          new Interactable(this.interactionManager, id, type, model, Settings.MODEL_TYPE_TINKERCAD_GLB, properties, active)
         );
         
-        if(Utility.isModelInteractable(type))
-          this.interactionManager.interactableModels.push(model);
+        this.interactionManager.interactableModels.push(model);
+      }
 
-        if(addToScene)
-          this.scene.add(model);
-                  
-        if(Array.isArray(position)) {
-
-          model.position.set(position[0], position[1], position[2]);
-
-        } else {
-
-          this.placeObjectAtTile(model, position, offset);
-        }
-        model.rotation.x = THREE.MathUtils.degToRad(rotate[0]);
-        model.rotation.y = THREE.MathUtils.degToRad(rotate[1]);
-        model.rotation.z = THREE.MathUtils.degToRad(rotate[2]);              
-        model.scale.set( scale[0], scale[1], scale[2] ); 
-        
-      }.bind(this),
-               
-      undefined,
-               
-      function(error) {
+      // Determine whether the model is to be placed on an identified tile...
+      // ...or at an absolute X, Y, Z position                 
+      if(Array.isArray(position))
+        model.position.set(position[0], position[1], position[2]);
+      else
+        this.placeObjectAtTile(model, position, offset);
       
-        console.error("An error occurred loading the GLTF model: ", error);
-      }   
-    );
+      // Rotate and scale the model accordingly
+      model.rotation.x = THREE.MathUtils.degToRad(rotate[0]);
+      model.rotation.y = THREE.MathUtils.degToRad(rotate[1]);
+      model.rotation.z = THREE.MathUtils.degToRad(rotate[2]);              
+      model.scale.set( scale[0], scale[1], scale[2] ); 
+
+      // If this model is to cast shadow, configure this
+      if(castShadow) {
+
+        model.castShadow = true;
+        model.receiveShadow = true;
+      }
+
+      // If requested, add the model to the scene
+      if(addToScene)
+        this.scene.add(model);
+
+    }.bind(this), undefined, function(error) {
+      
+      console.error("An error occurred loading the GLTF / GLB model: ", error);
+    });
 
     return null;
   }
@@ -368,65 +307,6 @@ export class Engine {
     });
   }
 
-  /*loadModel(filename, pos, rot, scale, addTo, properties) {
-
-    this.loader.load(filename,
-               
-      function(gltf) {
-                   
-        // If this stage is reached, the model has been successfully loaded
-        const model = gltf.scene;
-
-        // If the pos array has three elements, it is to be placed directly on the scene
-        // If not, it has been passed a tile ID at which it is to be placed and, possibly, offset
-        if(pos.length === 3) {
-
-          model.position.set(pos[0], pos[1], pos[2]);
-
-        } else {
-
-          this.placeObjectAtTile(model, pos[0], pos[1]);
-        }
-        
-        // Set the model to the given scale
-        model.scale.set(scale[0], scale[1], scale[2]);
-
-        // Apply any rotations around each axes
-        model.rotation.x = THREE.MathUtils.degToRad(rot[0]);
-        model.rotation.y = THREE.MathUtils.degToRad(rot[1]);
-        model.rotation.z = THREE.MathUtils.degToRad(rot[2]);
-
-        // Apply any required properties
-        // These properties help us identify the object later on, should we need to
-        for(let a = 0; a < properties.length; a++) {
-          
-          model.userData[properties[a].name] = properties[a].value;
-        }
-
-        // Add the model to the scene
-        this.scene.add(model);
-
-        // Add the model to the specified arrays
-        // For example, if the model is part of a dungeon wall, it is added to the structure array
-        // If it is to be interacted with, it might be added to the interactions array
-        // Or possibly, it might be added to both
-        for(let a = 0; a < addTo.length; a++) {
-
-          addTo[a].push(model);
-        }
-
-      }.bind(this),
-               
-      undefined,
-               
-      function(error) {
-      
-        console.error("An error occurred loading the GLTF model: ", error);
-      }   
-    );
-
-    return null;
-  }*/
 
   /**
    * This function places an object on a given tile (specified by the tile parameter)
@@ -446,13 +326,13 @@ export class Engine {
 
       // Calculate the x-position and z-position of the specified tile by calculating its column and row
       // The calculation of the x-position / column uses Modulo division to find the remainder
-      let x = ((tile % 20) * 2) + 1;
-      let z = (Math.floor(tile / 20) * 2) + 1;
+      let x = (((tile % 20) * this.scale) + (this.scale / 2));
+      let z = ((Math.floor(tile / 20) * this.scale) + (this.scale / 2));
 
       // Calculate any offsets from the given array (which could be null, if not required)
-      let offsetX = (offset !== null) ? offset[0] * 2 : 0;
-      let offsetY = (offset !== null) ? offset[1] * 2 : 0;
-      let offsetZ = (offset !== null) ? offset[2] * 2 : 0;
+      let offsetX = (offset !== null) ? (offset[0] * this.scale) : 0;
+      let offsetY = (offset !== null) ? (offset[1] * this.scale) : 0;
+      let offsetZ = (offset !== null) ? (offset[2] * this.scale) : 0;
       
       // Set the position of the object based on the calculated x and z, and any respective offsets
       object.position.x = (x + offsetX);
@@ -506,12 +386,11 @@ export class Engine {
 
     if(this.firstPass) {
 
-
-      let leftTrigger = this.interactionManager.getInteractableData(1).model;
-      let rightTrigger = this.interactionManager.getInteractableData(2).model;
-      this.movementManager.setRotateTriggers(leftTrigger, rightTrigger);
-      this.movementManager.positionRotateTriggers(this.dolly);
-      this.movementManager.buildTeleportFader();
+      //let leftTrigger = this.interactionManager.getInteractableData(1).model;
+      //let rightTrigger = this.interactionManager.getInteractableData(2).model;
+      //this.movementManager.setRotateTriggers(leftTrigger, rightTrigger);
+      //this.movementManager.positionRotateTriggers(this.dolly);
+      //this.movementManager.buildTeleportFader();
       this.firstPass = false;
     }
 
@@ -522,6 +401,12 @@ export class Engine {
     if(this.interactionManager.mode === Settings.INTERACTION_MODE_GAZE)
       this.interactionManager.castGaze();
 
+    let data = this.interactionManager.interactableData;
+    for(let a = 0; a < data.length; a++) {
+
+      if(data[a].active)
+        data[a].passiveTick();
+    }
     // Loop through the array of interactable objects
     // If the silver and / or gold keys are still in play, rotate them
     //for(let a = 0; a < this.interactions.length; a++) {

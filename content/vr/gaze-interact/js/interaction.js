@@ -210,7 +210,7 @@ export class InteractionManager {
       
       } else if(this.gazePicked.id === data.id) {
 
-        if(this.gazePicked.tick()) {
+        if(this.gazePicked.activeTick()) {
 
           this.gazePicked.onSelected();
           this.gazePicked = null;
@@ -345,9 +345,11 @@ export class Interactable {
   modelType;
   attributes;
 
+  active;
+
   pickedAt;
 
-  constructor(manager, id, type, model, modelType, attributes) {
+  constructor(manager, id, type, model, modelType, attributes, active) {
 
     this.manager = manager;
     this.id = id;
@@ -356,10 +358,12 @@ export class Interactable {
     this.modelType = modelType;
     this.attributes = attributes;
 
+    this.active = active;
+
     this.pickedAt = -1;
   }
 
-  tick() {
+  activeTick() {
 
     let now = Date.now();
     let duration = (now - this.pickedAt);
@@ -374,6 +378,17 @@ export class Interactable {
       this.model.children[0].children[0].material.emissive = new THREE.Color(rgb);
 
     return (duration > Settings.pickTimer);
+  }
+
+  passiveTick() {
+
+    let att = this.attributes;
+    
+    if(Utility.getProperty(att, "type") === Settings.INTERACTABLE_MODEL_STANDARD) {
+
+      if(Utility.getProperty(att, "onPassiveTick") !== null)
+        att.onPassiveTick(this);
+    }
   }
 
   onPicked() {
@@ -411,6 +426,12 @@ export class Interactable {
   onSelected() {
 
     let att = this.attributes;
+
+    if(Utility.getProperty(att, "type") === Settings.INTERACTABLE_MODEL_STANDARD) {
+
+      if(Utility.getProperty(att, "onSelect") !== null)
+        att.onSelect(this);
+    }
 
     if(Utility.getProperty(att, "ClimbTargets")) {
 

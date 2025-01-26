@@ -13,16 +13,24 @@ export class Setup {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.xr.enabled = true;
-
+    renderer.shadowMap.enabled = true;
+    
     return renderer;
   }
 
   static calculateScale(renderer, camera) {
     
+    /*
+    Calculate the scale based on the height at which the camera enters the scene
+    Use 2 for the time being
+    May need to differentiate between devices
     //if(renderer.xr.isPresenting)
       return renderer.xr.getCamera(camera).position.y;
     //else
       //return settings.baseScale - 0.999;
+      */
+
+    return 1;
   }
 
   static buildDolly(camera) {
