@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+    <title>Bluetooth Facial Gesture Controller</title>
+
+    <link rel="stylesheet" href="./css/styles-common.css">
+    <!-- link rel="stylesheet" href="small-screen.css" media="only screen and (max-width: 320px)" -->
+
+    <!-- Fetch MediaPipe FaceMesh and CameraUtils libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
+
+    <!-- Fetch internal libraries -->
+    <script src="./js/facial-gesture.js"></script>
+    <script src="./js/head-movement.js"></script>
+    <script src="./js/protocol.js"></script>
+    <script src="./js/utility.js"></script>
+
+    <script type="text/javascript">
+
+      let protocol;
+
+      let connectButton;
+      let statusElement;
+
+      let device;
+      let uartService = null;
+      let rxCharacteristic = null;
+      let txCharacteristic = null;
+      let connected = false;
+
+      let video;
+      let canvas;
+      let ctx;
+      let log;
+
+      let camera;
+      let faceMesh;
+      
+      function setup() {
+
+        // Initialise the protocol object
+        protocol = new Protocol();
+
+        // Setup the statusElement
+        statusElement = document.getElementById("connect-status");
+        statusElement.innerHTML = "❌ Disconnected";
+
+        // Setup the connectButton
+        connectButton = document.getElementById("connect-button");
+        connectButton.innerHTML = "Connect to Micro:Bit";
+        
+        // Configure the connectButton
+        connectButton.addEventListener('click', protocol.connect.bind(protocol));
+
+        // Initialise references DOM elements
+        video = document.getElementById("video");
+        canvas = document.getElementById("canvas");
+        ctx = canvas.getContext("2d");
+        log = document.getElementById("log");
+        
+        // Initialise the faceMesh object and assign event handling functions
+        faceMesh = new FaceMesh( { locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`, } );
+
+        // Initialise the faceMesh options and apply them
+        faceMesh.setOptions({
+          maxNumFaces: 1,
+          refineLandmarks: true,
+          minDetectionConfidence: 0.5,
+          minTrackingConfidence: 0.5,
+        });
+
+        // Manage the results
+        faceMesh.onResults(protocol.processResults.bind(protocol));          
+
+        const camera = new Camera(video, {
+        onFrame: async () => {
+          await faceMesh.send({ image: video });
+          },
+          width: 640,
+          height: 480,
+        });
+              
+        camera.start();
+      }
+
+      function toggleOutputType() {
+
+        configureOutputToggle();
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="setup();">
+
+    <div id="main">
+      
+      <div id="status-pane">
+        <div id="connect-status">Status: Not connected</div>
+        <div id="connect-button">Connect to micro:bit</div>
+      </div>
+
+      <div id="video-pane">
+        <video id="video" autoplay muted playsinline></video>
+      </div>
+
+      <div id="canvas-pane">
+        <canvas id="canvas" width="320" height="240"></canvas>
+      </div>
+    
+      <div id="output-pane">
+        
+        <div id="output-type">
+          <span class="selected">Absolute</span>
+          <span class="divider">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          <span class="unselected" onclick="toggleOutputType();">Relative</span>
+        </div>
+
+        <div id="output-data">
+          
+            <div class="table-row">
+              <p class="table-header">Head Movement</p>
+            </div>   
+
+            <div class="table-row">
+              <p class="table-label">X-Axis (Roll)</p>
+              <div class="table-value">
+                <div id="x-axis-rotation-left-bar" class="left-bar">Down</div><!--
+                --><p id="x-axis-rotation-value" class="value">-</p><!--
+                --><div id="x-axis-rotation-right-bar" class="right-bar">Up</div>                  
+              </div>
+            </div>   
+
+            <div class="table-row">
+              <p class="table-label">Y-Axis (Yaw)</p>
+              <div class="table-value">
+                <div id="y-axis-rotation-left-bar" class="left-bar">Left</div><!--
+                --><p id="y-axis-rotation-value" class="value">-</p><!--
+                --><div id="y-axis-rotation-right-bar" class="right-bar">Right</div>                  
+              </div>
+            </div>
+            
+            <div class="table-row">
+              <p class="table-label">Z-Axis (Pitch)</p>
+              <div class="table-value">
+                <div id="z-axis-rotation-left-bar" class="left-bar">Left</div><!--
+                --><p id="z-axis-rotation-value" class="value">-</p><!--
+                --><div id="z-axis-rotation-right-bar" class="right-bar">Right</div>                  
+              </div>
+            </div>  
+
+            <div class="table-row">
+              <p class="table-header">Facial Gestures</p>
+            </div>     
+
+            <div class="table-row">
+              <p class="table-label">Mouth</p>
+              <div class="table-value">
+                <div id="mouth-open-left-bar" class="left-bar">Open</div><!--
+                --><p id="mouth-open-value" class="value">-</p><!--
+                --><div id="mouth-open-right-bar" class="right-bar">Open</div>                  
+              </div>
+            </div>          
+            
+            <div class="table-row">
+              <p class="table-label">Eyebrows</p>
+              <div class="table-value">
+                <div id="eyebrows-raised-left-bar" class="left-bar">Up</div><!--
+                --><p id="eyebrows-raised-value" class="value">-</p><!--
+                --><div id="eyebrows-raised-right-bar" class="right-bar">Up</div>                  
+              </div>
+            </div>
+          
+        </div>
+
+      </div>
+      
+    </div>
+
+  </body>
+
+</html>
