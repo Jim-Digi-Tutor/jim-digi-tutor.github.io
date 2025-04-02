@@ -1,6 +1,13 @@
 .bold { font-weight: bold; }
 .italic {font-style: italic; }
 .uppercase { text-transform: uppercase; }
+.centre { text-align: center; }
+
+.highlight {
+
+	background-color: white;
+	border: solid 1px black;
+}
 
 .dark-grey { color: var(--dark-grey); }
 .nc-purple { color: var(--nc-purple); }
