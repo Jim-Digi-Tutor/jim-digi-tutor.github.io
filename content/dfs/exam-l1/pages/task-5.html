@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Task 5", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "task-4.html", backText: "Previous", nextButton: "task-6.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+
+        <p class="section-heading no-top-margin">Task 5 (6 Marks)</p>
+        <p class="section-emphasis">Suggested Time for Task 5: 10 minutes</p>
+
+        <p class="section-text">You need to sign a contract to rent an office.</p>
+        <p class="section-text">Click the button below to download the <span class="bold">Rental Agreement</span>.</p>
+        <p class="section-text">Save a copy of the file in the <span class="bold">Section 2</span> subfolder you created.</p>
+
+        <p class="section-text"><span class="bold">a)</span> Enter the following details, where indicated in the file. (2 marks)</p>
+
+        <ol>
+            <li>Enter <span class="bold">today's date</span></li>
+            <li>Enter <span class="bold">your own name</span></li>
+            <li>Enter <span class="bold">your signature</span> in the space for <span class="bold">The Tenant</span>, by typing your name in <span class="bold">Italics</span></li>
+        </ol>
+
+        <p class="section-text"><span class="bold">b)</span> Upload the completed <span class="bold">Rental Agreement</span> using the <span class="bold">Submit Form</span> button below. (1 mark)</p>
+
+        <div class="button-container">
+        
+          <a href="..\assets\files\rental-agreement.docx" class="download-button" download>Rent Agreement</a>
+
+          <label for="file-upload" class="custom-upload">
+            Submit Form
+            <input type="file" class="custom-upload" id="file-upload">
+          </label>
+
+        </div>        
+        
+        <p class="section-text">You need to pay the deposit and the first month's rent.</p>
+        <p class="section-text">Complete the following online payment page using the payment details below.</p>
+
+        <p class="section-text"><span class="bold">Amount to Pay: £1975.00</span></p>
+        <p class="section-text"><span class="bold">Card Details:</p>
+
+        <img class="task-5-image" src="../assets/images/credit-card.png">
+
+        <p class="section-text"><span class="bold">c)</span> Enter the card number and expiry date: (1 mark)</p>
+
+        <table class="cc-table">
+          
+          <tr>
+            <td class="header-row">Card Number</td>
+            <td class="header-row">DD</td>
+            <td class="header-row">MM</td>
+          </tr>
+
+          <tr>
+            <td class="content-row"><input type="text"></td>
+            <td class="content-row"><input type="text"></td>
+            <td class="content-row"><input type="text"></td>
+          </tr>
+
+        </table>
+
+        <p class="section-text"><span class="bold">d)</span> Enter the payment amount in whole pounds and the CVC code: (1 mark)</p>
+
+        <table class="cc-table">
+          
+          <tr>
+            <td class="header-row">Payment Amount (£s)</td>
+            <td class="header-row">CVC Code</td>
+          </tr>
+
+          <tr>
+            <td class="content-row"><input type="text"></td>
+            <td class="content-row"><input type="text"></td>
+          </tr>
+
+        </table>        
+
+        <p class="section-text"><span class="bold">e)</span> Enter the Captcha code, exactly as shown, to submit the payment: (1 mark)</p>
+
+        <table class="task-5-table">
+
+          <tr>
+            <td class="captcha-image">
+              <img src="../assets/images/captcha.png">
+            </td>
+            <td class="captcha-input"><input type="text"></td>
+          </tr>        
+
+        </table>
+
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Task 5</span> press <span class="bold italic">Next</span>.</p>
+      
+      </div>
+      
+      <footer id="footer" class="footer-console">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

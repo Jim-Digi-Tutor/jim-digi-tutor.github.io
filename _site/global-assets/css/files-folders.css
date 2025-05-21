@@ -1,0 +1,367 @@
+.files-icon-image {
+
+  width: 75px;
+  height: auto;
+  margin: 0 auto 20px auto;
+  display: block;
+}
+
+.mouse-button-image-map {
+
+  height: 400px;
+}
+
+.cursor-examples {
+
+  width: 400px;
+  height: auto;
+  border: solid 1px var(--emphasis-text-colour);
+  margin: 40px auto 0 auto;
+  display: block;
+}
+
+.icon-image, .dropped-item {
+
+  width: auto;
+  height: 50px;
+}
+
+.icon-container {
+
+  width: 145px;
+  text-align: center;
+  border: solid 1px rgba(0, 0, 0, 0);
+  padding: 10px;
+  margin: 0 0 10px 0;
+}
+
+.icon-container p {
+
+  font-size: 14px;
+  margin: 2px 0 0 0;
+}
+
+.icon-container:hover, .icon-container-selected {
+
+  background-color: rgba(0, 0, 255, 0.1);
+  border: solid 1px blue;
+}
+
+.folder-view {
+
+  width: 700px;
+  border: solid 2px var(--emphasis-text-colour);
+  margin: 0 auto 0 auto;
+  display: block;
+}
+
+.folder-structure-view {
+
+  width: auto;
+  height: 300px;
+  border: solid 2px var(--emphasis-text-colour);
+  margin: 0 auto 0 auto;
+  display: block;
+}
+
+.folder-structure-container {
+
+  position: relative;
+  height: 300px;
+  margin: 0 0 0 50px;
+}
+
+.folder-structure-view-contained {
+
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: auto;
+  height: 300px;
+  border: solid 2px var(--emphasis-text-colour);
+  margin: 0 auto 0 auto;
+}
+
+.explorer-mock-up {
+
+  position: relative;
+  width: 500px;
+  height: 300px;
+  background-color: var(--component-background-colour);
+  border: solid 2px var(--emphasis-text-colour);
+  margin: 0 auto 0 auto;
+  display: block;
+}
+
+.explorer-bread-crumbs {
+
+  position: absolute;
+  left: 50px;
+  top: 10px;
+  width: 437px;
+  height: 30px;
+  font-size: 18px;
+  border: solid 3px black;
+  border-radius: 5px;
+  padding: 4px 0 0 5px;
+}
+
+.explorer-up-button {
+
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  border: solid 3px black;
+  border-radius: 5px;
+}
+
+.explorer-up-button:hover {
+
+  color: blue;
+  border-color: blue;
+  background-color: rgba(0, 0, 255, 0.1);
+}
+
+.explorer-position {
+
+  position: absolute;
+  border: solid 4px var(--emphasis-text-colour);
+  border-radius: 5px;
+}
+
+.explorer-content {
+
+  position: absolute;
+  left: 10px;
+  top: 50px;
+  width: 477px;
+  height: 237px;
+}
+
+.dropped-item {
+
+  margin: 2px;
+}
+
+.big-tick-image {
+
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 100px;
+  height: 100px;
+}
+
+.tick-image {
+
+  width: 50px;
+  height: auto;
+  margin: 0 0 0 20px;
+}
+
+.tick-image-navigating {
+
+  width: 25px;
+  height: auto;
+  margin: 20px 20px 0 0;
+}
+
+.tick-hidden {
+
+  visibility: hidden;
+}
+
+.right-click-image {
+
+  width: 150px;
+  border: solid 1px var(--emphasis-text-colour);
+  margin: 0 50px 0 0;
+}
+
+.down-arrow {
+
+  height: 50%;
+  margin: 20px auto 20px auto;
+  display: block;
+} 
+
+.content-tabulator {
+
+  margin: 20px 0 0 0;
+}
+
+.sub-content-tabulator {}
+
+.tabulated-content {
+
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.tabulated-sub-content {
+
+  display: inline-block;
+  vertical-align: top;
+}
+
+.drop-target {
+
+  width: 60px;
+  height: 60px;
+  border: solid 2px black;
+  margin: 30px 0 15px 0;
+}
+
+.mouse-over-test-link {
+
+  color: blue;
+  font-size: 18px;
+  margin: 0 0 30px 0;
+  display: block;
+}
+
+.mouse-over-test-button {
+
+  width: 100px;
+  height: 50px;
+  color: var(--emphasis-text-colour);
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: var(--component-background-colour);
+  border: solid 2px var(--emphasis-text-colour);
+  border-radius: 15px;
+  padding: 14px 0 0 0;
+  margin: 30px 0 0 0;
+  display: block;
+}
+
+.mouse-over-test-button:hover {
+
+  color: var(--emphasis-text-colour);
+  background-color: var(--component-background-colour);
+}
+
+.pseudo-iframe {
+
+  height: 300px;
+  border: solid 1px var(--emphasis-text-colour);
+  margin: 20px 0 0 0;
+}
+
+.pseudo-iframe h1 {
+
+  width: 100%;
+  color: var(--heading-blue);
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: solid 1px var(--dark-grey);
+  padding: 0 0 16px 8px;
+  margin: 16px 0 0 0;				
+}
+
+.pseudo-iframe p {
+
+  width: 100%;
+  color: black;
+  font-size: 18px;
+  line-height: 1.1;
+  border-bottom: solid 1px var(--dark-grey);
+  padding: 0 8px 16px 8px;
+  margin: 16px 0 16px 0;				
+}
+
+.pseudo-iframe-link {
+
+  width: 100%;
+  color: blue;
+  font-size: 20px;
+  padding: 0 8px 16px 8px;
+}
+
+.pseudo-iframe-link:hover {
+
+  color: red;
+}
+
+.pseudo-iframe-button {
+
+  width: 200px;
+  height: 26px;
+  color: var(--component-background-colour);
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: var(--emphasis-text-colour);
+  border: solid 2px var(--emphasis-text-colour);
+  border-radius: 15px;
+  padding: 3px 0 0 0;
+  margin: 0 0 0 8px;
+  display: block;
+}
+
+.pseudo-iframe-button:hover {
+
+  color: var(--component-background-colour);
+  border-color: var(--component-background-colour);
+}
+
+.double-clicker {
+
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  border: solid 4px black;
+  margin: 40px auto 0 auto;
+  display: block;
+}
+
+.large {
+
+  width: 200px;
+  height: 100px;
+  font-size: 60px;
+  background-color: red;
+  padding-top: 14px;
+}
+
+.medium {
+
+  width: 150px;
+  height: 75px;
+  font-size: 40px;
+  background-color: green;
+  padding-top: 12px;
+}
+
+.small {
+
+  width: 100px;
+  height: 50px;
+  font-size: 30px;
+  background-color: blue;
+  padding-top: 6px;
+}
+
+.scroller-div {
+
+  width: 700px;
+  height: 380px;
+  border: solid 2px var(--emphasis-text-colour);
+  margin: 30px auto 0 auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.nav-splitter {}
+

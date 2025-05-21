@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Finding Files</title>
+    
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/files-folders.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+    
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+      
+      let structure;
+      let current;
+      let currentFolder;
+      let done;
+      let targetFolder;
+      let targetFile;
+
+      function init() {
+
+        setupColourSchemeSelect();
+
+        done = false;
+        targetFolder = -1;
+        targetFile = 14;
+
+
+      //  <img id="icon-0" folder-icon.png"> 
+      //<img id="icon-1" chrome-icon.png"> 
+      //<img id="icon-2" word-icon.png"> 
+      //<img id="icon-3" mp4-icon.png"> 
+      //<img id="icon-4" jpeg-icon.png"> 
+      //<img id="icon-5" text-icon.webp"> 
+      //<img id="icon-6" excel-icon.png"> 
+
+        structure = [];
+        structure.push(new icon(0, "C:", "C:\\", 0, null, [ 73, 18, 125, 41 ] ));
+        structure.push(new icon(1, "Work Documents", "C:\\Work Documents", 0, 0, [ 46, 68, 75, 48 ] ));
+        structure.push(new icon(2, "Home Documents", "C:\\Home Documents", 0, 0, [ 180, 68, 75, 48 ] ));
+        structure.push(new icon(3, "Lesson Plans", "C:\\Work Documents\\Lesson Plans", 0, 1, [ 50, 139, 66, 48 ] ));
+        structure.push(new icon(4, "Timetable", "C:\\Home Documents\\Timetable", 0, 1, [ 100, 139, 66, 48 ] ));
+        structure.push(new icon(5, "Photos", "C:\\Home Documents\\Photos", 0, 2, [ 180, 139, 75, 48 ] ));
+        structure.push(new icon(6, "Money", "C:\\Home Documents\\Money", 0, 2, [ 288, 139, 75, 48 ] ));
+        structure.push(new icon(7, "Holidays", "C:\\Home Documents\\Photos\\Holidays", 0, 5, [ 180, 210, 75, 48 ] ));
+        structure.push(new icon(8, "Garden", "C:\\Home Documents\\Photos\\Garden", 0, 5, [ 233, 210, 75, 48 ] ));
+        structure.push(new icon(9, "Payslips", "C:\\Home Documents\\Money\\Payslips", 0, 6, [ 288, 210, 75, 48 ] ));
+      
+        structure.push(new icon(10, "Class Registers", null, 6, 1, null));
+        structure.push(new icon(11, "Digital Skills", null, 2, 3, null));
+        structure.push(new icon(12, "Creating Apps", null, 3, 3, null));
+        structure.push(new icon(13, "Error Log", null, 5, 0, null));
+        structure.push(new icon(14, "Timetable 22-23", null, 6, 4, null));
+        structure.push(new icon(15, "Timetable 23-24", null, 6, 4, null));
+        structure.push(new icon(16, "London (1)", null, 4, 7, null));
+        structure.push(new icon(17, "London (2)", null, 4, 7, null));
+        structure.push(new icon(18, "The Lakes", null, 4, 7, null));
+        structure.push(new icon(19, "Stratford (1)", null, 4, 7, null));
+        structure.push(new icon(20, "Stratford (2)", null, 4, 7, null));
+        structure.push(new icon(21, "Stratford (3)", null, 4, 7, null));
+        structure.push(new icon(22, "Before Clearing", null, 4, 8, null));
+        structure.push(new icon(23, "New Shed", null, 4, 8, null));
+        structure.push(new icon(24, "Rose Bed", null, 4, 8, null));
+        structure.push(new icon(25, "Rose Bed", null, 3, 8, null));
+        structure.push(new icon(26, "Summer 2023", null, 4, 8, null));
+        structure.push(new icon(27, "Finances", null, 6, 6, null));
+        structure.push(new icon(28, "June 2023", null, 5, 9, null));
+        structure.push(new icon(29, "July 2023", null, 5, 9, null));
+        structure.push(new icon(30, "August 2023", null, 5, 9, null));
+        structure.push(new icon(31, "September 2023", null, 5, 9, null));
+        structure.push(new icon(32, "October 2023", null, 5, 9, null));
+        
+        current = 0;
+
+        buildView();
+      }
+
+      function goUp() {
+
+        if(!done) {
+        
+          if(currentFolder.parent !== null) {
+        
+            current = currentFolder.parent;
+            buildView();
+          }
+        }
+      }
+
+      function buildView() {
+
+        let target = document.getElementById("explorer-content");
+
+        currentFolder = structure[0];
+        for(let a = 0; a < structure.length; a++)
+          if(structure[a].id === current)
+            currentFolder = structure[a];
+
+        document.getElementById("explorer-position").style.left = (currentFolder.cursor[0] + "px");
+        document.getElementById("explorer-position").style.top = (currentFolder.cursor[1] + "px");
+        document.getElementById("explorer-position").style.width = (currentFolder.cursor[2] + "px");
+        document.getElementById("explorer-position").style.height = (currentFolder.cursor[3] + "px");
+
+        document.getElementById("bread-crumbs").textContent = currentFolder.path;
+
+        target.innerHTML = "";
+
+        let count = 0;
+        for(let a = 0; a < structure.length; a++) {
+
+          if(structure[a].parent === current){
+            
+            structure[a].draw(count, target);
+          }
+        }
+      }
+
+      function icon(id, name, path, type, parent, cursor) {
+
+        this.id = id;
+        this.name = name;
+        this.path = path;
+        this.type = type;
+        this.parent = parent;
+        this.cursor = cursor;
+
+        this.icon;
+
+        this.draw = function(count, target) {
+
+          this.icon = document.createElement("div");
+
+          let icon = this.icon;
+          icon.ondblclick = this.navigate.bind(this);
+          icon.onclick = this.select.bind(this);
+          icon.className = "icon-container keep-line";
+          let iconImage = document.createElement("img");
+          iconImage.className = "icon-image";
+          iconImage.src = document.getElementById("icon-" + this.type).src;
+          icon.appendChild(iconImage);
+          let para = document.createElement("p");
+          para.appendChild(document.createTextNode(this.name));
+          icon.appendChild(para);          
+          target.appendChild(icon);
+        }
+
+        this.navigate = function() {
+
+          if(!done && this.type === 0) {
+          
+            current = this.id;
+            buildView();
+          }
+        }
+
+        this.select = function() {
+
+          if(!done && this.type !== 0) {
+
+            for(let a = 0; a < structure.length; a++) {
+
+              if(structure[a].parent === current)
+                structure[a].icon.classList.remove("icon-container-selected");
+            }
+
+            this.icon.classList.add("icon-container-selected");
+
+            if(this.id === targetFile) {
+
+              done = true;
+              document.getElementById("big-tick").classList.add("fade-in-class");
+              document.getElementById("big-tick").classList.remove("faded-out");
+            }            
+          }
+        }
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Files & Folders</h3>
+      <h1 class="uppercase">Finding Files, Task 5</h1>
+
+      <a class="custom-button home" href="../files-folders-index.html">Home</a>
+      <p class="custom-button restart-activity" onclick="restartPage();">Restart</p>
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+      
+      <p class="content-text">Can you find the timetable for the year <span class="bold uppercase nc-purple">2022-2023</span>?</p>
+
+      <div class="content-tabulator centre-tabulator w-100">
+      
+        <div class="tabulated-content w-50">
+          <div class="explorer-mock-up">
+            
+            <div class="explorer-up-button" onclick="goUp();">&#8593;</div>
+          
+            <div id="bread-crumbs" class="explorer-bread-crumbs"></div>
+
+            <div id="explorer-content" class="explorer-content"></div>
+
+            <img id="big-tick" class="big-tick-image faded-out" src="../assets/images/green-tick.png"> 
+
+          </div>
+        </div><!--
+
+        --><div class="tabulated-content w-50">
+          <div class="folder-structure-container">
+            <img class="folder-structure-view-contained" src="../assets/images/folder-structure.png"> 
+            <div id="explorer-position" class="explorer-position"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <a class="navlink previous" href="finding-files-5.html">Previous</a>
+      <a class="navlink next" href="finding-files-7.html">Next</a>
+      
+      <img id="icon-0" style="display: none;" src="../assets/images/folder-icon.png"> 
+      <img id="icon-1" style="display: none;" src="../assets/images/chrome-icon.png"> 
+      <img id="icon-2" style="display: none;" src="../assets/images/word-icon.png"> 
+      <img id="icon-3" style="display: none;" src="../assets/images/mp4-icon.png"> 
+      <img id="icon-4" style="display: none;" src="../assets/images/jpeg-icon.png"> 
+      <img id="icon-5" style="display: none;" src="../assets/images/text-icon.webp"> 
+      <img id="icon-6" style="display: none;" src="../assets/images/excel-icon.png"> 
+
+    </div>
+
+  </body>
+
+</html>

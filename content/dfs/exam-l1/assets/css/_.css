@@ -1,0 +1,21 @@
+.bold { font-weight: bold; }
+.uppercase { text-transform: uppercase; }
+
+.dark-grey { color: rgb(140, 140, 140); }
+.nc-purple { color: rgb(182, 33, 112); }
+
+.centre-tabulator {
+
+	margin-right: auto !important;
+	margin-left: auto !important;
+}
+
+.w-5 { width: 5%; }
+.w-10 { width: 10%; }
+.w-15 { width: 15%; }
+.w-20 { width: 20%; }
+.w-25 { width: 25%; }
+.w-40 { width: 40%; }
+.w-45 { width: 45%; }
+.w-50 { width: 50%; }
+.w-90 { width: 90%; }

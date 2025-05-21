@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>AI Versus Human</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/common_.css">
+    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/supplementary_.css">
+    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/toi.css">
+
+    <script type="text/javascript" src="../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+
+      function initPage() {
+
+        setupColourSchemeSelect();
+
+        for(let a = 0; a < 7; a++) {
+
+          let intel = document.getElementById("intel-slot-" + a);
+          intel.draggable = true;
+          intel.ondragstart = dragStart;
+        }
+
+        let human = document.getElementById("human-panel");
+        human.ondragover = allowDrop;
+        human.ondrop = dropItem;
+
+        let ai = document.getElementById("ai-panel");
+        ai.ondragover = allowDrop;
+        ai.ondrop = dropItem; 
+      }
+
+      function dragStart(event) {
+
+        event.dataTransfer.setData("text", event.target.id);       
+      }
+
+      let types = [
+        "Visual / Spatial",
+        "Bodily / Kinesthetic",
+        "Creative",
+        "Interpersonal",
+        "Intrapersonal",
+        "Linguistic",
+        "Logical / Mathematical"
+      ];
+
+      // Answers (0: Human, 1: AI, 2: Both)
+      let answers = [
+        2,    // Visual Spatial, Both
+        2,    // Bodily Kinesthetic, Both
+        0,    // Creative, Human
+        0,    // Interpersonal, Human
+        0,    // Intrapersonal, Human
+        0,    // Linguistic, Human
+        1     // Logical Mathematical
+      ];
+
+      let responses = [
+        { correctPrompt: "This could be either humans or computers!", incorrectPrompt: "This could be either humans or computers!",
+          explanation: "<p class=\"cet\">In order to move at all, humans need to understand their physical environment, such as walls, doors, and road junctions. A computer or robot would also need this intelligence to move, and it can be simulated. For example, self-driving cars are now a thing with journeys of over 200 miles being made successfully.</p><p class=\"cet\">However, spatial intelligence is not as well implemented in every robot; for example, robot vacuum cleaners rely mainly on bumping into things to find their way around.</p>"
+        },
+
+        { correctPrompt: "This could be either humans or computers!", incorrectPrompt: "This could be either humans or computers!",
+          explanation: "<p class=\"cet\">Body movements like dancing or drawing require precision and bodily awareness. Robots can perform tasks that require that precision and are already used to perform repetitive tasks with more accuracy than humans, for example, robots on an assembly line. Recently, robots have been trained to complete obstacle courses.</p><p class=\"cet\">That said, these tasks are often performed with much less grace; really precise work, such as surgery, still requires the input from a trained human to be effective.</p>"
+        },
+
+        { correctPrompt: "Yes, definitely humans!", incorrectPrompt: "Sorry, computers aren't as creative as humans.",
+          explanation: "<p class=\"cet\">The process of creativity requires self-awareness, something that computers lack. Being creative requires the creation of something truly unique, whereas computers can only simulate existing patterns.</p><p class=\"cet\">You might argue that AI art generators such as Midjourney create genuinely new art, but without access to existing images, it wouldn't be able to create that art, whereas a human can create art from nothing.</p>" 
+        },
+
+        { correctPrompt: "Yes, probably humans!", incorrectPrompt: "Sorry, the interpersonal skills of AI are not as good as human skills.",
+          explanation: "<p class=\"cet\">Interacting with others means the obtaining, exchanging, and manipulation of information through face-to-face, electronic, and telephonic communication, and based on the person's experience. It includes subtle indicators that computers can't read, such as body language and facial expressions. Computers can respond to the input of information, but only based on keywords and phrases, rather than an understanding of the question.</p><p class=\"cet\">Computers can be trained to select responses from a list based on keyword input, but this demonstrates logical intelligence, rather than interpersonal.</p>" 
+        },
+
+        { correctPrompt: "Yes, definitely humans!", incorrectPrompt: "Sorry, computers simply cannot reflect on themselves or their behaviour.",
+          explanation: "<p class=\"cet\">Intrapersonal intelligence is the process of looking inwards and reflecting on yourself. Some examples of this might be weighing up whether to take a job offer, or whether the price for a new car is good value for money.</p><p class=\"cet\">Computers deal only with numeric input, processed through an algorithm (a set of instructions), and assembled into an output of some form. They don't actually understand any of the information, not really, so are not able to reflect on whether what they have outputted is correct.</p>" 
+        },
+
+        { correctPrompt: "Yes, definitely humans!", incorrectPrompt: "Sorry, computers struggle with linguistics.",
+          explanation: "<p class=\"cet\">Linguistics is the process of reading or listening to something and then forming a response. Computers can take input in the form of keywords, and return a response that might be understood. However, as with other areas of communication, computers don't actually understand what they has been passed to them, they just respond based on a set of instructions.</p><p class=\"cet\">In many cases, computers may output a response to spoken information that is not understandable at all.</p>" 
+        },
+
+        { correctPrompt: "Yes, definitely computers!", incorrectPrompt: "Sorry, humans can't use logical intelligence as effectively as a computer.",
+          explanation: "<p class=\"cet\">Computers are very good at processing data, at looking at large collections of information and drawing out patterns, relationships, and comparisons. They can provide clear and detailed information, and they can reach conclusions in a fraction of the time it takes humans.</p><p class=\"cet\">Mathematical and logical intelligence is the only type of intelligence in which computers genuinely excel.</p>" 
+        }
+      ];
+
+      function dropItem(event) {
+
+        event.preventDefault();
+
+        let data = event.dataTransfer.getData("text");
+        let target = event.currentTarget;
+        let id = target.id;
+
+        let index = parseInt(data.split("-")[2]);
+
+        let answer = 0;
+        if(id.split("-")[0] === "human")
+          answer = 0;
+        else
+          answer = 1;
+
+        // Populate the confirm screen
+        document.getElementById("confirm-prompt").innerHTML = "";
+        document.getElementById("confirm-explanation").innerHTML = "";
+        let response = responses[index];
+        if(answer === answers[index] || answers[index] === 2) {
+
+          document.getElementById("confirm-prompt").innerHTML = response.correctPrompt;
+          document.getElementById("confirm-explanation").innerHTML = response.explanation;
+
+        } else {
+
+          document.getElementById("confirm-prompt").innerHTML = response.incorrectPrompt;
+          document.getElementById("confirm-explanation").innerHTML = response.explanation;          
+        }
+
+        // Remove the type of intelligence from the panel
+        document.getElementById("intel-slot-" + index).remove();
+
+        let modal = document.getElementById("modal-screen");
+        modal.style.display = "block";
+        
+        let confirm = document.getElementById("confirm-panel");
+        confirm.style.display = "block";
+        confirm.classList.remove("faded-out");
+        confirm.classList.add("fade-in-class");
+      
+        // Add the slot to the appropriate panel
+        let slot = document.createElement("div");
+        slot.className = "decision-slot";
+        slot.appendChild(document.createTextNode(types[index]));
+        target.insertBefore(slot, target.children[0]);
+        
+        // Assign the image source
+        document.getElementById("confirm-image").src = document.getElementById("image-" + index).src;
+      }
+
+      function allowDrop(event, index) {
+
+        event.preventDefault();
+      }      
+
+      function closeConfirm() {
+
+        let confirm = document.getElementById("confirm-panel");
+        confirm.classList.remove("fade-in-class");
+        confirm.classList.add("fade-out-class");
+
+        confirm.addEventListener("animationend", cleanUpConfirmClose);
+      }
+
+      function cleanUpConfirmClose() {
+
+        let confirm = document.getElementById("confirm-panel");
+        confirm.removeEventListener("animationend", cleanUpConfirmClose);
+        confirm.classList.remove("fade-out-class");
+        confirm.classList.add("faded-out");
+
+        confirm.style.display = "none";
+        document.getElementById("modal-screen").style.display = "none";
+      }  
+
+    </script>
+
+  </head>
+
+  <body onload="initPage();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Artificial Intelligence</h3>
+      <h1 class="uppercase">Computer Versus Human!</h1>
+
+      <a class="custom-button home" href="../ai-index.html">Home</a>
+      <p class="custom-button restart-activity" onclick="restartPage();">Restart</p>
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+
+      <div id="types-panel" class="types-panel">
+
+        <div id="intel-slot-0" class="intel-slot">
+          <p class="intel-slot-header">Visual / Spatial</p>
+          <p class="intel-slot-text">
+            Visual and spatial intelligence determines how well you process and understand your physical surroundings.
+            Examples of this kind of intelligence being used by humans is driving a car in traffic, playing a team sport, or planning a space such as a room or garden.
+          </p>
+        </div>
+
+        <div id="intel-slot-1" class="intel-slot">
+          <p class="intel-slot-header">Bodily / Kinesthetic</p>
+          <p class="intel-slot-text">
+            The ability to make physical movements and gestures.
+            Good examples of how how humans use this intelligence would be dancing, drawing, or doing DIY.
+          </p>
+        </div>
+
+        <div id="intel-slot-2" class="intel-slot">
+          <p class="intel-slot-header">Creative</p>
+          <p class="intel-slot-text">
+            Being artistic and creating artistic output.
+            Painters are creative, as are musicians; humans use creative intelligence to visualise, plan, and create art.
+          </p>          
+        </div>
+        
+        <div id="intel-slot-3" class="intel-slot">
+          <p class="intel-slot-header">Interpersonal</p>
+          <p class="intel-slot-text">
+            Communicating with others through verbal, written, or electronic means.
+            Humans use interpersonal intelligence to manage relationships and exchange information with other humans.
+            In many cases, this intelligence would include the reading of non-verbal communication, such as body language.
+          </p>    
+        </div>
+        
+        <div id="intel-slot-4" class="intel-slot">
+          <p class="intel-slot-header">Intrapersonal</p>
+          <p class="intel-slot-text">
+            Looking inwards and reflecting on one's self.
+            This might be understanding what is in someone's own best interest, or setting goals and ambitions for themselves.
+          </p>  
+        </div>
+        
+        <div id="intel-slot-5" class="intel-slot">
+          <p class="intel-slot-header">Linguistic</p>
+          <p class="intel-slot-text">
+            Linguistics is the process of listening to or reading something, processing that information, and forming an answer or response.
+            The response itself could be spoken or written.
+            An example of this intelligence at work would being asked which side dish you might like at a restaurant or cafe.
+          </p>  
+        </div>
+        
+        <div id="intel-slot-6" class="intel-slot">
+          <p class="intel-slot-header">Logical / Mathematical</p>
+          <p class="intel-slot-text">
+            Processing data to calculate a result, make a comparison, identify patterns, and see relationships.
+            Examples might include searching for, and comparing insurance quotes from different providers, or finding out the date and times that a film is showing at the cinema.
+          </p>  
+        </div>
+              
+      </div>
+
+      <div id="prompt-panel" class="prompt-panel">
+        <p class="content-text no-margin">
+          Read about the different types of intelligence in the panel on the left. Which do you feel is better at tasks requiring those types of intelligence, computers or humans? Drag them onto the respective panel and see if you're right!
+        </p>
+      </div>
+
+      <p class="title-panel human">Human</p>
+      <div id="human-panel" class="human-panel"></div>
+
+      <p class="title-panel computer">Computer</p>
+      <div id="ai-panel" class="ai-panel"></div>
+
+    </div>
+
+    <div id="modal-screen" class="modal-screen"></div>
+    <div id="confirm-panel" class="dialog-panel faded-out">
+
+      <p id="confirm-prompt" class="confirm-prompt">-</p>
+      <p id="confirm-explanation" class="confirm-explanation">-</p><!--
+      --><img id="confirm-image" class="confirm-image" src="#">
+
+      <a href="javascript:closeConfirm();" class="custom-button close-dialog">CLOSE</a>
+
+    </div>
+
+    <img id="image-0" class="intel-image" src="../assets/images/intel-0.jpg">
+    <img id="image-1" class="intel-image" src="../assets/images/intel-1.jpg">
+    <img id="image-2" class="intel-image" src="../assets/images/intel-2.png">
+    <img id="image-3" class="intel-image" src="../assets/images/intel-3.jpg">
+    <img id="image-4" class="intel-image" src="../assets/images/intel-4.jpg">
+    <img id="image-5" class="intel-image" src="../assets/images/intel-5.png">
+    <img id="image-6" class="intel-image" src="../assets/images/intel-6.jpg">
+
+  </body>
+
+</html>

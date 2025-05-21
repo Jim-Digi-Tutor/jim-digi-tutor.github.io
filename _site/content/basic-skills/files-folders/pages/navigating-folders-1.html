@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Folders</title>
+    
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/files-folders.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+    
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+      
+      function init() {
+
+        setupColourSchemeSelect();
+      }
+
+      function folderInfo(show, index) {
+
+        document.getElementById("tick-image-" + index).style.visibility = (show) ? "visible" : "hidden";
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Files & Folders</h3>
+      <h1 class="uppercase">Navigating Folders</h1>
+
+      <a class="custom-button home-no-restart" href="../files-folders-index.html">Home</a>
+      <!--p class="custom-button restart-activity" onclick="restartPage();">Restart</p-->
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select> 
+      
+      <p class="content-text">When you look in folders, and move from one folder to another, it is known as <span class="bold uppercase nc-purple">Navigating</span>. If your job or study involves computers, you might sometimes be asked to navigate (or go) to a folder. You will then need to find the folder in question. Try the tasks below, see if you can identify the correct folder by moving your mouse over it in the diagram. Look out for the green tick when you get it right!</p>
+
+      <div class="content-tabulator centre-tabulator w-100">
+      
+        <div class="tabulated-content w-50">
+          <img class="folder-structure-view" usemap="#folders" src="../assets/images/folder-structure.png">
+        </div><!--
+
+        --><div class="tabulated-content w-50">
+          <div class="tick-task-row">
+            <img id="tick-image-0" class="tick-image-navigating v-align-middle tick-hidden" src="../assets/images/green-tick.png">
+            <p class="content-text keep-line v-align-middle">Point to the Hard Disk Drive</p>
+          </div>          
+          <div class="tick-task-row">
+            <img id="tick-image-1" class="tick-image-navigating v-align-middle tick-hidden" src="../assets/images/green-tick.png">
+            <p class="content-text keep-line v-align-middle">Move the mouse to the Work Documents folder</p>
+          </div>
+          <div class="tick-task-row">
+            <img id="tick-image-2" class="tick-image-navigating v-align-middle tick-hidden" src="../assets/images/green-tick.png">
+            <p class="content-text keep-line v-align-middle">Point the mouse to the Home Documents folder</p>
+          </div>
+          <div class="tick-task-row">
+            <img id="tick-image-3" class="tick-image-navigating v-align-middle tick-hidden" src="../assets/images/green-tick.png">
+            <p class="content-text keep-line v-align-middle">Move to any folder within the Photos folder</p>
+          </div>  
+          <div class="tick-task-row">
+            <img id="tick-image-4" class="tick-image-navigating v-align-middle tick-hidden" src="../assets/images/green-tick.png">
+            <p class="content-text keep-line v-align-middle">Identify the folder one level above Payslips</p>
+          </div>                    
+        </div>
+
+      </div>
+
+      <map name="folders">
+
+        <area shape="rect" coords="81, 30, 186, 50" alt="Hard Disk Drive" onmouseover="folderInfo(true, 0);" onmouseout="folderInfo(false, 0);" href="#">
+        <area shape="rect" coords="52, 72, 110, 108" alt="Work Documents" onmouseover="folderInfo(true, 1);" onmouseout="folderInfo(false, 1);" href="#">
+        <area shape="rect" coords="186, 72, 244, 108" alt="Home Documents" onmouseover="folderInfo(true, 2);" onmouseout="folderInfo(false, 2);" href="#">
+        
+        <area shape="rect" coords="200, 220, 230, 256" alt="Home Documents" onmouseover="folderInfo(true, 3);" onmouseout="folderInfo(false, 3);" href="#">
+        <area shape="rect" coords="255, 220, 285, 256" alt="Home Documents" onmouseover="folderInfo(true, 3);" onmouseout="folderInfo(false, 3);" href="#">
+
+        <area shape="rect" coords="310, 145, 340, 180" alt="Home Documents" onmouseover="folderInfo(true, 4);" onmouseout="folderInfo(false, 4);" href="#">
+
+      </map>
+
+      <a class="navlink previous" href="folder-structures.html">Previous</a>
+      <a class="navlink next" href="navigating-folders-2.html">Next</a>
+      
+    </div>
+
+  </body>
+
+</html>

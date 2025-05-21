@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Drag & Drop</title>
+
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/mouse-practice.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+    
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+
+      function init() {
+
+        setupColourSchemeSelect();
+      }
+
+      function dragStart(event, index) {
+
+        event.dataTransfer.setData("text", event.target.id);       
+      }
+
+      function dropItem(event, index) {
+
+        event.preventDefault();
+   
+        let data = event.dataTransfer.getData("text");
+
+        if(data === ("draggable-" + index)) {
+  
+          let img = document.createElement("img");
+          img.className = "dropped-item";
+          img.src = document.getElementById("draggable-" + index).src;
+          document.getElementById("drop-target-" + index).appendChild(img);
+
+          let tickImage = document.getElementById("tick-image-" + index);
+          tickImage.classList.remove("faded-out");
+          tickImage.classList.add("fade-in-class");          
+        }
+      }
+
+      function allowDrop(event, index) {
+
+        event.preventDefault();
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Using a Mouse</h3>
+      <h1 class="uppercase">Dragging & Dropping</h1>
+
+      <a class="custom-button home" href="../mouse-practice-index.html">Home</a>
+      <p class="custom-button restart-activity" onclick="restartPage();">Restart</p>
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+            
+      <p class="content-text">To <span class="bold uppercase nc-purple">drag & drop</span> means to move an item with your mouse and place it where it needs to be. You first left-click on an item, but hold down the mouse-button. Then you drag the mouse to where the item needs to be, and then let go of the mouse-button. Practice dragging the icons below to their boxes; you'll see a green tick once you've done each correctly.</p>
+
+      <div class="content-tabulator centre-tabulator w-90">
+
+        <div class="tabulated-content w-45">
+          
+          <div class="sub-content-tabulator">
+
+            <div class="tabulated-sub-content">
+              <div class="icon-container" onclick="selectItem(this, 0);">
+                <img id="draggable-0" draggable="true" ondragstart="dragStart(event, 0);" class="icon-image" src="../assets/images/chrome-icon.png">
+                <p class="icon-text">Google Chrome</p>
+              </div>
+            </div>
+            
+          </div>
+
+          <div class="sub-content-tabulator">
+            
+            <div class="tabulated-sub-content">
+              <div class="icon-container" onclick="selectItem(this, 1);">
+                <img id="draggable-1" draggable="true" ondragstart="dragStart(event, 1);" class="icon-image" src="../assets/images/folder-icon.png">
+                <p class="icon-text">My Documents</p>
+              </div>
+            </div>
+            
+          </div>
+
+          <div class="sub-content-tabulator">
+            
+            <div class="tabulated-sub-content">
+              <div class="icon-container" onclick="selectItem(this, 2);">
+                <img id="draggable-2" draggable="true" ondragstart="dragStart(event, 2);" class="icon-image" src="../assets/images/word-icon.png">
+                <p class="icon-text">Microsoft Word</p>
+              </div>
+            </div>
+            
+          </div>
+
+        </div>
+
+        <div class="tabulated-content w-45">
+
+          <div class="sub-content-tabulator">
+            
+            <div class="tabulated-sub-content">
+
+              <div id="drop-target-0" class="drop-target" ondrop="dropItem(event, 0);" ondragover="allowDrop(event, 0);"></div>
+
+            </div>
+
+            <div class="tabulated-sub-content">
+
+              <img id="tick-image-0" class="tick-image faded-out" src="../assets/images/green-tick.png">
+
+            </div>
+
+          </div>
+
+          <div class="sub-content-tabulator">
+            
+            <div class="tabulated-sub-content">
+
+              <div id="drop-target-1" class="drop-target" ondrop="dropItem(event, 1);" ondragover="allowDrop(event, 1);"></div>
+
+            </div>
+
+            <div class="tabulated-sub-content">
+
+              <img id="tick-image-1" class="tick-image faded-out" src="../assets/images/green-tick.png">
+
+            </div>
+
+          </div>
+
+          <div class="sub-content-tabulator">
+            
+            <div class="tabulated-sub-content">
+
+              <div id="drop-target-2" class="drop-target" ondrop="dropItem(event, 2);" ondragover="allowDrop(event, 2);"></div>
+
+            </div>
+
+            <div class="tabulated-sub-content">
+
+              <img id="tick-image-2" class="tick-image faded-out" src="../assets/images/green-tick.png">
+
+            </div>
+
+          </div>
+
+        </div>
+                
+      </div>
+      
+      <a class="navlink previous" href="middle-button.html">Previous</a>
+      <a class="navlink next" href="finish.html">Next</a>
+      
+    </div>
+
+  </body>
+
+</html>

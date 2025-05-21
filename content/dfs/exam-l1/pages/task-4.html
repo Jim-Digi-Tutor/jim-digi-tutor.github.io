@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Task 4", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "task-3.html", backText: "Previous", nextButton: "task-5.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+
+        <p class="section-heading no-top-margin">Task 4 (9 Marks)</p>
+        <p class="section-emphasis">Suggested Time for Task 4: 25 minutes</p>
+
+        <p class="section-text">You need to update a spreadsheet showing start up costs for the new business.
+        <p class="section-text">Click the button below to download the file <span class="bold">Start Up Costs</span>.</p>        
+        <p class="section-text">Save a copy of the file in the <span class="bold">Section 1</span> subfolder you created.</p>
+
+        <p class="section-text"><span class="bold">a)</span> Merge and centre the heading <span class="bold">New Business Predicted Start Up Costs</span> across columns A to D. (1 mark)</p>
+        <p class="section-text"><span class="bold">b)</span> Delete the row for <span class="bold">3rd Party Insurance</span>. (1 mark)</p>
+        <p class="section-text"><span class="bold">c)</span> Change the <span class="bold">Price Per Unit</span> for <span class="bold">Advertising</span> to <span class="bold">150</span>. (1 mark)</p>
+        
+        <p class="section-text"><span class="bold">d)</span> Use a formula to calculate the <span class="bold">Total</span> for the first item row, <span class="bold">Wood for Signs</span>. (1 mark)</p>
+
+        <p class="section-text centre highlight"><span class="bold">Total</span> is <span class="bold">Quantity</span> multiplied by <span class="bold">Price Per Unit</span></p>
+
+        <p class="section-text"><span class="bold">e)</span> Replicate the formula for <span class="bold">all</span> the other item rows. (1 mark)</p>
+
+        <p class="section-text"><span class="bold">f)</span> Format all relevant columns to <span class="bold">£</span> and <span class="bold">2 decimal places</span>. (1 mark)</p>        
+        
+        <p class="section-text"><span class="bold">g)</span> Sort all of the data by ascending order of <span class="bold">Total</span>. (2 marks)</p> 
+
+        <p class="section-text"><span class="bold">h)</span> Rename Sheet 1 of the spreadsheet to <span class="bold">Costs</span>. (1 mark)</p> 
+
+        <p class="section-text">Save your finished spreadsheet.</p>
+        <p class="section-text">Upload your finished spreadsheet by using the <span class="bold">Upload</span> button below.</p>
+
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Task 4</span> press <span class="bold italic">Next</span>.</p>
+
+        <div class="button-container">
+        
+          <a href="..\assets\files\start-up-costs.xlsx" class="download-button" download>Start Up Costs</a>
+
+          <label for="file-upload" class="custom-upload">
+            Upload
+            <input type="file" class="custom-upload" id="file-upload">
+          </label>
+
+        </div>
+
+      </div>
+      
+      <footer id="footer" class="footer-console">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

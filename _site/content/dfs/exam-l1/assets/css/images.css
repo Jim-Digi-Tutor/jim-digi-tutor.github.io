@@ -1,0 +1,60 @@
+.mouse-button-image-map {
+
+  height: 400px;
+}
+
+.cursor-examples {
+
+  width: 400px;
+  height: auto;
+  border: solid 1px rgb(182, 33, 112);
+  margin: 40px auto 0 auto;
+  display: block;
+}
+
+.icon-image, .dropped-item {
+
+  width: 50px;
+  height: auto;
+}
+
+.dropped-item {
+
+  margin: 2px;
+}
+
+.tick-image {
+
+  width: 50px;
+  height: auto;
+  margin: 0 0 0 20px;
+}
+
+.right-click-image {
+
+  width: 100px;
+}
+
+.faded-out {
+
+  opacity: 0;
+}
+
+@keyframes fade-in {
+
+  0% { opacity: 0; }
+  100% { opacity: 1; }        
+}
+
+.fade-in-class {
+
+  animation-name: fade-in;
+  animation-duration: 2s;
+}  
+
+.down-arrow {
+
+  height: 50%;
+  margin: 20px auto 20px auto;
+  display: block;
+} 

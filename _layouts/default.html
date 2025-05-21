@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>{{ site.name }}</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/index-pages.css">
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/supplementary.css">
+
+    <!-- Import any page-specific CSS -->
+    {% if page.css != nil %}
+      <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/{{ page.css }}">
+    {% endif %}
+
+    {% if page.layouttype == nil or page.layouttype == "page" %}
+      <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/container-page.css">
+    {% endif %}
+      
+    {% if page.layouttype != nil and page.layouttype == "console" %}
+      <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/global-assets/css/container-console.css">
+    {% endif %}
+
+    <script type="text/javascript" src="{{ site.baseurl }}/global-assets/js/common.js"></script>
+
+    <!-- Import any page-specific JavaScript -->
+    {% if page.js != nil %}
+      <script type="text/javascript" src="{{ site.baseurl }}/global-assets/js/{{ page.js }}"></script>
+    {% endif %}
+
+    <script type="text/javascript">
+      
+      function init() {
+
+        let colourSelect = document.getElementById("colour-scheme-select");
+        colourSelect.onchange = changeColourScheme;
+        setupColourSchemeSelect(colourSelect);
+
+        // Run any page-specific function
+        {% if page.init != nil %}
+          {{ page.init }}();
+        {% endif %}    
+        
+        let mobileDisc = document.getElementById("mobile-disclaimer");
+        if(mobileDisc !== null) {
+
+          mobileDisc.innerHTML = ("<p>It appears that you are viewing this site on a mobile phone or tablet. Because of this, not every feature will work as intended, and some might not work at all. Feel free to browse, but it is recommended that you use a larger tablet, laptop, or desktop computer when using this site.</p>");
+        }
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+    
+    {{ content }}
+
+  </body>
+
+</html>

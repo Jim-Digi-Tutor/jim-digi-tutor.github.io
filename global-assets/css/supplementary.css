@@ -1,0 +1,64 @@
+.bold { font-weight: bold; }
+.italic {font-style: italic; }
+.uppercase { text-transform: uppercase; }
+.centre { text-align: center; }
+
+.highlight {
+
+	background-color: white;
+	border: solid 1px black;
+}
+
+.dark-grey { color: var(--dark-grey); }
+.nc-purple { color: var(--nc-purple); }
+.heading-blue { color: var(--heading-blue); }
+
+.break-line { display: block !important; }
+.keep-line { display: inline-block !important; }
+
+.font-rem-1 { font-size: 1rem; }
+.font-rem-1-2 { font-size: 1.2rem; }
+
+.centre-tabulator {
+
+	margin-right: auto !important;
+	margin-left: auto !important;
+	display: block;
+}
+
+.centre { text-align: center; }
+.v-align-top { vertical-align: top !important; }
+.v-align-middle { vertical-align: middle !important; }
+
+.no-margin { margin: 0; }
+
+.margin-bottom-1 { margin-bottom: 10px !important; }
+
+.w-5 { width: 5%; }
+.w-10 { width: 10%; }
+.w-15 { width: 15%; }
+.w-20 { width: 20%; }
+.w-25 { width: 25%; }
+.w-30 { width: 30%; }
+.w-40 { width: 40%; }
+.w-45 { width: 45%; }
+.w-50 { width: 50%; }
+.w-90 { width: 90%; }
+
+.no-vertical-margin {
+
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.centre-content-at-320 {}
+
+@media screen and (max-width: 319.99px) {
+
+	.centre-content-at-320 { text-align: center; }
+}
+
+.no-scroll { overflow-y: hidden; }
+
+.first-content { margin-top: 0 !important; }
+.after-header { margin-top: 0 !important; }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/index-pages.css">
+    <link rel="stylesheet" type="text/css" href="../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Using a Keyboard", subTitle: "Basic Digital Skills" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../basic-skills-index.html", restartButton: false };
+      let footerConfig = { backButton: null, backText: null, nextButton: "pages/what-is.html", nextText: "Start" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-console">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container no-scroll"> 
+
+        <p class="content-text">In the following activities you will learn how to use a mouse; how to click, double-click, and right-click, as well as other things.</p>
+        <p class="content-text">These activities are completely separate to anything else on the computer, you cannot break anything, so don't worry if you make a mistake, there is no harm done if you do.</p>
+        <p class="content-text">If you want to try a section again, you can use the <span class="bold uppercase nc-purple">next</span> and <span class="bold uppercase nc-purple">previous</span> buttons to go back or forward to it. You can try each section as many times as you like.</p> 
+
+      </div>
+
+      <footer id="footer">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Moving the Mouse</title>
+
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/mouse-practice.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+    
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+      
+      function init() {
+
+        setupColourSchemeSelect();
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Using a Mouse</h3>
+      <h1 class="uppercase">moving the mouse</h1>
+
+      <a class="custom-button home-no-restart" href="../mouse-practice-index.html">Home</a>
+      <!--p class="custom-button restart-activity" onclick="restartPage();">Restart</p-->
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+      
+      <p class="content-text">A mouse is used to click on items. As you move your mouse over an item, usually something changes to indicate that it can be clicked, such as to the cursor or the background colour.</p>
+
+      <div class="content-tabulator centre-tabulator w-90">
+      
+        <div class="tabulated-content w-20">
+
+          <p class="content-text">When you move your mouse over an app, file, or folder, the background of the item, and its border, will change colour. Try it on the items on the right.</p>
+        
+        </div><!--
+
+        --><div class="tabulated-content w-5">&nbsp;</div><!--
+
+        --><div class="tabulated-content w-20">
+
+          <div class="icon-container">
+            <img class="icon-image" src="../assets/images/chrome-icon.png">
+            <p>Google<br>Chrome</p>
+          </div>
+
+          <div class="icon-container">
+            <img class="icon-image" src="../assets/images/word-icon.png">
+            <p>Microsoft<br>Word</p>
+          </div>
+
+          <div class="icon-container">
+            <img class="icon-image" src="../assets/images/folder-icon.png">
+            <p>My<br>Documents</p>
+          </div>
+
+        </div><!--
+
+        --><div class="tabulated-content w-5">&nbsp;</div><!--
+
+        --><div class="tabulated-content w-20">
+
+          <p class="content-text">What about when you use a web link or button? What happens to the mouse cursor when you move it over each of the links on the right?</p>
+
+        </div><!--
+
+        --><div class="tabulated-content w-5">&nbsp;</div><!--
+
+        --><div class="tabulated-content w-20">
+
+          <a class="mouse-over-test-link" href="#">Click here...</a>
+
+          <a class="mouse-over-test-button" href="#">Email</a>
+        
+        </div>
+        
+      </div>
+
+      <a class="navlink previous" href="mouse-cursor.html">Previous</a>
+      <a class="navlink next" href="left-click-1.html">Next</a>
+      
+    </div>
+
+  </body>
+
+</html>

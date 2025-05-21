@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Task 2", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "task-1.html", backText: "Previous", nextButton: "task-3.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+
+        <p class="section-heading no-top-margin">Task 2 (3 Marks)</p>
+        <p class="section-emphasis">Suggested Time for Task 2: 5 minutes</p>
+
+        <p class="section-text">You need to search online to find a venue for the meeting.</p>
+        <p class="section-text">The meeting will be in Leeds.</p>
+        <p class="section-text">Click the button below to download the <span class="bold">Task 2 File</span>.</p>
+        <p class="section-text">Save a copy of your <span class="bold">Task 2 File</span> in your <span class="bold">Tasks</span> folder.</p>
+        <p class="section-text"><span class="bold">a)</span> Use the Internet to search for a meeting venue in Leeds.</p>
+        <p class="section-text">Paste a screenshot of you search terms and results into your <span class="bold">Task 2 File</span>. (1 mark)</p>
+        <p class="section-text"><span class="bold">b)</span> Select one of the venues from the results and open the website. (1 mark)</p>
+        <p class="section-text"><span class="bold">c)</span> You want to ask a question about the venue. Look on the website and capture a screenshot to show how you do this. (1 mark)</p>
+        <p class="section-text">Paste the screenshot into your <span class="bold">Task 2 File</span>.</p>
+        <p class="section-text">Save your <span class="bold">Task 2 File</span>.</p>
+        <p class="section-text">Upload your <span class="bold">Task 2 File</span> by using the <span class="bold">Upload</span> button below.</p>
+
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Task 2</span> press <span class="bold italic">Next</span>.</p>
+
+        <div class="button-container">
+        
+          <a href="..\assets\files\30651873-T-2.docx" class="download-button" download>Task 2 File</a>
+
+          <label for="file-upload" class="custom-upload">
+            Upload
+            <input type="file" class="custom-upload" id="file-upload">
+          </label>
+
+        </div>
+
+      </div>
+      
+      <footer id="footer" class="footer-console">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

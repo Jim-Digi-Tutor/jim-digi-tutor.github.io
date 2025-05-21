@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Question 1", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "task-6.html", backText: "Previous", nextButton: "question-2.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+      function selectAnswer(index) {
+
+        for(let a = 0; a < 4; a++) {
+
+          let target = document.getElementById("answer-" + a);
+          target.classList.remove("selected");
+          if(a === index)
+            target.classList.add("selected");
+        }
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+
+        <p class="section-heading no-top-margin">Question 1 (1 Mark 1)</p>
+        <p class="section-text"><span class="bold">1)</span> What is this an image of?</p>
+        
+        <img class="full-q-image" src="../assets/images/mouse.jpg">
+
+        <div class="q-container">
+          <h1>A</h1>
+          <p id="answer-0" onclick="selectAnswer(0);">Software Program</p>
+        </div>
+          
+        <div class="q-container">
+          <h1>B</h1>
+          <p id="answer-1" onclick="selectAnswer(1);">Computer Application</p>
+        </div>
+
+        <div class="q-container">
+          <h1>C</h1>
+          <p id="answer-2" onclick="selectAnswer(2);">Hardware Device</p>
+        </div>
+
+        <div class="q-container">
+          <h1>D</h1>
+          <p id="answer-3" onclick="selectAnswer(3);">Operating System</p>
+        </div>                        
+
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Question 1</span> press <span class="bold italic">Next</span>.</p>
+
+      </div>
+      
+      <footer id="footer" class="footer-console">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

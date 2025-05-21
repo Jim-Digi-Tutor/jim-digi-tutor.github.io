@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Task 7", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "task-6.html", backText: "Previous", nextButton: "question-1.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+
+        <p class="section-heading no-top-margin">Task 7 (7 Marks)</p>
+        <p class="section-emphasis">Suggested Time for Task 7: 15 minutes</p>
+
+        <p class="section-text">You need to prepare a response to an email.</p>
+        <p class="section-text">Click the buttons below to download the files <span class="bold">Email Evidence Document</span> and <span class="bold">Company Logo</span>.</p>
+        <p class="section-text">Save a copy of <span class="bold">each</span> file in the <span class="bold">Section 2</span> subfolder you created.</p>
+        <p class="section-text">Read the email you need to prepare a response to.</p>   
+        
+        <img class="task-5-image" src="../assets/images/email.png">
+
+        <p class="section-text"><span class="bold">a)</span> Open your email software / application so that you can prepare a response to the email. (1 mark)</p>
+        <p class="section-text"><span class="bold">b)</span> Address the email to <span class="bold">SJames@TheBus.eu</span>. (1 mark)</p>        
+        <p class="section-text"><span class="bold">c)</span> CC the email to <span class="bold">ASingh@TheBus.eu</span>. (1 mark)</p>
+        <p class="section-text"><span class="bold">d)</span> Add the subject <span class="bold">Company Logo</span>. (1 mark)</p>
+        
+        <p class="section-text">Make sure you follow all the instructions in the email:</p>        
+        
+        <p class="section-text"><span class="bold">d)</span> Add the subject <span class="bold">Company Logo</span>. (1 mark)</p>
+
+        <ul>
+          <li>Attach the <span class="bold">Company Logo</span> file (1 mark)</li>
+          <li>Answer the question in the email about the advantage of cloud storage (1 mark)</li>
+          <li>Answer the question in the email about how best to share the logo with customers (1 mark)</li>
+        </ul>        
+                
+        <p class="section-text">You do <span class="bold">NOT</span> need to send the email. Instead, paste a screenshot of your finished email into your <span class="bold">Email Evidence Document</span> and save the file.</p>
+        <p class="section-text">Upload your finished <span class="bold">Email Evidence Document</span> file by clicking on the <span class="bold">Upload</span> button below.</p>
+
+        <div class="button-container">
+        
+          <a href="..\assets\files\email-evidence.doc" class="download-button" download>Email Evidence</a>
+          <a href="..\assets\files\company-logo.png" class="download-button" download>Logo</a>
+
+          <label for="file-upload" class="custom-upload">
+            Upload
+            <input type="file" class="custom-upload" id="file-upload">
+          </label>
+
+        </div>     
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Task 7</span> press <span class="bold italic">Next</span>.</p>
+      
+      </div>
+      
+      <footer id="footer" class="footer-console">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

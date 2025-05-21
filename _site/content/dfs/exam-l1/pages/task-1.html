@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Task 1", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "../exam-index.html", backText: "Previous", nextButton: "task-2.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+      
+        <p class="section-heading no-top-margin">Introduction</p>
+        <p class="section-text extra-bottom-margin">You are planning to start a new business</p>
+
+        <p class="section-heading">Task 1 (3 Marks)</p>
+        <p class="section-emphasis">Suggested Time for Task 1: 10 minutes</p>
+
+        <p class="section-text"><span class="bold">a)</span> Create a folder called <span class="bold">New Business</span>. (1 mark)</p>
+        
+        <p class="section-text">
+          <span class="bold">b)</span> Create <span class="bold">two</span> subfolders within the <span class="bold">New Business</span> folder called <span class="bold">Section 1</span> and <span class="bold">Section 2</span>, in which to save your work. (1 mark)
+        </p>
+        
+        <p class="section-text"><span class="bold">c)</span> Click on the <span class="bold">Task 1 Evidence</span> button below to download the <span class="bold">Task 1 Evidence Document</span> and save a copy of this file in the <span class="bold">Section 1</span> subfolder you created. (1 mark)</p>
+
+        <p class="section-text">Take <span class="bold">two</span> screenshots, one to show the folder and subfolders you have created and one to show the file you have stored.</p>
+        
+        <p class="section-text">Paste the screenshots into your <span class="bold">Task 1 Evidence Document</span>.</p>
+        <p class="section-text">Save your finished <span class="bold">Task 1 Evidence Document</span>.</p>
+        <p class="section-text">Upload your finished <span class="bold">Task 1 Evidence Document</span> by using the <span class="bold">Upload</span> button below.</p>
+
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Task 1</span> press <span class="bold italic">Next</span>.</p>
+
+        <div class="button-container">
+        
+          <a href="..\assets\files\67253948-T-1.doc" class="download-button" download>Task 1 Evidence</a>
+
+          <label for="file-upload" class="custom-upload">
+            Upload
+            <input type="file" class="custom-upload" id="file-upload">
+          </label>
+
+        </div>
+
+      </div>
+      
+      <footer id="footer">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

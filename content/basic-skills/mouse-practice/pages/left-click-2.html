@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Left Click</title>
+
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/mouse-practice.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+    
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+
+      function init() {
+
+        setupColourSchemeSelect();
+      }
+
+      function finishFrame(id) {
+
+        document.getElementById("frame-" + id + "-start").style.display = "none";
+        document.getElementById("frame-" + id + "-done").style.display = "block";
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Using a Mouse</h3>
+      <h1 class="uppercase">Left Click, Continued</h1>
+
+      <a class="custom-button home" href="../mouse-practice-index.html">Home</a>
+      <p class="custom-button restart-activity" onclick="restartPage();">Restart</p>
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+      
+      <p class="content-text">If you are surfing the web, left-clicking on a link or button will take you to that page; try clicking the links on the mini-webpages below. When you are done, click <span class="bold uppercase nc-purple">next</span> to move on.</p>
+
+      <div class="content-tabulator centre-tabulator w-90">
+      
+        <div class="tabulated-content w-40">
+          
+          <div id="frame-1-start" class="pseudo-iframe">
+
+            <h1>Mini Web Site 1</h1>
+
+            <p>This is just a mini-website within a web page. It has a link to take you to another page. Weblinks only need a single left-click to use. Why don't you try the link below?</p>
+        
+            <a class="pseudo-iframe-link" href="javascript:finishFrame(1)">Click this link...</a>
+
+          </div>
+
+          <div id="frame-1-done" class="pseudo-iframe" style="display: none;">
+
+            <h1>Well Done!</h1>
+
+            <p>Weblinks only require a single click but other things, as you are going to find out in the next section, need a double-click. This can sometimes be a little confusing, but don't worry, with practice, you'll get used to it.</p>
+
+          </div>          
+
+        </div><!--
+      
+        --><div class="tabulated-content w-10">&nbsp;</div><!--
+
+        --><div class="tabulated-content w-40">
+          
+          <div id="frame-2-start" class="pseudo-iframe">
+
+            <h1>Mini Web Site 2</h1>
+
+            <p>This is another mini-website with a link to take you to another page. This time, the link looks like a button, but it works in the same way as other links in that it only needs a single left-click to use. Give it a try!</p>
+        
+            <a class="pseudo-iframe-button" href="javascript:finishFrame(2)">Click this link...</a>
+
+          </div>
+
+          <div id="frame-2-done" class="pseudo-iframe" style="display: none;">
+
+            <h1>Well Done!</h1>
+
+            <p>Weblinks only require a single click but other things, as you are going to find out in the next section, need a double-click. This can sometimes be a little confusing, but don't worry, with practice, you'll get used to it.</p>
+            
+          </div>  
+
+        </div>
+
+      </div>
+
+      <a class="navlink previous" href="left-click-1.html">Previous</a>
+      <a class="navlink next" href="right-click.html">Next</a>
+      
+    </div>
+
+  </body>
+
+</html>

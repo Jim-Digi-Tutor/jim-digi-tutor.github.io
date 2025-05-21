@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Task 6", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "task-5.html", backText: "Previous", nextButton: "task-7.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+
+        <p class="section-heading no-top-margin">Task 6 (8 Marks)</p>
+        <p class="section-emphasis">Suggested Time for Task 6: 20 minutes</p>
+
+        <p class="section-text">You need to complete an advert for the new business.</p>
+        <p class="section-text">Click the buttons below to download the files <span class="bold">Advert</span> and <span class="bold">Mobile Phone Image</span>.</p>
+        <p class="section-text">Save a copy of <span class="bold">each</span> file in the <span class="bold">Section 2</span> subfolder you created.</p>
+
+        <p class="section-text"><span class="bold">a)</span> Open the <span class="bold">Advert</span> file. Change the background colour in the advert template (the blue shape) to <span class="bold">Yellow</span>. (1 mark)</p>
+        <p class="section-text"><span class="bold">b)</span> Open the <span class="bold">Mobile Phone Image</span>. Format the image so that the picture colour is <span class="bold">Grayscale</span>. (1 mark)</p>        
+        <p class="section-text"><span class="bold">c)</span> Crop the <span class="bold">Mobile Phone Image</span>to show the hand holding the mobile phone <span class="bold">only</span>. (2 marks)</p>        
+        <p class="section-text"><span class="bold">d)</span> Insert the cropped image into the advert tempate (the shape), resizing it so that it appears in the <span class="bold">top half</span>. of the shape only. When resizing the image, the proportions of the image must be maintained. (1 mark)</p>        
+        <p class="section-text"><span class="bold">e)</span> Add the following text, as a caption <span class="bold">above</span> the image. (2 marks)</p>        
+
+        <p class="section-text centre highlight"><span class="bold">Help at Hand!</span></p>
+                
+        <p class="section-text"><span class="bold">f)</span> Insert the following text into the advert template (the shape). The text must be <span class="bold">below</span> the image. The text must be formatted so that it is <span class="bold">centre-aligned</span>, <span class="bold">bold</span>, and <span class="bold">font size 14</span>. (1 mark)</p> 
+        
+        <ul>
+          <li>Call us for all your DIY needs</li>
+          <li>Available 9am until 6pm Monday to Friday</li>
+          <li>Mobile: 08943892299</li>
+        </ul>        
+                
+        <p class="section-text">Save your finished <span class="bold">Advert</span> file.</p>
+        <p class="section-text">Upload your finished <span class="bold">Advert</span> file by using the <span class="bold">Upload</span> button below.</p>
+
+        <div class="button-container">
+        
+          <a href="..\assets\files\advert-template.docx" class="download-button" download>Advert</a>
+          <a href="..\assets\files\phone-image.jpg" class="download-button" download>Phone Image</a>
+
+          <label for="file-upload" class="custom-upload">
+            Upload
+            <input type="file" class="custom-upload" id="file-upload">
+          </label>
+
+        </div>     
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Task 6</span> press <span class="bold italic">Next</span>.</p>
+      
+      </div>
+      
+      <footer id="footer" class="footer-console">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

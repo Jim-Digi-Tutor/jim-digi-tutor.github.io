@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Digi-Stuff (www.digi-stuff.co.uk)</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/dfs-exam.css">
+    <link rel="stylesheet" type="text/css" href="../../../../global-assets/css/supplementary.css">
+
+    <script type="text/javascript" src="../../../../global-assets/js/common.js"></script>
+
+    <script type="text/javascript">
+
+      let title = { title: "Task 2", subTitle: "Practice Exam" };
+      let headerConfig = { changeScheme: true, homeButton: true, homeLink: "../exam-index.html", restartButton: false };
+      let footerConfig = { backButton: "task-1.html", backText: "Previous", nextButton: "task-3.html", nextText: "Next" };
+      
+      function init() {
+
+        let footerContainers = [
+          document.getElementById("footer-0"),
+          document.getElementById("footer-1"),
+          document.getElementById("footer-2")
+        ];
+
+        buildHeaderTitle(title);
+        buildHeaderOptions(document.getElementById("header-options"), headerConfig);
+        buildFooter(footerContainers, footerConfig);
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container container-page">
+
+      <header id="header">
+
+        <h3 id="sub-title" class="dark-grey"></h3>
+        <h1 id="title" class="uppercase"></h1>
+
+      </header>
+
+      <div id="header-options" class="header-options"></div>
+
+      <div class="full-size-content-container">
+
+        <p class="section-heading no-top-margin">Task 2 (3 Marks)</p>
+        <p class="section-emphasis">Suggested Time for Task 2: 5 minutes</p>
+
+        <p class="section-text">You need to search online to find office space for rental in Leeds, UK.</p>
+
+        <p class="section-text">Click on the <span class="bold">Task 2 Evidence</span> button below to download the <span class="bold">Task 2 Evidence Document</span> and save a copy of this file in the <span class="bold">Section 1</span> subfolder you created.</p>        
+
+        <p class="section-text"><span class="bold">a)</span> Use the Internet to search for office rental space in Leeds, UK.</p>
+
+        <p class="section-text">Paste a screenshot of you search terms and results into your <span class="bold">Task 2 Evidence Document</span>. (1 mark)</p>
+
+        <p class="section-text"><span class="bold">b)</span> Select a suitable website from your results. The website you select must <span class="bold">not</span> be an advert or sponsored site. Paste a screenshot of the search results showing this website. (1 mark)</p>   
+        
+        <p class="section-text"><span class="bold">c)</span> Go to the website and find the address and a map showing the location of the rental space. Capture the information on one or more screenshots. (1 mark)</p>          
+
+        <p class="section-text">Paste your screenshot(s) into your <span class="bold">Task 2 Evidence Document</span>.</p>
+
+        <p class="section-text">Save your finished <span class="bold">Task 2 Evidence Document</span>.</p>
+        <p class="section-text">Upload your finished <span class="bold">Task 2 Evidence Document</span> by using the <span class="bold">Upload</span> button below.</p>
+
+        <p class="section-text-right extra-top-margin extra-bottom-margin">When you have finished <span class="bold">Task 2</span> press <span class="bold italic">Next</span>.</p>
+
+        <div class="button-container">
+        
+          <a href="..\assets\files\30651873-T-2.doc" class="download-button" download>Task 2 Evidence</a>
+
+          <label for="file-upload" class="custom-upload">
+            Upload
+            <input type="file" class="custom-upload" id="file-upload">
+          </label>
+
+        </div>
+
+      </div>
+      
+      <footer id="footer" class="footer-console">
+        <div id="footer-0" class="footer-0"></div>
+        <div id="footer-1" class="footer-1"></div>
+        <div id="footer-2" class="footer-2"></div>
+      </footer>
+
+    </div>
+
+  </body>
+
+</html>

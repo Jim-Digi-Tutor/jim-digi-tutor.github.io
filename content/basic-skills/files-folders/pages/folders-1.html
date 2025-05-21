@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Folders</title>
+    
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/files-folders.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+    
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+      
+      let info = [
+        ["Word File", "A Word file contains text and sometimes images; a Word file is usually a written document, like a letter, a CV, or an application form. It is opened by the Microsoft Word app."],
+        ["JPEG File", "A JPEG file is an image file, the data it contains will make up a picture. JPEG files can be used in documents, on presentations, or in a webpage. Lots of apps open JPEG files; one of the more common apps in Microsoft Paint."],
+        ["MP4 File", "An MP4 file is a video file and it will contain a video clip; this could be a short advert, up to a full film or TV program. MP4 files can be opened by several apps, usually media playing apps."],
+        ["HTML File", "An HTML file contains the code for a webpage. When it is opened with a web-browser like Google Chrome, it will display a webpage."],
+        ["Excel File", "An Excel file is a spreadsheet, it contains mainly numbers which are displayed, and calculated, when opened using Microsoft Excel. Excel files are used for all kinds of things that involve lots of numbers, such as accounting and data analysis."],
+        ["Text File", "A text file (also known as a TXT file) contains only text, and this text is not formatted (no bold, underline, fancy fonts, or anything like that). Text files are opened by apps like Notepad, and are usually used for several different purposes."]        
+      ];
+
+      function init() {
+
+        setupColourSchemeSelect();
+      }
+
+      function iconInfo(display, index) {
+
+        let text = (display) ? info[index] : ["", ""];
+        displayInfo(text, document.getElementById("icon-info-panel"));
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Files & Folders</h3>
+      <h1 class="uppercase">what are folders</h1>
+
+      <a class="custom-button home-no-restart" href="../files-folders-index.html">Home</a>
+      <!--p class="custom-button restart-activity" onclick="restartPage();">Restart</p-->
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select>
+      
+      <p class="content-text">To organise our files on a computer, we can create something called a <span class="bold uppercase nc-purple">folder</span>. Folders contain files, and the files in a folder usually have something in common. For example, files in a folder called Holiday Photos will all be photographs taken while on a holiday. A folder is a great way of organising files and making them easier to find and use.</p>
+
+      <p class="content-text">Folders usually have an icon similar to the one below.</p>
+
+      <div class="content-tabulator centre-tabulator w-100">
+      
+        <div class="tabulated-content w-20 centre-tabulator">
+          <div class="icon-container">
+            <img class="icon-image" src="../assets/images/folder-icon.png">
+            <p>A Folder Icon</p>
+          </div>
+        </div>
+
+        <!--div class="tabulated-content w-80 v-align-top">
+          <img class="folder-view" src="../assets/images/folder-view.png">
+          <p class="content-text">Files Within a Folder</p>
+        </div-->
+
+      </div>
+
+      <a class="navlink previous" href="files.html">Previous</a>
+      <a class="navlink next" href="folders-2.html">Next</a>
+      
+    </div>
+
+  </body>
+
+</html>

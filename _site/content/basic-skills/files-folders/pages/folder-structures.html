@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>Folders</title>
+    
+    <link rel="stylesheet" href="../../../../global-assets/css/common_.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/files-folders.css">
+    <link rel="stylesheet" href="../../../../global-assets/css/supplementary_.css">
+    
+    <script type="text/javascript" src="../../../../global-assets/js/common_.js"></script>
+
+    <script type="text/javascript">
+      
+      function init() {
+
+        setupColourSchemeSelect();
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="init();">
+
+    <div class="container">
+
+      <h3 class="dark-grey">Files & Folders</h3>
+      <h1 class="uppercase">Folder Structures</h1>
+
+      <a class="custom-button home-no-restart" href="../files-folders-index.html">Home</a>
+      <!--p class="custom-button restart-activity" onclick="restartPage();">Restart</p-->
+
+      <select id="change-colour-scheme" class="change-colour-scheme" onchange="changeColourScheme(this)"></select> 
+      
+      <p class="content-text">A collection of folders arranged in a certain way is called a <span class="bold uppercase nc-purple">folder structure</span>. The best way to set up your folder structure is in a way that works for <span class="bold uppercase nc-purple">you</span>. A diagram of an example folder structure is shown below.</p>
+
+      <div class="content-tabulator centre-tabulator w-100">
+      
+        <div class="tabulated-content w-50">
+          <img class="folder-structure-view" src="../assets/images/folder-structure.png">
+        </div><!--
+
+        --><div class="tabulated-content w-50">
+          <p class="content-text">
+            Folder structures start at the <span class="bold uppercase nc-purple">root</span>, the actual physical device on which the data is saved. In this example, the root is a <span class="bold uppercase nc-purple">hard disk drive</span>, but could also be a USB stick, a DVD, or cloud storage like OneDrive.
+          </p>
+          <p class="content-text">
+            In this example, there are two folders at the first level <span class="bold uppercase nc-purple">Work Documents</span> and <span class="bold uppercase nc-purple">Home Documents</span>. These folders each contain two subfolders some of which themselves contain subfolders.
+          </p>          
+        </div>
+
+      </div>
+
+      <a class="navlink previous" href="folders-2.html">Previous</a>
+      <a class="navlink next" href="navigating-folders-1.html">Next</a>
+      
+    </div>
+
+  </body>
+
+</html>
