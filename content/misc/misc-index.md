@@ -18,5 +18,12 @@ homelink: ../../index.html
       Learn about animation, what it is, and how it is done.
     </p>
   </div>
-              
+
+  <div class="topic-container">
+    <a class="topic-link" href="{{site.baseurl}}/content/misc/bt-controller-face/index.html">Bluetooth Controller (Face)&nbsp;&nbsp;&nbsp;&#x2192;</a>
+    <p class="topic-description">
+      Control robots over Bluetooth with this face-gesture detecting control app.
+    </p>
+  </div>
+                
 </div>
