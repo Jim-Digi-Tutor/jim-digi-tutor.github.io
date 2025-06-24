@@ -393,8 +393,6 @@ export class Engine {
    */
   animate() {
 
-    this.stats.update();
-    
     // Call the handleMovement function in the LOOP code
     // Pass to it this engine object (this) so that it can access its variables
     LOOP.handleMovement(this);
@@ -414,6 +412,8 @@ export class Engine {
       }
     }
 
+    this.stats.update();
+    
     // At the end of each loop, we render the scene
     // This means another 2D image is generated from the application data and projected onto the screen
     // Of course, this happens so quickly, it looks like real movement to the human eye
