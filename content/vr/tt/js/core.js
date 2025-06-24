@@ -89,17 +89,15 @@ export class Engine {
       
       document.getElementById("launch-button").style.display = "none";
     
-      //let sessionInit = {
-        //optionalFeatures: [ "local-floor" ],
-        //requiredFeatures: [ "hand-tracking" ]
-      //};
+      let sessionInit = {
+        optionalFeatures: [ "local-floor" ],
+        requiredFeatures: [ "hand-tracking" ]
+      };
 
-      //navigator.xr
-        //.requestSession("immersive-vr", sessionInit)
-        //.then(this.sessionStarted.bind(this));
-        navigator.xr.requestSession("immersive-vr", {
-})
-.then(this.sessionStarted.bind(this));
+      navigator.xr
+        .requestSession("immersive-vr", sessionInit)
+        .then(this.sessionStarted.bind(this));
+
       
     } else {
         
@@ -128,6 +126,9 @@ export class Engine {
     // Create the dolly and bounding boxes that manage player movement
     this.xrCamera = this.renderer.xr.getCamera(this.camera);
     this.cameraVector = new THREE.Vector3();
+
+    //console.log(this.xrCamera.cameras[0]) //.cameras[0].position.y)
+
     this.playerPosition = { x: UTILS.scaleDistance(10, worldScale, modelScale), y: 0, z: UTILS.scaleDistance(10, worldScale, modelScale) };
     this.dolly = SETUP.buildDolly(this.camera, this.playerPosition);    
     this.scene.add(this.dolly);
@@ -157,23 +158,23 @@ export class Engine {
     this.scene.add( light );
 
     // Create a basic light and add it to the scene
-    this.mainLight = new THREE.DirectionalLight(0xffffff, 5);
-    this.mainLight.position.set(10, 20, 10);
-    this.scene.add(this.mainLight);
+    //this.mainLight = new THREE.DirectionalLight(0xffffff, 5);
+    //this.mainLight.position.set(10, 20, 10);
+    //this.scene.add(this.mainLight);
 
     // Target the main-light at the centre of the grid
-    this.mainLight.target.position.set(10, 0, 10);
-    this.scene.add(this.mainLight.target)
+    //this.mainLight.target.position.set(10, 0, 10);
+    //this.scene.add(this.mainLight.target)
 
     // Add some ambient light to further illuminate the scene
-    //this.ambientLight = new THREE.AmbientLight(0x505050, 1);
-    //this.scene.add(this.ambientLight);
+    this.ambientLight = new THREE.AmbientLight(0x505050, 1);
+    this.scene.add(this.ambientLight);
 
     const info = UTILS.createFpsPanel();
     this.fpsPanel = info.panel;
     this.fpsText = info.text;
     
-    console.log(this.fpsPanel)
+    
 
     
         this.fpsGroup = new THREE.Group();
@@ -190,7 +191,7 @@ export class Engine {
     //this.loadModel("./models/green-sphere.glb", [ 10, 0.25, 10 ], [ 0.1, 0.1, 0.1 ], []);
     //this.loadModel("./models/blue-sphere.glb", [ 14, 0.25, 10 ], [ 0.1, 0.1, 0.1 ], []);
 
-    console.log(this.camera)
+    
     // The scene is initialised, start the animation    
     this.renderer.setAnimationLoop(this.animate.bind(this));
   }
@@ -212,7 +213,21 @@ export class Engine {
 
   cameraWorldPos = new THREE.Vector3();
   cameraWorldQuat = new THREE.Quaternion();
+  cameraSet = false;
   animate() {
+
+    if (!this.cameraSet && this.xrCamera && this.xrCamera.cameras && this.xrCamera.cameras.length > 0) {
+      //const eyeCam = xrCamera.cameras[0];
+      //const worldPos = new THREE.Vector3();
+      //eyeCam.getWorldPosition(worldPos);
+      //console.log(this.xrCamera.cameras[0].position.y);
+      const camY = this.xrCamera.cameras[0].position.y.toFixed(2)
+      //console.log(UTILS.scaleDistance(0.75, this.worldScale, this.modelScale))
+      const y = (UTILS.scaleDistance(2, UTILS.ascertainWorldScale(), UTILS.ascertainModelScale()) - camY);
+      console.log(y)
+      this.dolly.position.y = y;
+      this.cameraSet = true;
+    }
 
     LOOP.handleControllerInput(this.controller0, this.controller1, this.scene, this.cameraVector, this.dolly, this.player, this.playerBox, this.structure);
 
