@@ -144,7 +144,7 @@ export class InfoBoard {
     }
   }
 
-  #disposeBoard() {
+  disposeBoard() {
 
     const scene = this.#parent.getRegion().getWorld().getEngine().getScene();
     const block = this.#screen;
@@ -168,7 +168,7 @@ export class InfoBoard {
       }
     });
 
-    block = null;
+    this.#screen = null;
   }
 
   #buildTitle(data) {

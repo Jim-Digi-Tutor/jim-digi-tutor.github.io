@@ -134,9 +134,15 @@ export class Engine {
         requiredFeatures: [ "hand-tracking" ]
       };
 
-      navigator.xr
-        .requestSession("immersive-vr", sessionInit)
-        .then(this.sessionStarted.bind(this));
+     // navigator.xr
+      //  .requestSession("immersive-vr", sessionInit)
+       // .then(this.sessionStarted.bind(this));
+
+               navigator.xr.requestSession("immersive-vr", {
+
+            
+})
+.then(this.sessionStarted.bind(this));
       
     } else {
         
