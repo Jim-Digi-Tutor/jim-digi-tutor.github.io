@@ -1,7 +1,7 @@
 import * as MESH_UI from "mesh-ui";
 import * as THREE from "three";
 
-
+import Stats from 'three/addons/libs/stats.module.js';
 
 import * as GUI from "./gui-components/gui-components.js";
 
@@ -153,6 +153,11 @@ export class Engine {
   
     this.setupWebGLLayer().then(() => { this.#renderer.xr.setSession(this.#vrSession); });
 
+          const clock = new THREE.Clock();
+          const container = document.getElementById( 'stats' );
+    
+          this.stats = new Stats();
+          container.appendChild( this.stats.dom );    
     // Ascertain the camera height and the scale to use for the world
     this.#camHeight = 1;
     this.#uniScale = this.#ascertainUniversalScale();
@@ -284,17 +289,19 @@ export class Engine {
       this.#firstFrame = false;
     }
 
-  const now = performance.now();
-  this.frames++;
+  //const now = performance.now();
+  //this.frames++;
 
-  if (now - this.lastTime >= 1000) {
-    this.fps = this.frames;
-    this.frames = 0;
-    this.lastTime = now;
+  //if (now - this.lastTime >= 1000) {
+    //this.fps = this.frames;
+    //this.frames = 0;
+    //this.lastTime = now;
 
     // Update text content
-    this.displayDebug(null, null, ("FPS: " + this.fps));
-  }
+    //this.displayDebug(null, null, ("FPS: " + this.fps));
+  //}
+
+  this.stats.update();
 
     //this.#world.process(this.#frameCounter);
     //this.#frameCounter++;

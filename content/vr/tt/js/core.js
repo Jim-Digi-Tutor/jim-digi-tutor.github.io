@@ -1,5 +1,7 @@
 import * as THREE from "three";
 
+import Stats from 'three/addons/libs/stats.module.js';
+
 import * as MESH_UI from "mesh-ui";
 
 import * as LOOP from "./loop.js";
@@ -114,6 +116,12 @@ export class Engine {
   
     this.setupWebGLLayer().then(() => { this.renderer.xr.setSession(this.vrSession); });
 
+			const clock = new THREE.Clock();
+			const container = document.getElementById( 'stats' );
+
+			this.stats = new Stats();
+			container.appendChild( this.stats.dom );    
+
     // Create the dolly and bounding boxes that manage player movement
     this.xrCamera = this.renderer.xr.getCamera(this.camera);
     this.cameraVector = new THREE.Vector3();
@@ -205,38 +213,39 @@ export class Engine {
 
     LOOP.handleControllerInput(this.controller0, this.controller1, this.scene, this.cameraVector, this.dolly, this.player, this.playerBox, this.structure);
 
-    const now = performance.now();
-    this.frames++;
+    //const now = performance.now();
+    //this.frames++;
 
-    if (now - this.lastTime >= 1000) {
-      this.fps = this.frames;
-      this.frames = 0;
-      this.lastTime = now;
+    //if (now - this.lastTime >= 1000) {
+      //this.fps = this.frames;
+      //this.frames = 0;
+      //this.lastTime = now;
 
       // Update text content
       
       //console.log(this.fps)
-    }
+    //}
 
     //const now = performance.now();
     //console.log('Frame time:', now - this.lastTime);
     //this.lastTime = now;
 
-    this.fpsText.set( { content: ("FPS: " + this.fps) } );
+    //this.fpsText.set( { content: ("FPS: " + this.fps) } );
     //this.fpsText.set( { content: ("FPS: " + this.fps) } );
 
     //const cameraWorldPos = new THREE.Vector3();
-    this.camera.getWorldPosition(this.cameraWorldPos);
+    //this.camera.getWorldPosition(this.cameraWorldPos);
 
     //const cameraWorldQuat = new THREE.Quaternion();
-    this.camera.getWorldQuaternion(this.cameraWorldQuat);
+    //this.camera.getWorldQuaternion(this.cameraWorldQuat);
 
-    this.fpsGroup.position.copy(this.cameraWorldPos);
-    this.fpsGroup.quaternion.copy(this.cameraWorldQuat);
+    //this.fpsGroup.position.copy(this.cameraWorldPos);
+    //this.fpsGroup.quaternion.copy(this.cameraWorldQuat);
 
-    if (this.frames % 30 === 0) { MESH_UI.update(); }
+    //if (this.frames % 30 === 0) { MESH_UI.update(); }
  //     MESH_UI.update();
 
+				this.stats.update();
     this.renderer.render(this.scene, this.camera);    
   }
 }

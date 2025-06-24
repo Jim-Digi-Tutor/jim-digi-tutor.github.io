@@ -3,6 +3,8 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
+import Stats from 'three/addons/libs/stats.module.js';
+
 // Imports the code from the loop.js and setup.js JavaScript files
 // When we need to use the code, we can now use the references LOOP and SETUP
 import * as LOOP from "./loop.js";
@@ -138,6 +140,11 @@ export class Engine {
   
     this.setupWebGLLayer().then(() => { this.renderer.xr.setSession(this.vrSession); });
 
+              const clock = new THREE.Clock();
+              const container = document.getElementById( 'stats' );
+        
+              this.stats = new Stats();
+              container.appendChild( this.stats.dom );   
     // The dolly is a "virtual carriage" that stores the camera and controllers within the envionment
     // Basically, it allows us to move the camera and controllers in one go, rather than individually
     this.cameraVector = new THREE.Vector3();
@@ -386,6 +393,8 @@ export class Engine {
    */
   animate() {
 
+    this.stats.update();
+    
     // Call the handleMovement function in the LOOP code
     // Pass to it this engine object (this) so that it can access its variables
     LOOP.handleMovement(this);
