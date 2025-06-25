@@ -231,37 +231,35 @@ export class Engine {
 
     LOOP.handleControllerInput(this.controller0, this.controller1, this.scene, this.cameraVector, this.dolly, this.player, this.playerBox, this.structure);
 
-    //const now = performance.now();
-    //this.frames++;
+    const now = performance.now();
+    this.frames++;
 
-    //if (now - this.lastTime >= 1000) {
-      //this.fps = this.frames;
-      //this.frames = 0;
-      //this.lastTime = now;
+    if (now - this.lastTime >= 1000) {
+      this.fps = this.frames;
+      this.frames = 0;
+      this.lastTime = now;
 
       // Update text content
       
       //console.log(this.fps)
-    //}
+    }
 
-    //const now = performance.now();
-    //console.log('Frame time:', now - this.lastTime);
-    //this.lastTime = now;
-
+    
+    
     //this.fpsText.set( { content: ("FPS: " + this.fps) } );
-    //this.fpsText.set( { content: ("FPS: " + this.fps) } );
+    this.fpsText.set( { content: ("FPS: " + this.fps) } );
 
-    //const cameraWorldPos = new THREE.Vector3();
-    //this.camera.getWorldPosition(this.cameraWorldPos);
+    const cameraWorldPos = new THREE.Vector3();
+    this.camera.getWorldPosition(this.cameraWorldPos);
 
-    //const cameraWorldQuat = new THREE.Quaternion();
-    //this.camera.getWorldQuaternion(this.cameraWorldQuat);
+    const cameraWorldQuat = new THREE.Quaternion();
+    this.camera.getWorldQuaternion(this.cameraWorldQuat);
 
-    //this.fpsGroup.position.copy(this.cameraWorldPos);
-    //this.fpsGroup.quaternion.copy(this.cameraWorldQuat);
+    this.fpsGroup.position.copy(this.cameraWorldPos);
+    this.fpsGroup.quaternion.copy(this.cameraWorldQuat);
 
     //if (this.frames % 30 === 0) { MESH_UI.update(); }
- //     MESH_UI.update();
+    MESH_UI.update();
 
 				this.stats.update();
     this.renderer.render(this.scene, this.camera);    

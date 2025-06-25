@@ -3,8 +3,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-import Stats from 'three/addons/libs/stats.module.js';
-
 // Imports the code from the loop.js and setup.js JavaScript files
 // When we need to use the code, we can now use the references LOOP and SETUP
 import * as LOOP from "./loop.js";
@@ -140,11 +138,6 @@ export class Engine {
   
     this.setupWebGLLayer().then(() => { this.renderer.xr.setSession(this.vrSession); });
 
-              const clock = new THREE.Clock();
-              const container = document.getElementById( 'stats' );
-        
-              this.stats = new Stats();
-              container.appendChild( this.stats.dom );   
     // The dolly is a "virtual carriage" that stores the camera and controllers within the envionment
     // Basically, it allows us to move the camera and controllers in one go, rather than individually
     this.cameraVector = new THREE.Vector3();
@@ -214,9 +207,11 @@ export class Engine {
     this.scene.add(this.ambientLight);
 
     this.silverKeyLight = new THREE.PointLight( 0xbb9977, 2, 20, 2);
+    this.placeObjectAtTile(this.silverKeyLight, 56, [0.5, 1, 0] );
     this.scene.add(this.silverKeyLight);
 
     this.goldKeyLight = new THREE.PointLight( 0xbb9977, 2, 20, 2);
+    this.placeObjectAtTile(this.goldKeyLight, 265, [0.5, 1, -0.5] );
     this.scene.add(this.goldKeyLight);
 
     this.finishLight = new THREE.PointLight( 0xbb9977, 2, 20, 3);
@@ -412,8 +407,6 @@ export class Engine {
       }
     }
 
-    this.stats.update();
-    
     // At the end of each loop, we render the scene
     // This means another 2D image is generated from the application data and projected onto the screen
     // Of course, this happens so quickly, it looks like real movement to the human eye

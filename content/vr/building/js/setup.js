@@ -127,12 +127,10 @@ export function loadModels(e) {
   // Load the Silver Key (position its light accordingly)
   // Notice that the position array is slightly different to that of the above models
   e.loadModel("./models/silver-key.glb", [ 56, [ 0.5, 0.5, 0 ] ], [ 0, 270, 0 ], [ 0.2, 0.2, 0.2 ], [ e.interactions ], [ { name: "itemId", value: "silver-key" } ]);
-  e.placeObjectAtTile(e.silverKeyLight, 56, [ 0.5, 0.5, 0 ]);
 
   // Load the Gold Key (position its light accordingly)
   // Notice that the position array is slightly different to that of the above models  
   e.loadModel("./models/gold-key.glb", [ 265, [ 0, 0.5, -0.5 ] ], [ 0, 180, 0 ], [ 0.2, 0.2, 0.2 ], [ e.interactions ], [ { name: "itemId", value: "gold-key" } ]);
-  e.placeObjectAtTile(e.goldKeyLight, 265, [ 0, 0.5, -0.5 ]);
 
   // Load the model to represent the Victory Text
   e.loadModel("./models/finish-text.glb", [ 20, 0, 20 ], [ 0, 270, 0 ], [ 0.2, 0.2, 0.2 ], [], []);
