@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>The Follies of Worsbrough Common</title>
+
+    <link rel="stylesheet" href="./assets/css/common.css">
+    <link rel="stylesheet" media="screen and (max-width: 400px)" href="./assets/css/mobile.css" />
+    <!--link rel="stylesheet" media="screen and (min-width: 400.1px) and (max-width: 768px)" href="./assets/css/timeline-styles-tablet-small.css">
+    <link rel="stylesheet" media="screen and (min-width: 768.1px) and (max-width: 992px)" href="./assets/css/timeline-styles-tablet-large.css"-->
+    <link rel="stylesheet" media="screen and (min-width: 992.1px)" href="./assets/css/monitor.css">
+
+    <!-- Create the Import Map for the THREE.JS components -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/",
+          "three/examples/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/libs/",
+          "mesh-ui": "https://unpkg.com/three-mesh-ui@6.5.4/build/three-mesh-ui.module.min.js"       
+        }
+      }
+    </script>
+
+    <script type="module">
+
+      // Import the core functionality
+      import * as CORE from "./assets/js/core.js";
+      
+      // Setup the Launch VR button
+      let vrLaunch = document.getElementById("launch-button-vr");
+      let webLaunch = document.getElementById("launch-button-web");
+      
+      // Unitialise, then launch, the VR engine
+      CORE.initEngine();
+      vrLaunch.onclick = CORE.engine.launch.bind(CORE.engine, "VR");      
+      webLaunch.onclick = CORE.engine.launch.bind(CORE.engine, "WEB");
+
+    </script>
+    
+    <style>
+
+      canvas {
+
+        width: 100%;
+      }
+
+      .launch-button {
+
+        height: 30px;
+        width: 300px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        border: solid 3px rgb(182, 33, 112);
+        padding-top: 2px;
+        margin: 20px 0 20px 0;
+        cursor: pointer;
+        display: block;
+
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+
+      .main {
+
+        width: 90%;
+        margin: 20px auto 20px auto;
+      }
+
+      .main img {
+
+        width: 75px;
+        margin-right: 15px;
+        vertical-align: middle;
+        display: inline-block;
+      }
+
+      .main .title {
+
+        color: darkgrey;
+        font-size: 26px;
+        font-weight: bold;
+        text-transform: uppercase;
+        vertical-align: middle;
+        display: inline;
+      }
+
+      .main a {
+
+        color: rgb(182, 33, 112);
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-decoration: none;
+        margin-top: 20px;
+        display: block;
+      }
+
+      .main p {
+
+        width: 75%;
+        font-size: 18px;
+        line-height: 1.5;
+      }
+
+      .main a:hover {
+
+        color: blue;
+      }      
+
+    </style>
+
+  </head>
+  
+  <body>
+
+    <div class="main">
+
+      <div class="title-div">
+        <h3>Traipsing-About-Tarn Presents</h3>
+        <h1>The Follies of Worsbrough Common</h1>
+        <h6>A Virtual Museum Experience</h6>
+      </div>
+
+      <h1 id="launch-button-vr" class="launch-button">Enter Virtual Reality</h1>
+      <h1 id="launch-button-web" class="launch-button">Enter Web</h1>
+
+      <p>
+        Creating Content for Virtual Reality is a two-day introductory course that teaches students how to create 3-dimensional models and present them in a virtual reality environment.
+        Click on the launch button to view the content.
+      </p>
+
+      <a href="../../index.html">Return Home</a>
+
+    </div>
+
+  </body>
+
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root version="0.0.0" generated="2025-09-11T17:21:37Z" nonsense="true">
+<region>
+
+  <id>4</id>
+  <alias>highstone</alias>
+  <name>Highstone</name>
+  <width>15</width>
+  <depth>15</depth>
+  <position>
+    <x>15</x>
+    <y>0</y>
+    <z>15</z>
+  </position>
+
+  <base>
+    <name>region-4</name>
+    <type>region-model</type>
+    <merge>1</merge>
+    <scale>1</scale>
+    <rotation>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </rotation>  
+  </base>
+
+  <models></models>
+  <info-boards></info-boards>
+  <lights></lights>
+  
+</region>
+</root>

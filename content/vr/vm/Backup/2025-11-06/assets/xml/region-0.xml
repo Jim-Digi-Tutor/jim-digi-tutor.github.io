@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root version="0.0.0" generated="2025-09-11T17:21:37Z" nonsense="true">
+<region>
+
+  <id>0</id>
+  <alias>highstone-lane</alias>
+  <name>Highstone Lane</name>
+  <width>20</width>
+  <depth>20</depth>
+  <position>
+    <x>0</x>
+    <y>0</y>
+    <z>20</z>
+  </position>
+
+  <base>
+    <name>region-0</name>
+    <type>region-model</type>
+    <merge>0</merge>
+    <scale>1</scale>
+    <rotation>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </rotation>  
+  </base>
+
+  <models></models>
+
+  <info-boards>
+  
+    <info-board>
+      <name>intro-0</name>
+      <id>0</id>
+      <size>LARGE</size>
+      <facing>WEST</facing>
+      <position>
+        <x>-3.5</x>
+        <y>0</y>
+        <z>0</z>
+      </position>  
+      <content>
+        <commentary>./assets/sounds/commentaries/introduction.mp3</commentary>
+        <page>
+          <index>0</index>
+          <width>1</width>
+          <height>1</height> 
+          <length>5000</length>
+          <fade-in>-1</fade-in>
+          <fade-out>500</fade-out>
+          <component>
+            <type>TEXT-1</type>
+            <content>The Worsbrough Common Follies</content>
+          </component>
+          <component>
+            <type>TEXT-FULL</type>
+            <content>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</content>
+          </component>          
+        </page>
+        <page>
+          <index>1</index>
+          <width>1</width>
+          <height>1</height> 
+          <length>5000</length>
+          <fade-in>500</fade-in>
+          <fade-out>500</fade-out>
+          <component>
+            <type>TEXT-1</type>
+            <content>Page 2</content>
+          </component>
+          <component>
+            <type>IMAGE-ABS</type>
+            <file>./assets/images/test.jpg</file>
+            <left>0.25</left>
+            <top>0.5</top>
+            <width>0.25</width>
+            <height>0.1</height>
+          </component>
+        </page>  
+        <page>
+          <index>2</index>
+          <width>1</width>
+          <height>1</height> 
+          <length>5000</length>
+          <fade-in>1000</fade-in>
+          <fade-out>1000</fade-out>
+          <component>
+            <type>TEXT-1</type>
+            <content>Page 3</content>       
+          </component>
+        </page>               
+      </content>    
+    </info-board>
+
+  </info-boards>
+
+  <teleports>
+    <teleport>
+      <alias>highstone-lane-to-castle-hill</alias>
+      <region>1</region>
+      <target>
+        <x>3</x>
+        <y>0</y>
+        <z>3</z>
+      </target>
+    </teleport>
+  </teleports>
+  
+  <lights></lights>
+
+</region>
+</root>

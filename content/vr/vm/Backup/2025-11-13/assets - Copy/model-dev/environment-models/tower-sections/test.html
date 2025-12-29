@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+      <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+
+          
+        }
+      }
+    </script>
+  <meta charset="utf-8" />
+  <title>Normal Map Cylinder Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html,body { margin:0; height:100%; background:#111; color:#ccc; overflow:hidden; }
+    canvas { display:block; }
+  </style>
+</head>
+<body>
+<div style="position:fixed;left:10px;bottom:10px;font:12px system-ui;background:rgba(0,0,0,.4);padding:6px 8px;border-radius:6px;">
+  Drag = orbit • Scroll = zoom • 1 unit = 1 m
+</div>
+
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+const HEIGHT_M = 2.18;
+const CIRCUM_M = 9.04;
+const RADIUS_M = CIRCUM_M / (2*Math.PI);
+
+// --- Renderer ---
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+// --- Scene & Camera ---
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x111111);
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.01, 100);
+camera.position.set(0, HEIGHT_M*0.6, RADIUS_M*3.2);
+
+// --- Lights ---
+const hemi = new THREE.HemisphereLight(0xffffff, 0x223344, 1.1);
+const dir = new THREE.DirectionalLight(0xffffff, 1);
+dir.position.set(2,4,3);
+scene.add(hemi, dir);
+
+// --- Controls ---
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, HEIGHT_M*0.5, 0);
+controls.enableDamping = true;
+
+// --- Geometry & Texture ---
+const geom = new THREE.CylinderGeometry(RADIUS_M, RADIUS_M, HEIGHT_M, 256, 1, false);
+const baseColor = new THREE.TextureLoader().load("diffuse_bake.png"); // your diffuse texture
+const tex = new THREE.TextureLoader().load("NormalMap.001.png");
+baseColor.wrapS = baseColor.wrapT = THREE.RepeatWrapping;
+
+
+//tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+//tex.repeat.x = 30;
+//tex.repeat.set(0.5,0.5);
+tex.anisotropy = 8;
+
+// --- Material ---
+//const mat = new THREE.MeshStandardMaterial({
+  //map: tex,              // treat image as color texture
+  //roughness: 1.0,
+  //metalness: 0.0
+//});
+
+const mat = new THREE.MeshStandardMaterial({
+  map: baseColor,        // colour
+  normalMap: tex,  // lighting detail
+  normalScale: new THREE.Vector2(1, 1),
+  metalness: 0.0,
+  roughness: 1.0,
+});
+const mesh = new THREE.Mesh(geom, mat);
+mesh.position.y = HEIGHT_M/2;
+scene.add(mesh);
+
+// --- GUI for quick tweaks ---
+//const gui = new lil.GUI();
+//const params = { repeatX:8, repeatY:1, offsetX:0, offsetY:0, rotation:0, autoSpin:true };
+//gui.add(params,"repeatX",1,64,1).onChange(v=>{ tex.repeat.x=v; });
+//gui.add(params,"repeatY",0.25,8,0.25).onChange(v=>{ tex.repeat.y=v; });
+//gui.add(params,"offsetX",0,1,0.001).onChange(v=>{ tex.offset.x=v; });
+//gui.add(params,"offsetY",0,1,0.001).onChange(v=>{ tex.offset.y=v; });
+//gui.add(params,"rotation",-180,180,1).onChange(v=>{ tex.rotation=THREE.MathUtils.degToRad(v); });
+//gui.add(params,"autoSpin");
+
+// --- Animation loop ---
+function animate(){
+  requestAnimationFrame(animate);
+  //if(params.autoSpin) mesh.rotation.y += 0.003;
+  controls.update();
+  renderer.render(scene,camera);
+}
+animate();
+
+// --- Handle window resize ---
+window.addEventListener("resize",()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+</script>
+</body>
+</html>

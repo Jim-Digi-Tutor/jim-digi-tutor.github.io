@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root version="0.0.0" generated="2025-09-11T17:21:37Z" nonsense="true">
+<region>
+
+  <id>0</id>
+  <alias>highstone-lane</alias>
+  <name>Highstone Lane</name>
+  <width>30</width>
+  <depth>30</depth>
+  <position>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </position>
+
+  <base>
+    <name>region-0</name>
+    <scale>1</scale>
+    <rotation>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </rotation>  
+  </base>
+
+  <models></models>
+
+  <info-boards>
+  
+    <info-board>
+      <name>intro-0</name>
+      <id>0</id>
+      <splash>./assets/images/gui/kingwell-tower.png</splash>
+      <content>
+        <type>app</type>
+        <source>test-app</source>
+        <!--type>video</type>
+        <source>./assets/content/video/rmd-landing-page-video.mp4</source-->
+      </content>
+      <size>LARGE</size>
+      <facing>WEST</facing>
+      <position>
+        <x>-7</x>
+        <y>0</y>
+        <z>0</z>
+      </position>  
+    </info-board>
+
+  </info-boards>
+
+  <teleports>
+    <teleport>
+      <alias>highstone-lane-to-castle-hill</alias>
+      <region>1</region>
+      <target>
+        <x>3</x>
+        <y>0</y>
+        <z>3</z>
+      </target>
+      <direction>
+        <x>0</x>
+        <y>-90</y>
+        <z>0</z>
+      </direction>      
+    </teleport>
+  </teleports>
+  
+  <lights></lights>
+
+</region>
+</root>

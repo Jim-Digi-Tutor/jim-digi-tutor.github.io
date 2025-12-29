@@ -1,0 +1,8 @@
+Base sandstone (fresh cut block, darker): 			#B38F61
+Warm highlight (sunlit stone edge, darker): 			#C8AC86
+Cooler highlight (paler block face, darker): 			#D4C1A6
+Mid shadow (mortar lines, darker): 				#6E523B
+Dark shadow / recesses (darker): 				#443424
+Grunge accent (damp patches, darker): 				#394136
+Weathered oak (a muted mid-brown, leaning slightly grey): 	#6B543A
+Worn iron (handled, oxidised, and dulled:			#3B3C40

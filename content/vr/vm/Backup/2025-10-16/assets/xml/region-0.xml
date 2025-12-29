@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root version="0.0.0" generated="2025-09-11T17:21:37Z" nonsense="true">
+<region>
+
+  <id>0</id>
+  <alias>highstone-lane</alias>
+  <name>Highstone Lane</name>
+  <width>20</width>
+  <depth>20</depth>
+  <position>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </position>
+
+  <base>
+    <name>blend-test</name>
+    <type>region-model</type>
+    <merge>0</merge>
+    <scale>1</scale>
+    <rotation>
+      <x>0</x>
+      <y>180</y>
+      <z>0</z>
+    </rotation>  
+  </base>
+
+  <models>
+    <model>
+      <name>2-towers</name>
+      <model-name>tower2</model-name>
+      <type>common-model</type>
+      <scale>1</scale>
+      <collidable>0</collidable>
+      <position>
+        <x>0</x>
+        <y>0</y>
+        <z>0</z>
+      </position>
+      <rotation>
+        <x>0</x>
+        <y>0</y>
+        <z>0</z>
+      </rotation>
+    </model>  
+  </models>
+  <info-boards></info-boards>
+  <lights></lights>
+
+</region>
+</root>

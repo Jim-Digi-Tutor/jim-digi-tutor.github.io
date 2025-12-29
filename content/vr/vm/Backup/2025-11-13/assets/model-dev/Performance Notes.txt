@@ -1,0 +1,5 @@
+VR Handsets take ~24 draw calls
+Skybox ~2
+Axes Helper ~2
+GUI elements ~16 between the perf box, fps box, and location box - possibly merge?
+Merged regions ~2 draw calls each!

@@ -1,0 +1,7 @@
+node_modules/
+webpack.config.js
+webpack.prodConfig.js
+Procfile
+.eslintrc
+dist/
+.github/

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root version="0.0.0" generated="2025-09-11T17:21:37Z" nonsense="true">
+<region>
+
+  <id>0</id>
+  <alias>highstone-lane</alias>
+  <name>Highstone Lane</name>
+  <width>20</width>
+  <depth>20</depth>
+  <position>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </position>
+
+  <base>
+    <name>region-0</name>
+    <type>region-model</type>
+    <merge>0</merge>
+    <scale>1</scale>
+    <rotation>
+      <x>0</x>
+      <y>180</y>
+      <z>0</z>
+    </rotation>  
+  </base>
+
+  <models>
+    <!--model>
+      <name>wall-section-with-doorway</name>
+      <model-name>wall-section-with-doorway</model-name>
+      <type>common-model</type>
+      <scale>1</scale>
+      <collidable>1</collidable>
+      <position>
+        <x>0</x>
+        <y>0</y>
+        <z>0</z>
+      </position>
+      <rotation>
+        <x>0</x>
+        <y>0</y>
+        <z>0</z>
+      </rotation>
+    </model-->  
+  </models>
+  <info-boards></info-boards>
+  <lights>
+    <light>
+      <type>point-light</type>
+      <name>torch</name>
+      <colour>FFC57D</colour>
+      <intensity>3</intensity>
+      <distance>50</distance>
+      <decay>1</decay>
+      <position>
+        <x>0</x>
+        <y>1.5</y>
+        <z>-3</z>
+      </position>      
+    </light>  
+  </lights>
+
+</region>
+</root>

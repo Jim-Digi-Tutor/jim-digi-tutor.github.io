@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root version="0.0.0" generated="2025-09-11T17:21:37Z" nonsense="true">
+<region>
+
+  <id>0</id>
+  <alias>interim-2</alias>
+  <name>interim-2</name>
+  <width>20</width>
+  <depth>20</depth>
+  <position>
+    <x>20</x>
+    <y>0</y>
+    <z>-15</z>
+  </position>
+
+  <base>
+    <name>region-5</name>
+    <merge>0</merge>
+    <scale>1</scale>
+    <rotation>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </rotation>  
+  </base>
+
+  <models></models>
+
+  <info-boards></info-boards>
+
+  <teleports></teleports>
+  
+  <lights></lights>
+
+</region>
+</root>

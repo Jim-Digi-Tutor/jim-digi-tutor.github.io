@@ -1,211 +1,674 @@
 import * as THREE from "three";
+import * as REGION from "./world-components/region.js";
 
-import * as UTILS from "./utils.js";
+/**
+ * A class for managing in-game movement.
+ * @class
+ */
+export class MovementManager {
 
-export function handleControllerInput(
-  engine,
-  gp0,
-  gp1,
-  scene,
-  camVec,
-  dolly,
-  player,
-  box,
-  gravRay,
-  structure,
-  terrain,
-  moveSpeed,
-  rotSpeed,
-  gravLower,
-  gravUpper,
-  gravOffset,
-  uniScale,
-  modScale,
-  debug) {
+  #engine;
 
-  if(gp0.gamepad !== null && gp1.gamepad !== null) {
-    
-    const axial = (Math.abs(gp1.gamepad.axes[3]) > 0.5);
-    const lateral = (Math.abs(gp0.gamepad.axes[2]) > 0.5);
+  #controllers = [
+    { 
+      controller: null,
+      active: false,
+      forward: 0,
+      turn: 0
+    },
+    {
+      controller: null,
+      active: false,
+      forward: 0,
+      turn: 0      
+    }
+  ];
 
-    if(axial) {
+  #scene;
+  #cameraVector;
+  #dolly;
+  #player;
+  #collidables;
+  #movementSpeed;
+  #rotationSpeed;
 
-      // Axial movement always takes precedence
-      const val = -gp1.gamepad.axes[3];
-      dolly.getWorldDirection(camVec);
+  #CONTROLLER_COUNT = 2;
+  #STICK_DEADZONE = 0.25;
+  #CHANGE_THRESHOLD = 0.05;
+  #currentIndex = null;
 
-      // Store the dolly's current position
-      const oldX = dolly.position.x;
-      const oldZ = dolly.position.z;
+  /**
+   * Creates a MovementManager.
+   * @param {Engine} engine The main game engine.
+   * @param {ControllerGroup} controller0 The controller group for controller 0.
+   * @param {ControllerGroup} controller1 The controller group for controller 1.
+   * @param {THREE.Scene} scene The game scene.
+   * @param {THREE.Vector3} cameraVector Used for determining the direction of movement.
+   * @param {THREE.Object3D} dolly The dolly used for moving the camera and controllers around the game-world.
+   * @param {THREE.Mesh} player A mesh representing the player; used for calculating collisions.
+   * @param {Array} collidables An array of collidable objects.
+   * @param {Number} movementSpeed The speed at which the player moves.
+   * @param {Number} rotationSpeed The speed at which the player rotates.
+  */
+  constructor(
+    engine,
+    controller0,
+    controller1,
+    scene,
+    cameraVector,
+    dolly,
+    player,
+    collidables,
+    movementSpeed,
+    rotationSpeed
+  ) {
 
-      // Calculate the new, potential position prior to collision detection
-      const newX = (dolly.position.x - (camVec.x * moveSpeed * val));
-      const newZ = (dolly.position.z - (camVec.z * moveSpeed * val));
+    this.#engine = engine;
 
-      // Prepare the scene for collision checking
-      player.position.x = newX;
-      player.position.z = newZ;
-      scene.updateMatrixWorld();
-      box.copy(player.geometry.boundingBox).applyMatrix4(player.matrixWorld); 
-      let moveForward = true;
-      let maxBump = 0;
-      for(let a = 0; a < structure.length; a++) {
+    this.#controllers[0].controller = controller0;
+    this.#controllers[1].controller = controller1;
 
-        // Check each structure for collision
-        const test = structure[a];
-        if(checkCollision(box, test)) {
-          
-          // Check if the collided object is climbable
-          const testBox = new THREE.Box3().setFromObject(test);
-          const min = testBox.max.y.toFixed(2);
-          const max = box.min.y.toFixed(2);
-          const diff = Math.abs(testBox.max.y - box.min.y);
-          if(diff >= gravLower && diff <= gravUpper) {
+    this.#scene = scene;
+    this.#cameraVector = cameraVector;
+    this.#dolly = dolly;
+    this.#player = player;
+    this.#collidables = collidables;
+    this.#movementSpeed = movementSpeed;
+    this.#rotationSpeed = rotationSpeed;
+  }
 
-            maxBump = (diff > maxBump) ? diff : maxBump;
-            player.position.y += maxBump;
-            dolly.position.y += maxBump;    
-            
-            let climb = "";
-            climb += ("Climb {\n");
-            climb += (UTILS.addSpace(2) + "Min. Y: " + min + "\n");
-            climb += (UTILS.addSpace(2) + "Max. Y: " + max + "\n");
-            climb += (UTILS.addSpace(2) + "Bump: " + maxBump.toFixed(2) + "\n");
-            climb += ("}")
-            debug(null, climb, null);
+  /**
+   * Handles whether or not the player has moved and whether there were any collisions.
+   * Most of the code was provided by ChatGPT.
+   */  
+  checkMovement(dt) {
 
-          } else {
+    // If the player is currently teleporting, stop execution.
+    if(this.#engine.getIsTeleporting()) return;
 
-            moveForward = false;
-            break;
-          }
-        }
+    const cont = this.#controllers;
+    const gps = [cont[0].controller?.gamepad || null, cont[1].controller?.gamepad || null];
+
+    // If no controllers are found, there's nothing to do so return
+    if(gps[0] === null && gps[1] === null) return;
+
+    // --- 1) Check both controllers and update controller state; pick the most recently moved
+    for (let i = 0; i < this.#CONTROLLER_COUNT; i++) {
+      
+      const gp = gps[i];
+      if(!gp) {
+
+        cont[i].active = false;
+        continue;
       }
 
-      if(moveForward) {
-      
-        dolly.position.x = newX;
-        dolly.position.z = newZ; 
+      // Process the axes and get any movement values.
+      const axes = gp.axes || [];
+      const x = axes[2] || 0;       // Left / Right movement of stick
+      const y = axes[3] || 0;       // Up / Down movement of stick
 
-        // Check for gravity
-        const intersects = checkGravity(scene, terrain, gravRay, dolly, gravOffset, uniScale, modScale);
-        if(intersects !== null) {
-/*
-          // Get the required data from the intersected model
-          const region = intersects.object.parent.userData.hasOwnProperty("RegionModelId") ? 
-            intersects.object.parent.userData.RegionModelId : null;
-          const type = intersects.object.parent.userData.ModelType.hasOwnProperty("ModelType") ?
-            intersects.object.parent.userData.ModelType : null; 
-          
-          const temp = new THREE.Box3().setFromObject(intersects.object);
-          // This solution is inelegant, but seems to work
-          // Consider an occasional "reset" to properly align te player with the models
-          const distance = Math.abs(dolly.position.y - temp.max.y) - (UTILS.scaleDistance(gravOffset, uniScale, modScale) / 2);
-          if(distance >= gravLower && distance <= gravUpper) {
-            
-            const oldY = (player.position.y);
-            player.position.y -= distance;
-            scene.updateMatrixWorld();
-            box.copy(player.geometry.boundingBox).applyMatrix4(player.matrixWorld); 
+      // Map x and y to "forward" and "turn" values.
+      const forward = -y;
+      const turn = x;
 
-            let pot = "";
-            pot += ("Potential Drop {\n");
-            pot += (UTILS.addSpace(2) + "Grav.Low: " + gravLower.toFixed(2) + "\n");
-            pot += (UTILS.addSpace(2) + "Grav.Up: " + gravUpper.toFixed(2) + "\n");
-            pot += (UTILS.addSpace(2) + "Distance: " + distance.toFixed(2) + "\n");
-            pot += ("}")
-            debug(null, pot, null);
-            
-            const collide = checkForCollisions(box, structure);
-            if(collide === null) {
+      const magnitude = Math.hypot(forward, turn);
+      const wasActive = cont[i].active;
+      const isActive  = magnitude > this.#STICK_DEADZONE;
+      let changed = false;  
 
-              dolly.position.y -= distance;
+      if(isActive) {
+        
+        // Consider it "changed" if it was inactive OR moved significantly
+        const prev = cont[i];
+        if (
+          !wasActive ||
+            Math.abs(prev.forward - forward) > this.#CHANGE_THRESHOLD ||
+            Math.abs(prev.turn - turn) > this.#CHANGE_THRESHOLD
+        ) {
 
-              let act = "";
-              act += ("Actual Drop {\n");
-              act += (UTILS.addSpace(2) + "Grav.Low: " + gravLower.toFixed(2) + "\n");
-              act += (UTILS.addSpace(2) + "Grav.Up: " + gravUpper.toFixed(2) + "\n");
-              act += (UTILS.addSpace(2) + "Distance: " + distance.toFixed(2) + "\n");
-              act += ("}")
-              debug(null, act, null);        
-
-            } else {
-              
-              player.position.y = oldY;
-            }
-          }
-*/
-        } else {
-
-          // Gravity must intersect with something or it is a fall
-          player.position.x = oldX;
-          player.position.z = oldZ;
+          changed = true;
         }
+
+        cont[i].active = true;
+        cont[i].forward = forward;
+        cont[i].turn = turn;
+
+        if(changed)
+          this.#currentIndex = i;
 
       } else {
 
-        player.position.x = oldX;
-        player.position.z = oldZ;
-      }
-
-    } else if(!axial && lateral) {
-  
-      let rot = THREE.MathUtils.radToDeg(dolly.rotation.y);
-      let newRot = (gp0.gamepad.axes[2] < 0) ? (rot + rotSpeed) : (rot - rotSpeed);
-      dolly.rotation.y = THREE.MathUtils.degToRad(newRot);
+        cont[i].active = false;
+        cont[i].forward = 0;
+        cont[i].turn = 0;
+      }        
     }
 
-    const normal = UTILS.normalisePlayerPosition(engine.getWorld().getScaledWorld(), dolly.position);
+    // If no one has moved, stop execution.
+    if(this.#currentIndex === null) return;
 
-    let pos = "";
-    pos += ("Player Position {\n");
-    pos += (UTILS.addSpace(4) + "x: " + normal.x.toFixed(2) + "\n");
-    pos += (UTILS.addSpace(4) + "y: " + normal.y.toFixed(2) + "\n");
-    pos += (UTILS.addSpace(4) + "z: " + normal.z.toFixed(2) + "\n");
-    pos += ("}");
-    debug(pos, null, null);
-  }
-}
+    const active = cont[this.#currentIndex];
+    if(!active.active) {
+      
+      // The last active controller let go; if the other one is active, hand it over.
+      const otherIndex = ((this.#currentIndex + 1) % this.#CONTROLLER_COUNT);
+      if(cont[otherIndex].active) {
+        
+        this.#currentIndex = otherIndex;
+      
+      } else {
 
-function checkForCollisions(box, structure) {
-
-  // Iterate through the objects in the scene and check for collision - check structure first
-  for(let a = 0; a < structure.length; a++) {
-
-    let obj = structure[a];
-    if(checkCollision(box, obj))
-      return obj;  
-  }
-
-  return null;
-}  
-
-function checkCollision(box, obj) {
-
-  let collision = false;
-  
-  // Configure the object's bounding box 
-  let test = new THREE.Box3().setFromObject(obj);
-  
-  // If the object's bounding box intersects with the bounds object, process the collision
-  if(box.intersectsBox(test)) {
-
-    collision = true;
-  }
-  
-  return collision;
-}
-
-export function checkGravity(scene, terrain, ray, dolly, gravOffset, uniScale, modScale) {
-
-  // Prepare the gravity check ray
-  scene.updateMatrixWorld();
-  ray.set(new THREE.Vector3(dolly.position.x, (dolly.position.y + UTILS.scaleDistance(gravOffset, uniScale, modScale)), dolly.position.z), new THREE.Vector3(0, -1, 0));
-  const intersects = ray.intersectObjects(terrain, true);
-  if(intersects.length > 0) {
+        this.#currentIndex = null;
+        return;
+      }
+    }
     
-    return intersects[0];
+    const { forward, turn } = cont[this.#currentIndex];
+    
+    // --- 2) Interpret stick as Forward-only / Forward & Turn / Turn-only movement
+    // These thresholds can be fine-tuned to better define the controller "conrridors".
+    const forwardAbs = Math.abs(forward);
+    const turnAbs = Math.abs(turn);
+    const forwardOnlyThreshold  = 0.6; 
+    const sideCorridorThreshold = 0.3;
+
+    let useForward = 0;
+    let useTurn = 0;
+
+    if(forwardAbs > forwardOnlyThreshold && turnAbs < sideCorridorThreshold) {
+        
+      // Narrow forward corridor: move straight forward
+      useForward = forward;
+      useTurn = 0;
+
+    } else if(forwardAbs > this.#STICK_DEADZONE && turnAbs >= sideCorridorThreshold) {
+      
+      // Forward quadrants: move and rotate
+      useForward = forward;
+      useTurn = turn;
+
+    } else if(forwardAbs <= this.#STICK_DEADZONE && turnAbs >= sideCorridorThreshold) {
+      
+      // Side corridors: rotate in place
+      useForward = 0;
+      useTurn = turn;
+      
+    } else {
+      
+      // In the fuzzy middle or deadzone: no movement
+      return;
+    }
+    
+    // --- 3) Apply the rotation first (turn in place or while moving)
+    if (Math.abs(useTurn) > 0) {
+
+      //const rotDeg = THREE.MathUtils.radToDeg(this.#dolly.rotation.y);
+      // Scale rotation speed by stick movement for smoother control
+      this.#dolly.rotation.y -= (this.#rotationSpeed * useTurn * dt);
+      //const rotStep = (this.#rotationSpeed * useTurn * dt);
+      //const newRot = (rotDeg - rotStep);
+      //this.#dolly.rotation.y = THREE.MathUtils.degToRad(newRot);
+    }
+
+    // If no forward component has been applied, stop execution.
+    if (Math.abs(useForward) <= this.#STICK_DEADZONE) {
+      return;
+    }   
+    
+    // --- 4) Compute desired forward movement in XZ from camera forward ---
+    this.#dolly.getWorldDirection(this.#cameraVector);
+    const moveX = -(this.#cameraVector.x * this.#movementSpeed * useForward);
+    const moveZ = -(this.#cameraVector.z * this.#movementSpeed * useForward);
+    const oldX = this.#dolly.position.x;
+    const oldZ = this.#dolly.position.z;
+    const tryX = (oldX + moveX);
+    const tryZ = (oldZ + moveZ);
+
+    // --- 5) Check for any collisions.
+    let moved = false;
+    const moveStatus = this.#collidesAt(tryX, tryZ);
+    if (moveStatus instanceof REGION.Teleport) {
+      
+      moveStatus.trigger();
+    
+    } else if (!moveStatus) {
+      
+      this.#dolly.position.x = tryX;
+      this.#dolly.position.z = tryZ;
+      moved = true;
+
+    } else {
+    
+      if (!this.#collidesAt(tryX, oldZ)) {
+    
+        // Slide along x-axis only
+        this.#dolly.position.x = tryX;
+        this.#dolly.position.z = oldZ;
+        moved = true;
+
+      } else if (!this.#collidesAt(oldX, tryZ)) {
+      
+        // If x-axis movement failed, try z-axis movement
+        this.#dolly.position.x = oldX;
+        this.#dolly.position.z = tryZ;
+        moved = true;
+      }
+    }
+
+    // Reset player proxy back to dolly's original XZ
+    this.#player.position.x = oldX;
+    this.#player.position.z = oldZ;
   }
 
-  return null;
+  #collidesAt(x, z) {
+    
+    this.#player.position.x = x;
+    this.#player.position.z = z;
+    this.#scene.updateMatrixWorld(true);
+
+    const boxTmp = new THREE.Box3();  
+    boxTmp.copy(this.#player.geometry.boundingBox).applyMatrix4(this.#player.matrixWorld);
+
+    for (let i = 0; i < this.#collidables.length; i++) {
+      
+      const test = this.#collidables[i];
+      if (test instanceof THREE.Group) {
+      
+        const groupBox = computeExactWorldBox(test);
+        if(boxTmp.intersectsBox(groupBox)) return true;
+      
+      } else {
+        
+        if(this.#checkCollision(boxTmp, test)) {
+          
+          if(test.userData.hasOwnProperty("teleport") && test.userData.teleport !== "") {
+          
+            const teleport = this.#engine.getTeleportByAlias(test.userData.teleport);
+            if(teleport !== null) return teleport;
+          }
+          
+          return true;
+        }
+      }
+    }
+  
+    return false;
+  }  
+
+  #checkCollision(box, obj) {
+
+    let collision = false;
+  
+    // Configure the object's bounding box 
+    let test = new THREE.Box3().setFromObject(obj);
+  
+    // If the object's bounding box intersects with the bounds object, process the collision
+    if(box.intersectsBox(test))
+      collision = true;
+  
+    return collision;
+  }  
+}
+
+/**
+ * A class for managing the in-game interactions.
+ * @class
+ */
+export class InteractionManager {
+
+  /**
+   * Whether or not to log construction and processing data to the console
+   * @type {Boolean}
+   * @private
+   */
+  #log = true;
+
+  #engine;
+  #controller0;
+  #controller1;
+  #range;
+
+  #components = [
+    {
+      controller: null,
+      ray: null,
+      matrix: null,
+      picked: null,
+      selected: null,
+      triggerDown: false
+    },
+    {
+      controller: null,
+      ray: null,
+      matrix: null,
+      picked: null,
+      selected: null,
+      triggerDown: false
+    }    
+  ];
+
+  #scene;
+  #interactables;
+  #collidables;
+
+  /**
+   * Creates an InteractionManager.
+   * @param {Engine} engine The main game engine.
+   * @param {ControllerGroup} controller0 The controller group for controller 0.
+   * @param {ControllerGroup} controller1 The controller group for controller 1.
+   * @param {Number} range The maximum range of any interactions.
+   * @param {THREE.Scene} scene The game scene.
+   * @param {Array} interactables An array of interactable objects.
+   * @param {Array} collidables An array of collidable objects.
+  */
+  constructor(engine, controller0, controller1, range, scene, interactables, collidables) {
+
+    this.#engine = engine;
+    this.#controller0 = controller0;
+    this.#controller1 = controller1;
+    this.#range = range;
+      
+    this.#scene = scene;
+    this.#interactables = interactables;
+    this.#collidables = collidables;
+
+    this.#controller0.controller.addEventListener("selectstart", this.#selectStart.bind(this, 0));
+    this.#controller0.controller.addEventListener("selectend", this.#selectEnd.bind(this, 0));    
+    this.#controller1.controller.addEventListener("selectstart", this.#selectStart.bind(this, 1));
+    this.#controller1.controller.addEventListener("selectend", this.#selectEnd.bind(this, 1));       
+
+    this.#setupComponents(0);
+    this.#setupComponents(1);
+  }
+
+  #setupComponents(index) {
+
+    this.#components[index].controller =
+      (index === 0) ?
+        this.#controller0 :
+        this.#controller1;
+        
+    this.#components[index].ray = new THREE.Raycaster();
+    this.#components[index].ray.near = 0;
+    this.#components[index].ray.far = this.#range;
+    this.#components[index].matrix = new THREE.Matrix4();
+    this.#components[index].picked = { obj: null, dist: 999 };
+    this.#components[index].selected = { obj: null, dist: 999 };
+    this.#components[index].triggerDown = false;
+  }
+
+  #castRay(index, target) {
+
+    // Prepare the raycaster, set up the position and direction of the ray for the specified controller
+    const comp = this.#components[index];
+    if(!comp) return;
+
+    //this.#scene.updateMatrixWorld();
+    comp.matrix.identity().extractRotation(comp.controller.controller.matrixWorld);
+    comp.ray.ray.origin.setFromMatrixPosition(comp.controller.controller.matrixWorld);
+    comp.ray.ray.direction.set(0, 0, -1).applyMatrix4(comp.matrix);
+
+    // If the target is an array, use intersectObjects.
+    // If it's a single object, use intersectObject.
+    // Return the results of the check.
+    // Setup the array to store interactions
+    if(Array.isArray(target))
+      return comp.ray.intersectObjects(target);
+    else
+      return comp.ray.intersectObject(target);
+  }
+
+  #checkObstacles(index, obj, distance, target, prepare = false) {
+
+    const comp = this.#components[index];
+    if(!comp) return;
+
+    // If prepare has been passed and is true, prepare the specified ray
+    if(prepare) {
+
+      //this.#scene.updateMatrixWorld();
+      comp.matrix.identity().extractRotation(comp.controller.controller.matrixWorld);
+      comp.ray.ray.origin.setFromMatrixPosition(comp.controller.controller.matrixWorld);
+      comp.ray.ray.direction.set(0, 0, -1).applyMatrix4(comp.matrix);      
+    }
+
+    const check = (Array.isArray(target)) ?
+      comp.ray.intersectObjects(target) :
+      comp.ray.intersectObject(target);
+    
+    // If the check shows no intersections, there are no collidable obstacles in the ray's path; return false.
+    // If the check shows that the nearest object is the object itself; return false.
+    // If the check reveals other objects further away than the object; return true.
+    // If the check identifies a collidable object nearer than the object; return true.
+    if(check.length === 0 || check[0].object === obj || check[0].distance > distance)
+      return false;
+    else
+      return true;
+  }
+
+  checkInteractions(index) {
+    
+    // Check that there is at least one connected controller
+    const comp = this.#components;
+    let controllers = false;
+    for(let a = 0; a < comp.length; a++)
+      if(comp[a].controller !== null)
+        controllers = true;
+
+    // Return if no controllers are found
+    if(!controllers) return;
+
+    // Cast a ray from each controller and process any intersections
+    const screens = [];
+    for(let a = 0; a < comp.length; a++) {
+
+      // Only cast if the controller exists
+      if(comp[a].controller !== null) {
+      
+        const interactions = this.#castRay(a, this.#interactables);
+
+        // If the array length is zero, no objects have been intersected
+        if(interactions.length > 0) {
+
+          const obj = interactions[0].object;
+          if(comp[a].picked.obj !== null && comp[a].picked.obj !== obj) {
+
+            this.#nullifyPicked(index);
+          }
+
+          // Record the distance from the intersected object
+          const distance = interactions[0].distance;
+
+          // If the distance to the object is less than the interaction range, it is a valid pick
+          if(distance <= this.#range) {
+
+            // Check whether the ray is blocked by a collidable object
+            const obstacle = this.#checkObstacles(a, obj, distance, this.#collidables);
+            if(!obstacle) {
+            
+              // If no obstacle has been detected, process the interaction.
+              // Highlight the picked object with an emmisive colour to make it stand out.
+              // However, exclude any screen interface objects from this.
+              const data = obj.userData;
+              if(!data.hasOwnProperty("screen")) {
+
+                obj.material.emissive = new THREE.Color(0xFFFFFF);
+                obj.material.emissiveIntensity = 0.05;
+              
+              } else {
+
+                if(data.hasOwnProperty("trackOnControllerOver") && data.trackOnControllerOver) {
+                  
+                  const board = this.#getInfoBoardFromAction(data.screen);
+                  if(board !== null) {
+
+                    screens.push({
+                      index: a,
+                      board: board,
+                      point: obj.worldToLocal(interactions[0].point.clone())
+                    })
+                  }
+                }
+              }
+
+              // Set the respective picked object to the currently highlighted object
+              comp[a].picked.obj = obj;
+              comp[a].picked.distance = distance;
+              
+            } else {
+
+              // If a structure is intersected before the picked object, nullify it.
+              // The ray should not pass through solid structures.
+              this.#nullifyPicked(a);
+            }
+          }
+
+        } else {
+
+          // If there are no interactable objects detected, nullify the picked object
+          this.#nullifyPicked(a);
+        }  
+      }
+    }
+
+    // Process any screens that have been interacted with
+    if(screens.length > 0) {
+
+      const uniqueScreens = [];
+      for(let a = 0; a < screens.length; a++) {
+
+        const board = screens[a].board;
+        let unique = true;
+        for(let b = 0; b < uniqueScreens.length; b++) {
+
+          if(board === uniqueScreens[b])
+            unique = false;
+        }
+
+        board.setAppPointer(screens[a].point);
+        if(unique)
+          uniqueScreens.push(board);
+      }
+      
+      for(let a = 0; a < uniqueScreens.length; a++)
+        uniqueScreens[a].onControllerOver();
+    }
+  }
+
+  #nullifyPicked(index) {
+
+    const comp = this.#components[index];
+    if(!comp) return;
+
+    if(comp.picked.obj !== null) {
+
+      // De-highlight the picked object with an emmisive colour to make it stand out.
+      // However, exclude any screen interface objects from this.
+      const data = comp.picked.obj.userData;
+      if(!data.hasOwnProperty("screen")) {
+      
+        comp.picked.obj.material.emissive = new THREE.Color(0x000000);
+      
+      } else {
+        
+        const action = data.screen;
+        if(action.includes("INFO-BOARD-SCREEN-")) {
+
+          const board = this.#getInfoBoardFromAction(action);
+          board.refresh(this.#engine.getTime(), true, true);
+        }
+      }
+    }
+
+    comp.picked.obj = null;
+    comp.picked.distance = 999;
+  }  
+
+  #nullifySelected(index) {}
+
+  #selectStart(index) {
+
+    const comp = this.#components[index];
+    if(!comp) return;
+    
+    // Set the triggerDown flag to indicate that the trigger is pressed
+    comp.triggerDown = true;
+    
+    // If an object has been picked by this controller, set the selected object to match it
+    if(comp.picked.obj !== null) {
+
+      comp.selected.obj = comp.picked.obj;
+      comp.selected.distance = comp.picked.distance;
+
+      // If the object is a screen, it could be hosting an app.
+      // In turn, the app might have clickable components.
+      const data = comp.picked.obj.userData;
+      if(data.hasOwnProperty("screen")) {
+        
+        const action = data.screen;
+        if(action.includes("INFO-BOARD-SCREEN-")) {
+
+          const board = this.#getInfoBoardFromAction(action);
+          if(board !== null) {
+
+            // Cast a ray; it will be needed to identify where on the board the ray was when the button was pressed.
+            const points = this.#castRay(index, comp.picked.obj);
+            // Setup the array to store interactions
+            board.onControllerClickDown(comp.picked.obj.worldToLocal(points[0].point.clone()));
+          }
+        } 
+      }      
+    }
+  }  
+
+  #selectEnd(index) {
+
+    const comp = this.#components[index];
+    if(!comp) return;
+    
+    // Ensure that the object currently picked is the same one initially selected
+    if(comp.selected.obj !== null && comp.picked.obj === comp.selected.obj) 
+      this.#processSelected(index);
+
+    // The trigger has been released
+    // Nullify the selected object and release the trigger1Down flag
+    this.#nullifyPicked(index);
+    this.#nullifySelected(index);
+    comp.triggerDown = false;    
+  }
+
+  #processSelected(index) {
+
+    const comp = this.#components[index];
+    if(!comp) return;
+
+    // Check the selected object's userData to ascertain action
+    const data = comp.selected.obj.userData;
+    if(data.hasOwnProperty("screen")) {
+      
+      const action = data.screen;
+      if(action.includes("INFO-BOARD-SCREEN-")) {
+
+        const board = this.#getInfoBoardFromAction(action);
+        if(board !== null) {
+
+          // Cast a ray; it will be needed to identify where on the board the ray was when the button was pressed.
+          const points = this.#castRay(index, comp.selected.obj);
+          // Setup the array to store interactions
+          board.onControllerClickRelease(comp.selected.obj.worldToLocal(points[0].point.clone()));
+        }
+      } 
+    }
+  }
+
+  #getInfoBoardFromAction(action) {
+
+    const regionId = parseInt(action.split("-")[3]);
+    const boardId = parseInt(action.split("-")[4]);
+    const region = this.#engine.getWorld().getRegionById(regionId);
+    if(region !== null)
+      return region.getInfoBoardManager().getBoardById(boardId);
+          
+    return null;
+  }
 }
